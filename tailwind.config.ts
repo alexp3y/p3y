@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,6 +15,7 @@ const config: Config = {
       'p3y-blue': '#00cecb',
       'p3y-maize': '#ffed66',
       'p3y-gunmetal': '#2a2d34',
+      'p3y-olive': '#41463D',
     },
     extend: {
       backgroundImage: {
