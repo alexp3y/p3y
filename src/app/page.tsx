@@ -10,28 +10,30 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center bg-p3y-ivory dark:bg-p3y-gunmetal text-[#41463D] justify-between lato">
+      <main className="flex min-h-screen flex-col items-center bg-p3y-ivory dark:bg-p3y-gunmetal text-p3y-olive justify-between lato">
         <NavBar />
-        <div className="p-24 z-10 max-w-5xl w-full items-center text-sm flex text-[#41463d] flex-col leading-6 flex-grow">
-          <div className="flex flex-col items-center gap-y-6">
-            <span className="text-7xl tracking-tighter text-[#ff5e5b] border-[3px] border-[#ff5e5b] rounded-[5px] px-[8px] pt-0 pb-[11px] dark:bg-p3y-gunmetal bg-p3y-ivory anta cursor-pointer active:border-[#00cecb] active:text-[#00cecb] active:bg[#ffed66]">
+        <div className="p-24 z-10 max-w-5xl w-full items-center text-sm flex  flex-col justify-between leading-6 flex-grow">
+          <div className="flex flex-col items-center gap-y-4">
+            <span className="text-7xl tracking-tighter text-p3y-red border-[3px] border-p3y-red rounded-[5px] px-[8px] pt-0 pb-[11px] dark:bg-p3y-gunmetal bg-p3y-ivory anta cursor-pointer active:border-p3y-blue active:text-p3y-blue">
               p3y
             </span>
             <div className="flex flex-col text-black items-center">
               <Link href={'https://github.com/alexp3y'} target="_blank">
-                <h1 className="cursor-pointer active:text-[#ff5e5b] text-[#41463D] dark:text-p3y-red text-[36px] leading-[1.2] lato-thin">
+                <h1 className="cursor-pointer active:text-p3y-red dark:text-p3y-red text-[36px] leading-[1.2] lato-thin">
                   @alexp3y
                 </h1>
               </Link>
-              <span className="cursor-pointer hover:text-[#ff5e5b] active:text-[#00cecb] text-[#41463D] text-base lato text-[18px]">
-                {/* alexp3y@gmail.com */}
-              </span>
             </div>
+          </div>
+          <div className="w-full text-4xl anta text-p3y-red flex flex-col pt-8 gap-y-2">
+            <span>{"Hi, I'm Alex Perry."}</span>
+            {/* <span>A Software Engineer</span>
+            <span>based in Amsterdam.</span> */}
+            <span>This is my website.</span>
           </div>
         </div>
         <div className="flex flex-col w-full lato">
-          <div className="w-full p-4 flex-col flex text-[18px] bg-[#ff5e5b]" />
-          {/* <div className="w-full border-t border-[#ffed66] flex-col flex text-[18px] bg-[#00cecb] p-10"></div> */}
+          <div className="w-full p-4 flex-col flex text-[18px] bg-p3y-red min-h-1/2" />
         </div>
       </main>
     </>
