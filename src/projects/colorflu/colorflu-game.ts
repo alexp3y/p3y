@@ -38,6 +38,9 @@ export class ColorfluGame {
     this._viruses.forEach((v, i) => {
       v.xScrollVelocity = this._cell.xScrollVelocity;
       v.update(this._dimensions);
+      if (v.isInRange(this._cell)) {
+        v.seek(this._cell);
+      }
       if (v.isCollidedWith(this._cell)) {
         this._cell.dockVirus(this._viruses.splice(i, 1)[0]);
       }

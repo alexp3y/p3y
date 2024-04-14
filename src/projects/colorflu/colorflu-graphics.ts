@@ -59,6 +59,7 @@ export class ColorfluGraphics {
   private _renderWhiteBloodCell(cell: WhiteBloodCell) {
     cell.dockingViruses.forEach((v) => this._renderVirus(v));
     this._renderBloodCell(cell);
+    this._drawRing(cell.xPos, cell.yPos, WhiteBloodCell.RADIUS, '#c46c92', 2);
     cell.dockingViruses.forEach((v) => {
       this._renderDockingVirusInjection(v);
       let dockPoint = 0;
@@ -95,9 +96,10 @@ export class ColorfluGraphics {
         1
       );
     });
-    cell.infectedViruses.forEach((v) =>
-      this._drawRing(v.xPos, v.yPos, Virus.PLASMID_RADIUS, '#000000', 1)
-    );
+    cell.infectedViruses.forEach((v) => {
+      this._drawCircle(v.xPos, v.yPos, Virus.PLASMID_RADIUS, v.color.hex);
+      this._drawRing(v.xPos, v.yPos, Virus.PLASMID_RADIUS, '#000000', 1);
+    });
   }
 
   private _drawStartCilium(cilium: Cilium): void {

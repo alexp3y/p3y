@@ -1,23 +1,26 @@
 import { LEVEL_LENGTH } from '../shared/level';
-import { CFColor } from '../shared/palette';
 import { radialDistance } from '../shared/radial-distance';
 import {
   randomBetween,
+  randomColor,
   randomPosition,
   randomVelocity,
 } from '../shared/random';
 import { WindowDimensions } from '../shared/window-dimensions';
 import { MovableElement } from './movable-element';
+import { PositionableElement } from './positionable-element';
+import { Seekable } from './seekable.interface';
 import { WhiteBloodCell } from './white-blood-cell';
 
 type DockQuadrant = 'Q1' | 'Q2' | 'Q3' | 'Q4';
 
-export class Virus extends MovableElement {
+export class Virus extends MovableElement implements Seekable {
   public static RADIUS = 7;
   public static PLASMID_RADIUS = 2;
   private static DOCKING_SPEED = 0.1;
   private static ALPHA = 0.1;
   private static INJECTION_OFFSET = WhiteBloodCell.RADIUS - 2;
+  private static MAX_VELOCITY = 2;
 
   private _host?: WhiteBloodCell;
   private _docking = false;
@@ -38,12 +41,31 @@ export class Virus extends MovableElement {
     super(
       randomBetween(LEVEL_LENGTH / 2, LEVEL_LENGTH + dimensions.width / 2),
       randomPosition(dimensions.height),
-      { hex: '#e22b2b' } as CFColor,
+      randomColor(), // palette.red,
       Virus.RADIUS,
       Virus.ALPHA,
       randomBetween(-1, 1), // randomVelocity(),
       randomBetween(-1, 1) // randomVelocity()
     );
+  }
+
+  isInRange(target: PositionableElement): boolean {
+    return radialDistance(this, target) < 10 * WhiteBloodCell.RADIUS;
+  }
+
+  seek(target: PositionableElement): void {
+    if (target.xPos > this._xPos) this._xVelocity += 0.014;
+    else this._xVelocity -= 0.014;
+    if (target.yPos > this._yPos) this._yVelocity += 0.014;
+    else this._yVelocity -= 0.014;
+    if (this._xVelocity > Virus.MAX_VELOCITY)
+      this._xVelocity = Virus.MAX_VELOCITY;
+    if (this._xVelocity < -Virus.MAX_VELOCITY)
+      this._xVelocity = -Virus.MAX_VELOCITY;
+    if (this._yVelocity > Virus.MAX_VELOCITY)
+      this._yVelocity = Virus.MAX_VELOCITY;
+    if (this._yVelocity < -Virus.MAX_VELOCITY)
+      this._yVelocity = -Virus.MAX_VELOCITY;
   }
 
   override update(dims: WindowDimensions): void {
