@@ -12,8 +12,8 @@ export class ControllableElement extends MovableElement {
   private _goDown: boolean = false;
   private _progress = 0;
 
-  constructor(xPos, yPos, color, radius, maxVel) {
-    super(xPos, yPos, color, radius);
+  constructor(xPos, yPos, color, radius, alpha = 1, maxVel) {
+    super(xPos, yPos, color, radius, alpha);
     if (maxVel) {
       this._maxVel = maxVel;
       this._minVel = -maxVel;

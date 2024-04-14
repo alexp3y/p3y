@@ -4,8 +4,8 @@ export abstract class MovableElement extends PositionableElement {
   protected _xVelocity: number = 0;
   protected _yVelocity: number = 0;
 
-  constructor(xPos, yPos, color, radius, xVel?, yVel?) {
-    super(xPos, yPos, color, radius);
+  constructor(xPos, yPos, color, radius, alpha = 1, xVel = 0, yVel = 0) {
+    super(xPos, yPos, color, radius, alpha);
     this._xVelocity = xVel ? xVel : 0;
     this._yVelocity = yVel ? yVel : 0;
   }

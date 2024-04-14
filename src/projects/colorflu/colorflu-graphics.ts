@@ -57,8 +57,47 @@ export class ColorfluGraphics {
   }
 
   private _renderWhiteBloodCell(cell: WhiteBloodCell) {
-    this._renderBloodCell(cell);
     cell.dockingViruses.forEach((v) => this._renderVirus(v));
+    this._renderBloodCell(cell);
+    cell.dockingViruses.forEach((v) => {
+      this._renderDockingVirusInjection(v);
+      let dockPoint = 0;
+      switch (v.dockingQuadrant) {
+        case 'Q1':
+          dockPoint = v.dockAngle + Math.PI;
+          break;
+        case 'Q2':
+          dockPoint = -v.dockAngle;
+          break;
+        case 'Q3':
+          dockPoint = v.dockAngle;
+          break;
+        case 'Q4':
+          dockPoint = -v.dockAngle + Math.PI;
+          break;
+        default:
+          break;
+      }
+      this._drawRing(
+        cell.xPos,
+        cell.yPos,
+        WhiteBloodCell.RADIUS,
+        '#000000',
+        1,
+        dockPoint + 0.3,
+        dockPoint - 0.3
+      );
+      this._drawRing(
+        v.plasmidXPos,
+        v.plasmidYPos,
+        Virus.PLASMID_RADIUS,
+        '#000000',
+        1
+      );
+    });
+    cell.infectedViruses.forEach((v) =>
+      this._drawRing(v.xPos, v.yPos, Virus.PLASMID_RADIUS, '#000000', 1)
+    );
   }
 
   private _drawStartCilium(cilium: Cilium): void {
@@ -104,6 +143,14 @@ export class ColorfluGraphics {
       el.radius,
       this._hex2rgba(el.color.hex, el.alpha)
     );
+  }
+
+  private _renderDockingVirusInjection(virus: Virus) {
+    this._ctx.beginPath();
+    this._ctx.strokeStyle = virus.color.hex;
+    this._ctx.moveTo(virus.injectionStartX, virus.injectionStartY);
+    this._ctx.lineTo(virus.injectionEndX, virus.injectionEndY);
+    this._ctx.stroke();
   }
 
   private _renderVirus(virus: Virus) {
@@ -165,10 +212,18 @@ export class ColorfluGraphics {
     this._ctx.fill();
   }
 
-  private _drawRing(x, y, r, color, lineWidth) {
+  private _drawRing(
+    x,
+    y,
+    r,
+    color,
+    lineWidth,
+    fromRad = 0,
+    toRad = 2 * Math.PI
+  ) {
     this._ctx.strokeStyle = color;
     this._ctx.beginPath();
-    this._ctx.arc(x, y, r, 0, 2 * Math.PI, true);
+    this._ctx.arc(x, y, r, fromRad, toRad, true);
     this._ctx.lineWidth = lineWidth;
     this._ctx.stroke();
   }

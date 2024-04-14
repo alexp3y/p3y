@@ -6,16 +6,18 @@ import { MovableElement } from './movable-element';
 
 export class RedBloodCell extends MovableElement {
   private static RADIUS = 5;
+  private static ALPHA = 0.25;
+
   constructor(dimensions: WindowDimensions) {
     super(
       randomPosition(4000),
       randomPosition(dimensions.height),
       palette.pink,
       RedBloodCell.RADIUS,
+      RedBloodCell.ALPHA,
       randomBetween(-0.3, 0.3), // randomVelocity(),
       randomBetween(-0.3, 0.3) // randomVelocity()
     );
-    this._alpha = 0.25;
   }
 
   override update(dims: WindowDimensions): void {

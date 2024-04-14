@@ -3,14 +3,14 @@ import { radialDistance } from '../shared/radial-distance';
 
 export class PositionableElement {
   protected _xScrollVelocity: number = 0;
-  protected _alpha = 1;
   protected _destroyed = false;
 
   constructor(
     protected _xPos: number,
     protected _yPos: number,
     protected _color: CFColor,
-    protected _radius: number
+    protected _radius: number,
+    protected _alpha = 1
   ) {}
 
   update(p1?: any, p2?: any) {
