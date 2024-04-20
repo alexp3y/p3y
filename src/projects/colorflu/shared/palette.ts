@@ -7,6 +7,11 @@ export type CFPalette = {
   [color: string]: CFColor;
 };
 
+export const colorBlack: CFColor = {
+  hex: '#000000',
+  powerLvl: 0,
+};
+
 export const palette: CFPalette = {
   red: {
     hex: '#e22b2b',

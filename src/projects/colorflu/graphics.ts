@@ -1,5 +1,7 @@
-import { ColorfluGame } from './colorflu-game';
+import { ColorfluGame } from './game';
+import { CellShield } from './game/cell-shield';
 import { Cilium } from './game/cilium';
+import { ExplodableElement } from './game/explodable-element';
 import { PositionableElement } from './game/positionable-element';
 import { Virus } from './game/virus';
 import { WhiteBloodCell } from './game/white-blood-cell';
@@ -7,7 +9,7 @@ import { LEVEL_LENGTH } from './shared/level';
 import { NAVBAR_HEIGHT, WindowDimensions } from './shared/window-dimensions';
 
 export class ColorfluGraphics {
-  private static BG_GRADIENT_OFFSET = 100;
+  private static BG_GRADIENT_OFFSET = 0;
 
   private _ctx: CanvasRenderingContext2D;
   private _bgGradientBaseShade = 255;
@@ -35,11 +37,16 @@ export class ColorfluGraphics {
   }
 
   public renderGame(game: ColorfluGame) {
+    game.rendered = true;
     this._clearScreen();
     this._drawBg(game.cell.progress, game.cell.xScrollVelocity);
     game.redBloodCells.forEach((v, i) => this._renderBloodCell(v));
+    // this._renderCellShield(game.cell);
     game.viruses
-      .filter((v) => !v.destroyed)
+      .filter((v) => v.isExploded)
+      .forEach((v) => this._renderExplodedElement(v));
+    game.viruses
+      .filter((v) => !v.isDestroyed() && !v.infected)
       .forEach((v, i) => this._renderVirus(v));
     game.startCilia.forEach((c, i) => {
       if (!(i % 2)) this._drawStartCilium(c);
@@ -47,6 +54,7 @@ export class ColorfluGraphics {
     game.endCilia.forEach((c, i) => {
       if (!(i % 2)) this._drawEndCilium(c);
     });
+    // white blood cell
     this._renderWhiteBloodCell(game.cell);
     game.startCilia.forEach((c, i) => {
       if (i % 2) this._drawStartCilium(c);
@@ -56,50 +64,122 @@ export class ColorfluGraphics {
     });
   }
 
-  private _renderWhiteBloodCell(cell: WhiteBloodCell) {
-    cell.dockingViruses.forEach((v) => this._renderVirus(v));
-    this._renderBloodCell(cell);
-    this._drawRing(cell.xPos, cell.yPos, WhiteBloodCell.RADIUS, '#c46c92', 2);
-    cell.dockingViruses.forEach((v) => {
-      this._renderDockingVirusInjection(v);
-      let dockPoint = 0;
-      switch (v.dockingQuadrant) {
-        case 'Q1':
-          dockPoint = v.dockAngle + Math.PI;
-          break;
-        case 'Q2':
-          dockPoint = -v.dockAngle;
-          break;
-        case 'Q3':
-          dockPoint = v.dockAngle;
-          break;
-        case 'Q4':
-          dockPoint = -v.dockAngle + Math.PI;
-          break;
-        default:
-          break;
-      }
+  private _renderExplodedElement(el: ExplodableElement) {
+    let radIncrement = (2 * Math.PI) / ExplodableElement.FRAGMENT_SIZE;
+    let fragmentStartRad = 0;
+    let fragmentEndRad = radIncrement;
+    el.explodedFragments.forEach((f) => {
       this._drawRing(
-        cell.xPos,
-        cell.yPos,
-        WhiteBloodCell.RADIUS,
-        '#000000',
+        f.xPos,
+        f.yPos,
+        f.radius,
+        f.color.hex,
         1,
-        dockPoint + 0.3,
-        dockPoint - 0.3
+        fragmentEndRad,
+        fragmentStartRad
       );
+      fragmentStartRad += radIncrement;
+      fragmentEndRad += radIncrement;
+    });
+  }
+
+  private _renderWhiteBloodCell(cell: WhiteBloodCell) {
+    cell.infectedViruses
+      .filter((v) => v.docking)
+      .forEach((v) => this._renderVirus(v));
+    this._renderBloodCell(cell);
+    this._drawRing(cell.xPos, cell.yPos, WhiteBloodCell.RADIUS, '#c46c92', 1.5);
+    cell.infectedViruses
+      .filter((v) => v.docking)
+      .forEach((v) => {
+        this._renderDockingVirusInjection(v);
+        let dockPoint = 0;
+        switch (v.dockingQuadrant) {
+          case 'Q1':
+            dockPoint = v.dockAngle + Math.PI;
+            break;
+          case 'Q2':
+            dockPoint = -v.dockAngle;
+            break;
+          case 'Q3':
+            dockPoint = v.dockAngle;
+            break;
+          case 'Q4':
+            dockPoint = -v.dockAngle + Math.PI;
+            break;
+          default:
+            break;
+        }
+        this._drawRing(
+          cell.xPos,
+          cell.yPos,
+          WhiteBloodCell.RADIUS,
+          this._hex2rgba('#000000', '.8'),
+          1,
+          dockPoint + 0.3,
+          dockPoint - 0.3
+        );
+        this._drawRing(
+          v.plasmidXPos,
+          v.plasmidYPos,
+          Virus.PLASMID_RADIUS,
+          '#000000',
+          1
+        );
+      });
+    cell.infectedViruses
+      .filter((v) => !v.docking)
+      .forEach((v) => {
+        this._drawCircle(v.xPos, v.yPos, Virus.PLASMID_RADIUS, v.color.hex);
+        this._drawRing(v.xPos, v.yPos, Virus.PLASMID_RADIUS, '#000000', 1);
+      });
+    cell.gun.bullets
+      .filter((b) => !b.isDestroyed())
+      .forEach((b) => {
+        this._drawCircle(
+          b.xPos,
+          b.yPos,
+          b.radius,
+          this._hex2rgba(b.color.hex, 1.0),
+          1
+        );
+        this._drawRing(
+          b.xPos,
+          b.yPos,
+          b.radius,
+          this._hex2rgba('#000000', 0.5),
+          1
+        );
+      });
+  }
+
+  private _renderCellShield(cell: WhiteBloodCell) {
+    let x = 0;
+    let shieldRadius = cell.shield.radius;
+    while (x < cell.shield.activeLevel) {
+      shieldRadius += CellShield.RADIUS_INCREMENT;
       this._drawRing(
-        v.plasmidXPos,
-        v.plasmidYPos,
-        Virus.PLASMID_RADIUS,
-        '#000000',
+        cell.shield.xPos,
+        cell.shield.yPos,
+        cell.shield.radius,
+        this._hex2rgba(cell.shield.levelColors[x].hex, 0.99),
+        1,
+        cell.shield.startAngle,
+        cell.shield.endAngle
+      );
+      x++;
+    }
+    x = 0;
+    while (x < cell.shield.maxLevel) {
+      this._drawRing(
+        cell.shield.xPos,
+        cell.shield.yPos,
+        cell.shield.initialRadius + x * CellShield.RADIUS_INCREMENT,
+        this._hex2rgba(cell.shield.levelColors[x].hex, 0.55),
         1
       );
-    });
-    cell.infectedViruses.forEach((v) => {
-      this._drawCircle(v.xPos, v.yPos, Virus.PLASMID_RADIUS, v.color.hex);
-      this._drawRing(v.xPos, v.yPos, Virus.PLASMID_RADIUS, '#000000', 1);
-    });
+      x++;
+    }
   }
 
   private _drawStartCilium(cilium: Cilium): void {
@@ -114,6 +194,7 @@ export class ColorfluGraphics {
       cilium.xPos + cilium.radius, //endx
       cilium.yPos + cilium.drift //endy
     );
+    this._ctx.lineWidth = 1.5;
     this._ctx.strokeStyle = cilium.color.hex;
     this._ctx.stroke();
   }
@@ -130,6 +211,7 @@ export class ColorfluGraphics {
       cilium.xPos - cilium.radius, //endx
       cilium.yPos + cilium.drift //endy
     );
+    this._ctx.lineWidth = 1.5;
     this._ctx.strokeStyle = cilium.color.hex;
     this._ctx.stroke();
   }
@@ -150,6 +232,7 @@ export class ColorfluGraphics {
   private _renderDockingVirusInjection(virus: Virus) {
     this._ctx.beginPath();
     this._ctx.strokeStyle = virus.color.hex;
+    this._ctx.lineWidth = 1;
     this._ctx.moveTo(virus.injectionStartX, virus.injectionStartY);
     this._ctx.lineTo(virus.injectionEndX, virus.injectionEndY);
     this._ctx.stroke();
@@ -160,7 +243,7 @@ export class ColorfluGraphics {
       virus.xPos,
       virus.yPos,
       virus.radius,
-      this._hex2rgba(virus.color.hex, virus.alpha)
+      this._hex2rgba(virus.color.hex, virus.isSeeking() ? 0.75 : virus.alpha)
     );
     let degree = 0;
     while (degree < 360) {
@@ -174,7 +257,7 @@ export class ColorfluGraphics {
       this._ctx.lineTo(spikeXTo, spikeYTo);
       this._ctx.strokeStyle = virus.color.hex;
       this._ctx.stroke();
-      degree += 20;
+      degree += 30;
     }
     this._drawRing(virus.xPos, virus.yPos, virus.radius, '#000000', 1);
   }
@@ -182,9 +265,9 @@ export class ColorfluGraphics {
   private _drawBg(levelProgress: number, scrollVelocity: number) {
     if (scrollVelocity != 0) {
       // update gradient: 255 -> 0 (white -> black)
-      this._bgGradientBaseShade = Math.floor(
-        255 * (1 - levelProgress / LEVEL_LENGTH)
-      );
+      this._bgGradientBaseShade =
+        Math.floor(255 * (1 - levelProgress / LEVEL_LENGTH)) -
+        ColorfluGraphics.BG_GRADIENT_OFFSET;
       this._bgGradientOffsetShade =
         this._bgGradientBaseShade - ColorfluGraphics.BG_GRADIENT_OFFSET;
     }
@@ -219,7 +302,7 @@ export class ColorfluGraphics {
     y,
     r,
     color,
-    lineWidth,
+    lineWidth = 1,
     fromRad = 0,
     toRad = 2 * Math.PI
   ) {

@@ -1,9 +1,9 @@
 import { CFColor } from '../shared/palette';
 import { radialDistance } from '../shared/radial-distance';
+import { Restorable } from './restorable.interface';
 
-export class PositionableElement {
+export class PositionableElement implements Restorable<PositionableElement> {
   protected _xScrollVelocity: number = 0;
-  protected _destroyed = false;
 
   constructor(
     protected _xPos: number,
@@ -13,20 +13,22 @@ export class PositionableElement {
     protected _alpha = 1
   ) {}
 
+  restore(data: PositionableElement) {
+    console.log('postion restored');
+    this._xPos = data._xPos;
+    this._yPos = data._yPos;
+    this._color = data._color;
+    this._radius = data._radius;
+    this._alpha = this._alpha;
+    this._xScrollVelocity = this._xScrollVelocity;
+  }
+
   update(p1?: any, p2?: any) {
     this._xPos -= this._xScrollVelocity;
   }
 
   isCollidedWith(element: PositionableElement) {
     return radialDistance(this, element) <= this.radius + element.radius;
-  }
-
-  destroy() {
-    this._destroyed = true;
-  }
-
-  public get destroyed(): boolean {
-    return this._destroyed;
   }
 
   public get alpha(): number {

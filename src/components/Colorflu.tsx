@@ -1,21 +1,32 @@
 'use client';
 
-import { ColorfluEngine } from '@/projects/colorflu/colorflu-engine';
+import { ColorfluEngine } from '@/projects/colorflu/engine';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import NavBar from './NavBar';
 import { getWindowDimensions } from '@/projects/colorflu/shared/window-dimensions';
 import ColorfluHUD from './Colorflu/ColorfluHUD';
+import ColorfluMenu from './Colorflu/ColorfluMenu';
+import { ColorfluSavedGame } from '@/projects/colorflu/saved-game';
 
 const ColorFlu: React.FC = () => {
   const canvasRef = useRef(null);
   const animationRequestId: MutableRefObject<any> = useRef();
   const [engine, setEngine] = useState<ColorfluEngine | null>(null);
+  const [paused, setPaused] = useState(false);
+
+  const resumeGame = () => {
+    setPaused(false);
+    engine!.resume();
+  };
 
   useEffect(() => {
     function handleResize(e: Event) {
       enj.handleResize(getWindowDimensions());
     }
     function handleKeydown(e: KeyboardEvent) {
+      if (e.key === ' ') {
+        setPaused(!paused);
+      }
       enj.handleKeydown(e.key);
     }
     function handleKeyup(e: KeyboardEvent) {
@@ -28,7 +39,8 @@ const ColorFlu: React.FC = () => {
     }
     // Start game engine
     const enj = new ColorfluEngine(canvasRef.current!, getWindowDimensions());
-    enj.start();
+    let savedGame = localStorage.getItem('COLORFLU_DATA');
+    enj.start(savedGame ? JSON.parse(savedGame) : null);
     setEngine(enj);
     window.addEventListener('resize', handleResize);
     document.addEventListener('keydown', handleKeydown);
@@ -47,6 +59,7 @@ const ColorFlu: React.FC = () => {
       <NavBar />
       <div className="absolute right-0">
         {engine && <ColorfluHUD engine={engine} />}
+        {paused && <ColorfluMenu engine={engine!} resume={resumeGame} />}
       </div>
       <canvas ref={canvasRef} />
     </main>

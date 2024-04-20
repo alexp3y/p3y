@@ -1,9 +1,14 @@
 import { LEVEL_LENGTH } from '../shared/level';
 import { NAVBAR_HEIGHT, WindowDimensions } from '../shared/window-dimensions';
-import { ControlType } from './control-type';
+import { ControlType } from './control-type.enum';
+import { Controllable } from './controllable.interface';
 import { MovableElement } from './movable-element';
+import { Restorable } from './restorable.interface';
 
-export class ControllableElement extends MovableElement {
+export class ControllableElement
+  extends MovableElement
+  implements Controllable, Restorable<ControllableElement>
+{
   private _maxVel = 2;
   private _minVel = -2;
   private _goRight: boolean = false;
@@ -20,11 +25,16 @@ export class ControllableElement extends MovableElement {
     }
   }
 
-  override update(dims: WindowDimensions, xProgress: number) {
+  override update(dims: WindowDimensions) {
     this._updateVelocity();
     this._enforceScreenLimit(dims);
     this._moveOrScroll(dims);
     this._updateProgress(dims);
+  }
+
+  restore(data: ControllableElement): void {
+    this._progress = data._progress;
+    super.restore(data);
   }
 
   private _moveOrScroll(dims: WindowDimensions) {

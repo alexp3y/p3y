@@ -1,8 +1,12 @@
 export enum ControlType {
+  PAUSE,
   GO_RIGHT,
   GO_LEFT,
   GO_UP,
   GO_DOWN,
-  PAUSE,
+  SHIELD_RIGHT,
+  SHIELD_LEFT,
+  SHIELD_TOP,
+  SHIELD_BOTTOM,
   SHOOT,
 }

@@ -1,6 +1,12 @@
 import { palette } from '../shared/palette';
 import { radialDistance } from '../shared/radial-distance';
-import { WindowDimensions } from '../shared/window-dimensions';
+import {
+  WindowDimensions,
+  getWindowDimensions,
+} from '../shared/window-dimensions';
+import { CellGun } from './cell-gun';
+import { CellShield } from './cell-shield';
+import { ControlType } from './control-type.enum';
 import { ControllableElement } from './controllable-element';
 import { Virus } from './virus';
 
@@ -10,8 +16,9 @@ export class WhiteBloodCell extends ControllableElement {
   private static COLOR = palette.pink;
   private static ALPHA = 1;
 
-  private _dockingViruses: Virus[] = [];
   private _infectedViruses: Virus[] = [];
+  private _shield: CellShield;
+  private _gun: CellGun;
 
   constructor(dimensions: WindowDimensions) {
     super(
@@ -22,41 +29,74 @@ export class WhiteBloodCell extends ControllableElement {
       WhiteBloodCell.ALPHA,
       WhiteBloodCell.MAX_VELOCITY
     );
+    this._shield = new CellShield(this);
+    this._gun = new CellGun();
   }
 
-  override update(dims: WindowDimensions, xProgress: number) {
-    super.update(dims, xProgress);
-    this._dockingViruses.forEach((v, i) => {
-      if (radialDistance(this, v) < this._radius - v.radius) {
-        this.addInfection(this._dockingViruses.splice(i, 1)[0]);
+  override restore(data: WhiteBloodCell) {
+    this._infectedViruses = data._infectedViruses.map((v) => {
+      const virus = new Virus(getWindowDimensions());
+      virus.restore(v);
+      if (virus.docking) {
+        virus.xPos = this._xPos;
+        virus.yPos = this._yPos;
+        virus.completeInfection();
+      }
+      return virus;
+    });
+    this._shield.restore(data._shield);
+    super.restore(data);
+  }
+
+  override update(dims: WindowDimensions) {
+    super.update(dims);
+    this._infectedViruses.forEach((v, i) => {
+      if (v.docking) {
+        if (radialDistance(this, v) < this._radius - v.radius) {
+          v.completeInfection();
+        } else {
+          v.xScrollVelocity = this._xScrollVelocity;
+          v.xVelocity = this._xVelocity;
+          v.yVelocity = this._yVelocity;
+          v.update(dims, this);
+        }
       } else {
         v.xScrollVelocity = this._xScrollVelocity;
-        v.xVelocity = this._xVelocity;
-        v.yVelocity = this._yVelocity;
-        v.update(dims);
+        v.update(dims, this);
       }
     });
-    this._infectedViruses.forEach((v) => {
-      v.xScrollVelocity = this._xScrollVelocity;
-      v.update(dims);
-    });
+    this._shield.update(this);
+    this._gun.bullets
+      .filter((b) => !b.isDestroyed())
+      .forEach((b) => {
+        b.xScrollVelocity = this._xScrollVelocity;
+        b.update();
+      });
   }
 
-  dockVirus(virus: Virus) {
-    virus.startDocking(this);
-    this._dockingViruses.push(virus);
-  }
-
-  addInfection(virus: Virus) {
-    virus.completeDocking();
+  infect(virus: Virus) {
+    virus.startInfection(this);
     this._infectedViruses.push(virus);
   }
 
-  public get dockingViruses(): Virus[] {
-    return this._dockingViruses;
+  override applyControl(control: ControlType): void {
+    switch (control) {
+      case ControlType.SHOOT:
+        this._gun.fire(this._xPos + this._radius, this._yPos);
+        break;
+    }
+    super.applyControl(control);
   }
 
   public get infectedViruses(): Virus[] {
     return this._infectedViruses;
+  }
+
+  public get shield(): CellShield {
+    return this._shield;
+  }
+
+  public get gun(): CellGun {
+    return this._gun;
   }
 }

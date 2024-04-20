@@ -1,3 +1,4 @@
+import { degreeToRad } from '../shared/degree-to-rad';
 import { LEVEL_LENGTH } from '../shared/level';
 import { CFColor } from '../shared/palette';
 import { randomColor } from '../shared/random';
@@ -32,10 +33,14 @@ export class Cilium extends PositionableElement {
   override update(p?: any) {
     this._waveAngle += this._speed;
     if (this._waveAngle >= 360) this._waveAngle = 0;
-    let waveSin = Math.sin(this._degreeToRad(this._waveAngle));
+    let waveSin = Math.sin(degreeToRad(this._waveAngle));
     this._amplitude = Cilium.AMP_MAX * waveSin;
     this._drift = (Cilium.AMP_MAX * waveSin) / 2;
     super.update();
+  }
+
+  override restore(data: PositionableElement): void {
+    this._xPos = data.xPos;
   }
 
   private static _randomLength(l) {
@@ -44,10 +49,6 @@ export class Cilium extends PositionableElement {
     const randomLength =
       Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
     return randomLength;
-  }
-
-  private _degreeToRad(angle) {
-    return angle * (Math.PI / 180);
   }
 
   public get length(): number {
