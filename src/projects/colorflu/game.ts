@@ -9,7 +9,6 @@ import { WhiteBloodCell } from './game/white-blood-cell';
 import { WindowDimensions } from './shared/window-dimensions';
 
 export class ColorfluGame implements Restorable<ColorfluGame> {
-  private _clock = 0;
   private _cell: WhiteBloodCell;
   private _viruses: Virus[] = [];
   private _redBloodCells: RedBloodCell[] = [];
@@ -20,7 +19,7 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
   constructor(private _dimensions: WindowDimensions, savedGameData?: string) {
     this._cell = new WhiteBloodCell(this._dimensions);
     let x = 0;
-    while (x < 70) {
+    while (x < 100) {
       x++;
       this._redBloodCells.push(new RedBloodCell(this._dimensions));
     }
@@ -31,14 +30,13 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
       this.endCilia.push(new EndWallCilium(y, this._dimensions));
     }
     let z = 0;
-    while (z < 70) {
+    while (z < 200) {
       z++;
       this._viruses.push(new Virus(this._dimensions));
     }
   }
 
   public restore(data: ColorfluGame) {
-    this._clock = data._clock;
     this._cell.restore(data._cell);
     this._viruses = data._viruses.map((v) => {
       const virus = new Virus(this._dimensions);
@@ -52,9 +50,8 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
     this._endCilia.forEach((c) => (c.xPos = endCiliaX));
   }
 
-  update() {
-    this._clock++;
-    if (this._clock % 50 === 0 && this._cell.progress < 150) {
+  update(clock: number) {
+    if (clock % 50 === 0 && this._cell.progress < 150) {
       this._viruses.push(new Virus(this._dimensions, 0));
     }
     this._cell.update(this._dimensions);
@@ -92,10 +89,6 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
 
   resizeWindow(dim: WindowDimensions) {
     this._dimensions = dim;
-  }
-
-  public get clock(): number {
-    return this._clock;
   }
 
   public get cell(): WhiteBloodCell {

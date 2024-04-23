@@ -10,7 +10,7 @@ export enum CellWallType {
 }
 
 export class Cilium extends PositionableElement {
-  public static AMP_MAX = 8;
+  public static AMP_MAX = 10;
   private _waveAngle = Math.floor(360 * Math.random());
   private _drift = 0;
   private _speed = Math.floor(Math.random() * 2) + 1; // 1, 2
@@ -44,7 +44,7 @@ export class Cilium extends PositionableElement {
   }
 
   private static _randomLength(l) {
-    const minLength = Math.ceil(l * 0.4); // Minimum length
+    const minLength = Math.ceil(l * 0.3); // Minimum length
     const maxLength = Math.floor(l * 1); // Maximum length
     const randomLength =
       Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;

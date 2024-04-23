@@ -2,30 +2,36 @@ import { ColorfluGame } from './game';
 import { ControlType } from './game/control-type.enum';
 import { ColorfluGraphics } from './graphics';
 import { WindowDimensions } from './shared/window-dimensions';
+import { ColorfluSplashScreen } from './splash-screen';
 
 export class ColorfluEngine {
   private _game: ColorfluGame | null = null;
   private _graphics: ColorfluGraphics;
-  private _gameLoopInterval: NodeJS.Timeout | null = null;
+  private _splashScreen: ColorfluSplashScreen;
+
+  private _clock = 0;
+  private _loopInterval: NodeJS.Timeout | null = null;
+
   private _running: boolean = false;
   private _paused: boolean = false;
-  private _id: number = Math.floor(Math.random() * 100000);
 
   constructor(
     private _canvas: HTMLCanvasElement,
     private _dimensions: WindowDimensions
   ) {
+    console.log('initializing game engine');
     this._graphics = new ColorfluGraphics(this._canvas, this._dimensions);
+    this._splashScreen = new ColorfluSplashScreen(this._dimensions);
+    this._startLoop();
   }
 
   start(savedGame?: ColorfluGame) {
     if (!this._running) {
-      console.log('starting engine');
+      console.log('starting game');
       this._game = new ColorfluGame(this._dimensions);
       if (savedGame) {
         this._game.restore(savedGame);
       }
-      this._startGameLoop();
       this._running = true;
     }
   }
@@ -36,19 +42,21 @@ export class ColorfluEngine {
 
   pause() {
     this._paused = true;
-    this._haltGameLoop();
-    // console.log(JSON.stringify(this._game));
-    // localStorage.setItem('COLORFLU_DATA', this.eject());
+    this._haltLoop();
   }
 
   resume() {
     this._paused = false;
-    this._startGameLoop();
+    this._startLoop();
   }
 
   public render() {
-    if (this._game && !this._paused) {
-      this._graphics.renderGame(this._game!);
+    if (this._game) {
+      if (!this._paused) {
+        this._graphics.renderGame(this._game!);
+      }
+    } else {
+      this._graphics.renderSplashScreen(this._splashScreen);
     }
   }
 
@@ -60,28 +68,33 @@ export class ColorfluEngine {
     }
   }
 
-  private _startGameLoop = () => {
-    if (!this._gameLoopInterval) {
-      this._gameLoopInterval = setInterval(() => {
-        if (!this._game?.isScreenAttached) {
-          this._haltGameLoop();
+  private _startLoop = () => {
+    if (!this._loopInterval) {
+      this._loopInterval = setInterval(() => {
+        this._clock++;
+        if (this.game) {
+          if (!this._game?.isScreenAttached) {
+            this._haltLoop();
+          }
+          this._game!.update(this._clock);
+        } else {
+          this._splashScreen.update(this._clock);
         }
-        this._game!.update();
       }, 19);
     }
   };
 
-  private _haltGameLoop = () => {
-    if (this._gameLoopInterval) {
-      clearInterval(this._gameLoopInterval);
-      this._gameLoopInterval = null;
+  private _haltLoop = () => {
+    if (this._loopInterval) {
+      clearInterval(this._loopInterval);
+      this._loopInterval = null;
     }
   };
 
   public handleKeydown(key: string) {
     if (this._paused) return;
     switch (key.toLowerCase()) {
-      case ' ':
+      case 'enter':
         this.pause();
         break;
       case 'arrowup':
@@ -109,6 +122,7 @@ export class ColorfluEngine {
         this._game!.applyControl(ControlType.SHIELD_RIGHT);
         break;
       case 'f':
+      case ' ':
         this._game!.applyControl(ControlType.SHOOT);
         break;
     }
@@ -162,5 +176,9 @@ export class ColorfluEngine {
 
   public get running(): boolean {
     return this._running;
+  }
+
+  public get clock(): number {
+    return this._clock;
   }
 }

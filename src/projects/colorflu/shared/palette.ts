@@ -12,6 +12,11 @@ export const colorBlack: CFColor = {
   powerLvl: 0,
 };
 
+export const colorWhite: CFColor = {
+  hex: '#ffffff',
+  powerLvl: 0,
+};
+
 export const palette: CFPalette = {
   red: {
     hex: '#e22b2b',

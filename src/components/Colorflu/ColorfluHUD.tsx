@@ -16,19 +16,15 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
   const [progress, setProgress] = useState(0);
   const [startShade, setStartShade] = useState(0);
   const [endShade, setEndShade] = useState(0);
-  const [shieldPower, setShieldPower] = useState(0);
-  const [shieldLevel, setShieldLevel] = useState(0);
   useEffect(() => {
     setInterval(() => {
-      setCounter(engine.game!.clock);
+      setCounter(engine.clock);
       setX(engine.game!.cell.xPos);
       setY(engine.game!.cell.yPos);
       setWidth(engine.screenWidth);
       setProgress(engine.game!.cell.progress);
       setStartShade(engine.graphics!.bgStartShade);
       setEndShade(engine.graphics!.bgEndShade);
-      setShieldPower(engine.game!.cell.shield.power);
-      setShieldLevel(engine.game!.cell.shield.activeLevel);
     }, 100);
   }, [engine]);
   return (
@@ -37,7 +33,14 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
         <span className="text-2xl text-p3y-red">Clock: {counter}</span>
         <button
           className="border text-p3y-gunmetal rounded-md bg-p3y-red p-0.5 px-1.5 opacity-80"
-          onClick={() => setShowHUD(!showHUD)}
+          onClick={() => {
+            setShowHUD(!showHUD);
+            if (engine.paused) {
+              engine.resume();
+            } else {
+              engine.pause();
+            }
+          }}
         >
           STATS
         </button>
@@ -56,12 +59,6 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
           </span>
           <span className="text-2xl text-p3y-red">
             Level Length: {LEVEL_LENGTH}
-          </span>
-          <span className="text-2xl text-p3y-red">
-            Shield Power: {shieldPower}
-          </span>
-          <span className="text-2xl text-p3y-red">
-            Shield Level: {shieldLevel}
           </span>
         </div>
       )}

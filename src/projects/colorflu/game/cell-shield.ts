@@ -1,5 +1,5 @@
 import { degreeToRad } from '../shared/degree-to-rad';
-import { CFColor, palette } from '../shared/palette';
+import { CFColor, colorWhite, palette } from '../shared/palette';
 import { radialDistance } from '../shared/radial-distance';
 import { randomColor } from '../shared/random';
 import { ControlType } from './control-type.enum';
@@ -13,35 +13,22 @@ export class CellShield
   extends MovableElement
   implements Controllable, Restorable<CellShield>
 {
-  static RADIUS_INCREMENT = 5;
-  static POWER_STEP = 5;
-  static MAX_LEVEL = 50;
-
   private _startAngle: number = 0;
   private _endAngle: number = 0;
   private _shieldDirection: ControlType | null = null;
-  private _power = 0;
-  private _activeLevel = 0;
-  private _maxLevel = CellShield.MAX_LEVEL;
-  private _levelColors: CFColor[] = [];
-  initialRadius = 0;
+
+  private _colorCycleCounter = 0;
+  private _color2: CFColor = colorWhite;
+  private _color3: CFColor = colorWhite;
 
   constructor(cell: WhiteBloodCell) {
-    let radius = WhiteBloodCell.RADIUS * 1.5;
-    super(cell.xPos, cell.yPos, palette.red, radius);
-    this.initialRadius = radius;
-    let x = 0;
-    while (x < CellShield.MAX_LEVEL) {
-      x++;
-      this._levelColors.push(randomColor());
-    }
+    let radius = WhiteBloodCell.RADIUS * 2;
+    super(cell.xPos, cell.yPos, palette.orange, radius);
   }
 
   applyControl(control: ControlType) {
     if (ControlType[control].startsWith('SHIELD')) {
       if (this._shieldDirection !== control) {
-        this._power = 0;
-        this._activeLevel = 0;
         this._shieldDirection = control;
         this._updateShield();
       }
@@ -51,22 +38,29 @@ export class CellShield
   releaseControl(control: ControlType) {
     if (this._shieldDirection === control) {
       this._shieldDirection = null;
-      this._power = 0;
-      this._activeLevel = 0;
     }
   }
 
   update(cell: WhiteBloodCell) {
-    if (this._shieldDirection) {
-      if (this._activeLevel < this._maxLevel) {
-        this._power++;
-        this._activeLevel = Math.floor(this._power / CellShield.POWER_STEP);
-      }
+    this._colorCycleCounter++;
+    if (this._colorCycleCounter > 5) {
+      this._color3 = this._color2;
+      this._color2 = this._color;
+      this._color = this._nextColor();
+      this._colorCycleCounter = 0;
     }
     this._xVelocity = cell.xVelocity;
     this._yVelocity = cell.yVelocity;
     this._xScrollVelocity = cell.xScrollVelocity;
     super.update();
+  }
+
+  private _nextColor(): CFColor {
+    return this._color.hex === palette.orange.hex
+      ? palette.darkBlue
+      : this._color.hex === palette.darkBlue.hex
+      ? palette.pink
+      : palette.orange;
   }
 
   restore(data: CellShield): void {
@@ -75,17 +69,11 @@ export class CellShield
   }
 
   override isCollidedWith(element: PositionableElement): boolean {
-    if (!!this._shieldDirection) {
-      let collided =
-        this._isAtShieldAngle(element) && this._isWithinShieldRange(element);
-      if (collided && this._activeLevel > 0) {
-        this._activeLevel--;
-        this._maxLevel--;
-        this._power += -CellShield.POWER_STEP;
-      }
-      return collided;
-    }
-    return false;
+    return (
+      this.active &&
+      this._isAtShieldAngle(element) &&
+      this._isWithinShieldRange(element)
+    );
   }
 
   private _isAtShieldAngle(element: PositionableElement) {
@@ -99,11 +87,7 @@ export class CellShield
   }
 
   private _isWithinShieldRange(element: PositionableElement) {
-    return (
-      radialDistance(this, element) <=
-      element.radius +
-        (this.radius + CellShield.RADIUS_INCREMENT * this._activeLevel)
-    );
+    return radialDistance(this, element) <= element.radius + this.radius;
   }
 
   private _updateShield() {
@@ -153,23 +137,15 @@ export class CellShield
     return this._endAngle;
   }
 
-  public get shieldEngaged(): boolean {
+  public get active(): boolean {
     return !!this._shieldDirection;
   }
 
-  public get power(): number {
-    return this._power;
+  public get color2(): CFColor {
+    return this._color2;
   }
 
-  public get activeLevel(): number {
-    return this._activeLevel;
-  }
-
-  public get maxLevel(): number {
-    return this._maxLevel;
-  }
-
-  public get levelColors(): CFColor[] {
-    return this._levelColors;
+  public get color3(): CFColor {
+    return this._color3;
   }
 }

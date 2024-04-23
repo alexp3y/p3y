@@ -20,6 +20,8 @@ export class WhiteBloodCell extends ControllableElement {
   private _shield: CellShield;
   private _gun: CellGun;
 
+  private _pain = 0;
+
   constructor(dimensions: WindowDimensions) {
     super(
       dimensions.width / 3, // initial xPos
@@ -49,6 +51,13 @@ export class WhiteBloodCell extends ControllableElement {
   }
 
   override update(dims: WindowDimensions) {
+    if (this._pain > 0) {
+      console.log(this._pain);
+      this._pain--;
+    }
+    if (this._infectedViruses.length > 5) {
+      this.explode();
+    }
     super.update(dims);
     this._infectedViruses.forEach((v, i) => {
       if (v.docking) {
@@ -75,6 +84,7 @@ export class WhiteBloodCell extends ControllableElement {
   }
 
   infect(virus: Virus) {
+    this._pain = 10;
     virus.startInfection(this);
     this._infectedViruses.push(virus);
   }
@@ -98,5 +108,9 @@ export class WhiteBloodCell extends ControllableElement {
 
   public get gun(): CellGun {
     return this._gun;
+  }
+
+  public get pain(): number {
+    return this._pain;
   }
 }

@@ -20,13 +20,13 @@ export class Virus
   extends ExplodableElement
   implements Seekable, Restorable<Virus>
 {
-  public static RADIUS = 7;
+  public static RADIUS = 8;
   public static PLASMID_RADIUS = 2.5;
   private static DOCKING_SPEED = 0.1;
   private static ALPHA = 0.1;
   private static INJECTION_OFFSET = WhiteBloodCell.RADIUS;
-  private static MAX_VELOCITY = 1.3;
-  private static SEEK_ACCELERATION = 0.025;
+  private static MAX_VELOCITY = 2;
+  private static SEEK_ACCELERATION = 0.04;
 
   private _docking = false;
   private _dockQuadrant?: DockQuadrant;

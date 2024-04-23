@@ -2,11 +2,12 @@ import { LEVEL_LENGTH } from '../shared/level';
 import { NAVBAR_HEIGHT, WindowDimensions } from '../shared/window-dimensions';
 import { ControlType } from './control-type.enum';
 import { Controllable } from './controllable.interface';
+import { ExplodableElement } from './explodable-element';
 import { MovableElement } from './movable-element';
 import { Restorable } from './restorable.interface';
 
 export class ControllableElement
-  extends MovableElement
+  extends ExplodableElement
   implements Controllable, Restorable<ControllableElement>
 {
   private _maxVel = 2;

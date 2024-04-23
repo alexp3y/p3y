@@ -8,10 +8,10 @@ interface Props {
   resume: () => void;
 }
 
-const ColorfluMenu: React.FC<Props> = ({ engine, resume }) => {
+const ColorfluPauseMenu: React.FC<Props> = ({ engine, resume }) => {
   useEffect(() => {
     function handleKeydown(e: KeyboardEvent) {
-      if (e.key === ' ') {
+      if (e.key.toLowerCase() === 'enter') {
         resume();
       }
     }
@@ -24,4 +24,4 @@ const ColorfluMenu: React.FC<Props> = ({ engine, resume }) => {
   return <div className="bg-p3y-blue w-60 h-60 left-0">MENU</div>;
 };
 
-export default ColorfluMenu;
+export default ColorfluPauseMenu;
