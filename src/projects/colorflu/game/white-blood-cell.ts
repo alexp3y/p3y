@@ -50,15 +50,11 @@ export class WhiteBloodCell extends ControllableElement {
     super.restore(data);
   }
 
-  override update(dims: WindowDimensions) {
+  override update(clock: number, dims: WindowDimensions) {
     if (this._pain > 0) {
-      console.log(this._pain);
       this._pain--;
     }
-    if (this._infectedViruses.length > 5) {
-      this.explode();
-    }
-    super.update(dims);
+    super.update(clock, dims);
     this._infectedViruses.forEach((v, i) => {
       if (v.docking) {
         if (radialDistance(this, v) < this._radius - v.radius) {
@@ -74,7 +70,7 @@ export class WhiteBloodCell extends ControllableElement {
         v.update(dims, this);
       }
     });
-    this._shield.update(this);
+    this._shield.update(clock, this);
     this._gun.bullets
       .filter((b) => !b.isDestroyed())
       .forEach((b) => {
@@ -84,15 +80,20 @@ export class WhiteBloodCell extends ControllableElement {
   }
 
   infect(virus: Virus) {
-    this._pain = 10;
+    if (this._pain < 12) {
+      this._pain = 12;
+    }
     virus.startInfection(this);
     this._infectedViruses.push(virus);
   }
 
   override applyControl(control: ControlType): void {
     switch (control) {
-      case ControlType.SHOOT:
-        this._gun.fire(this._xPos + this._radius, this._yPos);
+      case ControlType.SHOOT_LEFT:
+        this._gun.shootLeft(this._xPos - this._radius, this._yPos);
+        break;
+      case ControlType.SHOOT_RIGHT:
+        this._gun.shootRight(this._xPos + this._radius, this._yPos);
         break;
     }
     super.applyControl(control);

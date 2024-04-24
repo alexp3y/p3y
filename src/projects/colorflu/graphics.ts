@@ -1,4 +1,5 @@
 import { ColorfluGame } from './game';
+import { SHIELD_COLORS } from './game/cell-shield';
 import { Cilium } from './game/cilium';
 import { ExplodableElement } from './game/explodable-element';
 import { PositionableElement } from './game/positionable-element';
@@ -67,7 +68,7 @@ export class ColorfluGraphics {
       .filter((v) => v.isExploded)
       .forEach((v) => this._renderExplodedElement(v));
     game.viruses
-      .filter((v) => !v.isDestroyed() && !v.infected)
+      .filter((v) => !v.isExploded() && !v.infected)
       .forEach((v, i) => this._renderVirus(v));
     game.startCilia.forEach((c, i) => {
       if (!(i % 2)) this._drawStartCilium(c);
@@ -86,29 +87,9 @@ export class ColorfluGraphics {
   }
 
   private _renderExplodedElement(el: ExplodableElement) {
-    let radIncrement = (2 * Math.PI) / ExplodableElement.FRAGMENT_SIZE;
+    let radIncrement = (2 * Math.PI) / ExplodableElement.INVERSE_FRAGMENT_SIZE;
     let fragmentStartRad = 0;
     let fragmentEndRad = radIncrement;
-    if (el.timeRemaining > ExplodableElement.EXPLOSION_DURATION / 2) {
-      this._drawRing(
-        el.xPos,
-        el.yPos,
-        el.radius,
-        this._hex2rgba(
-          el.explosionColor.hex,
-          1 - (1 - el.timeRemaining / ExplodableElement.EXPLOSION_DURATION)
-        )
-      );
-      this._drawCircle(
-        el.xPos,
-        el.yPos,
-        el.radius,
-        this._hex2rgba(
-          el.explosionColor.hex,
-          1 - (1 - el.timeRemaining / 2 / ExplodableElement.EXPLOSION_DURATION)
-        )
-      );
-    }
     el.explodedFragments.forEach((f) => {
       this._drawRing(
         f.xPos,
@@ -225,41 +206,62 @@ export class ColorfluGraphics {
   }
 
   private _renderCellShield(cell: WhiteBloodCell) {
+    let radThird = cell.radius + (cell.shield.radius - cell.radius) / 3;
+    let radTwoThirds =
+      cell.radius + (2 * (cell.shield.radius - cell.radius)) / 3;
     this._drawCircle(
       cell.shield.xPos,
       cell.shield.yPos,
       cell.shield.radius,
-      this._hex2rgba(palette.yellow.hex, 0.25),
+      this._hex2rgba(
+        palette.purple.hex,
+        cell.shield.power < 0
+          ? 0
+          : cell.shield.engaged
+          ? cell.shield.isHit()
+            ? 0.25
+            : 0.1
+          : 0.05
+      ),
       1
     );
-    if (cell.shield.active) {
+    this._drawRing(
+      cell.shield.xPos,
+      cell.shield.yPos,
+      cell.shield.radius,
+      this._hex2rgba(
+        cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
+        0.4
+      ),
+      1
+    );
+    this._drawRing(
+      cell.shield.xPos,
+      cell.shield.yPos,
+      radTwoThirds,
+      this._hex2rgba(
+        cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
+        0.4
+      ),
+      1
+    );
+    this._drawRing(
+      cell.shield.xPos,
+      cell.shield.yPos,
+      radThird,
+      this._hex2rgba(
+        cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
+        0.4
+      ),
+      1
+    );
+    if (cell.shield.engaged) {
       this._drawRing(
         cell.shield.xPos,
         cell.shield.yPos,
         cell.shield.radius,
-        this._hex2rgba(cell.shield.color3.hex, 0.99),
-        2,
-        cell.shield.startAngle,
-        cell.shield.endAngle -
-          (cell.shield.endAngle - cell.shield.startAngle / 2)
-      );
-      this._drawRing(
-        cell.shield.xPos,
-        cell.shield.yPos,
-        cell.radius + (2 * (cell.shield.radius - cell.radius)) / 3,
-        this._hex2rgba(cell.shield.color2.hex, 0.99),
-        2,
-        cell.shield.startAngle,
-        cell.shield.endAngle
-      );
-      this._drawRing(
-        cell.shield.xPos,
-        cell.shield.yPos,
-        cell.radius + (cell.shield.radius - cell.radius) / 3,
-        this._hex2rgba(cell.shield.color.hex, 0.99),
-        2,
-        cell.shield.startAngle,
-        cell.shield.endAngle
+        this._hex2rgba(SHIELD_COLORS[cell.shield.color1Index].hex, 0.3),
+        3
       );
     }
   }
@@ -354,25 +356,6 @@ export class ColorfluGraphics {
   }
 
   private _drawBg(levelProgress: number, scrollVelocity: number) {
-    // if (scrollVelocity != 0) {
-    //   // update gradient: 255 -> 0 (white -> black)
-    //   this._bgGradientBaseShade =
-    //     Math.floor(255 * (1 - levelProgress / LEVEL_LENGTH)) -
-    //     ColorfluGraphics.BG_GRADIENT_OFFSET;
-    //   this._bgGradientOffsetShade =
-    //     this._bgGradientBaseShade - ColorfluGraphics.BG_GRADIENT_OFFSET;
-    // }
-    // // draw gradient
-    // let gradient = this._ctx.createLinearGradient(0, 0, LEVEL_LENGTH, 0);
-    // gradient.addColorStop(
-    //   0,
-    //   this._makeColorFromShade(this._bgGradientBaseShade)
-    // );
-    // gradient.addColorStop(
-    //   1,
-    //   this._makeColorFromShade(this._bgGradientOffsetShade)
-    // );
-    // this._ctx.fillStyle = gradient;
     this._ctx.fillStyle = this._hex2rgba(palette.red.hex, 1);
     this._ctx.fillRect(0, 0, this._dimensions.width, this._dimensions.height);
     this._ctx.fillStyle = this._hex2rgba(colorWhite.hex, 0.95);

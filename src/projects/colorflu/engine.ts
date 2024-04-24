@@ -109,21 +109,16 @@ export class ColorfluEngine {
       case 'arrowright':
         this._game!.applyControl(ControlType.GO_RIGHT);
         break;
-      case 'w':
-        this._game!.applyControl(ControlType.SHIELD_TOP);
-        break;
       case 'a':
-        this._game!.applyControl(ControlType.SHIELD_LEFT);
+        this._game!.applyControl(ControlType.SHOOT_LEFT);
         break;
       case 's':
-        this._game!.applyControl(ControlType.SHIELD_BOTTOM);
+        this._game!.applyControl(ControlType.SHIELD);
         break;
       case 'd':
-        this._game!.applyControl(ControlType.SHIELD_RIGHT);
+        this._game!.applyControl(ControlType.SHOOT_RIGHT);
         break;
-      case 'f':
-      case ' ':
-        this._game!.applyControl(ControlType.SHOOT);
+      default:
         break;
     }
   }
@@ -143,17 +138,14 @@ export class ColorfluEngine {
       case 'arrowright':
         this._game!.releaseControl(ControlType.GO_RIGHT);
         break;
-      case 'w':
-        this._game!.releaseControl(ControlType.SHIELD_TOP);
-        break;
       case 'a':
-        this._game!.releaseControl(ControlType.SHIELD_LEFT);
+        this._game!.releaseControl(ControlType.SHOOT_LEFT);
         break;
       case 's':
-        this._game!.releaseControl(ControlType.SHIELD_BOTTOM);
+        this._game!.releaseControl(ControlType.SHIELD);
         break;
       case 'd':
-        this._game!.releaseControl(ControlType.SHIELD_RIGHT);
+        this._game!.releaseControl(ControlType.SHOOT_RIGHT);
         break;
     }
   }

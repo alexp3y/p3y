@@ -22,6 +22,11 @@ const ColorFlu: React.FC = () => {
   };
 
   useEffect(() => {
+    if (engine) {
+      console.log('yes engine');
+    } else {
+      console.log('no enigne');
+    }
     function handleResize(e: Event) {
       enj.handleResize(getWindowDimensions());
     }

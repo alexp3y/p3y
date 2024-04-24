@@ -1,9 +1,10 @@
+import { palette } from '../shared/palette';
 import { randomColor } from '../shared/random';
 import { CellWallType, Cilium } from './cilium';
 
 export class StartWallCilium extends Cilium {
   constructor(yPos) {
-    super(yPos, randomColor(), 80, CellWallType.START, 50);
+    super(yPos, palette.pink, 60, CellWallType.START, 100);
     this._xPos = 0;
   }
 

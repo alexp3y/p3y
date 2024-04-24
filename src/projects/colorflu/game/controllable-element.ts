@@ -26,7 +26,7 @@ export class ControllableElement
     }
   }
 
-  override update(dims: WindowDimensions) {
+  override update(clock: number, dims: WindowDimensions) {
     this._updateVelocity();
     this._enforceScreenLimit(dims);
     this._moveOrScroll(dims);

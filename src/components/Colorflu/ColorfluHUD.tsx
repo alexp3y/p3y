@@ -9,13 +9,15 @@ interface Props {
 
 const ColorfluHUD: React.FC<Props> = ({ engine }) => {
   const [counter, setCounter] = useState(0);
-  const [showHUD, setShowHUD] = useState(false);
+  const [showHUD, setShowHUD] = useState(true);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [width, setWidth] = useState(0);
   const [progress, setProgress] = useState(0);
   const [startShade, setStartShade] = useState(0);
   const [endShade, setEndShade] = useState(0);
+  const [virusCount, setVirusCount] = useState(0);
+  const [shield, setShield] = useState(0);
   useEffect(() => {
     setInterval(() => {
       setCounter(engine.clock);
@@ -25,6 +27,8 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
       setProgress(engine.game!.cell.progress);
       setStartShade(engine.graphics!.bgStartShade);
       setEndShade(engine.graphics!.bgEndShade);
+      setVirusCount(engine.game?.viruses.length);
+      setShield(engine.game?.cell.shield.power);
     }, 100);
   }, [engine]);
   return (
@@ -35,11 +39,6 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
           className="border text-p3y-gunmetal rounded-md bg-p3y-red p-0.5 px-1.5 opacity-80"
           onClick={() => {
             setShowHUD(!showHUD);
-            if (engine.paused) {
-              engine.resume();
-            } else {
-              engine.pause();
-            }
           }}
         >
           STATS
@@ -60,6 +59,8 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
           <span className="text-2xl text-p3y-red">
             Level Length: {LEVEL_LENGTH}
           </span>
+          <span className="text-2xl text-p3y-red">Viruses: {virusCount}</span>
+          <span className="text-2xl text-p3y-red">SHIELD: {shield}</span>
         </div>
       )}
     </div>

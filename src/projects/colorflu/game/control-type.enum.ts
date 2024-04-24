@@ -4,9 +4,7 @@ export enum ControlType {
   GO_LEFT,
   GO_UP,
   GO_DOWN,
-  SHIELD_RIGHT,
-  SHIELD_LEFT,
-  SHIELD_TOP,
-  SHIELD_BOTTOM,
-  SHOOT,
+  SHIELD,
+  SHOOT_LEFT,
+  SHOOT_RIGHT,
 }

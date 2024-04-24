@@ -4,8 +4,8 @@ import { Explodable } from './explodable.interface';
 import { MovableElement } from './movable-element';
 
 export class ExplodableElement extends MovableElement implements Explodable {
-  public static FRAGMENT_SIZE = 9;
-  public static FRAGMENT_COUNT = 20;
+  public static INVERSE_FRAGMENT_SIZE = 8;
+  public static FRAGMENT_COUNT = 15;
   public static EXPLOSION_DURATION = 150;
   private _exploded = false;
   private _explodedFragments: MovableElement[] = [];
@@ -21,7 +21,10 @@ export class ExplodableElement extends MovableElement implements Explodable {
         });
         super.update();
         this._timeRemaining--;
-        if (this._timeRemaining == 0) this._explodedFragments = [];
+        if (this._timeRemaining <= 0) {
+          this._explodedFragments = [];
+          this.destroy();
+        }
       }
     } else {
       super.update();
@@ -29,7 +32,6 @@ export class ExplodableElement extends MovableElement implements Explodable {
   }
 
   explode(): void {
-    this.destroy();
     this._exploded = true;
     for (let i = 0; i < ExplodableElement.FRAGMENT_COUNT; i++) {
       this._explodedFragments.push(

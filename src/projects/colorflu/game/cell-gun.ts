@@ -3,12 +3,12 @@ import { ExplodableElement } from './explodable-element';
 import { MovableElement } from './movable-element';
 
 export class CellGun {
-  private static BULLET_RADIUS = 5;
+  private static BULLET_RADIUS = 4;
   private static BULLET_VELOCITY = 7;
 
   private _bullets: MovableElement[] = [];
 
-  fire(xPos, yPos) {
+  shootRight(xPos, yPos) {
     this._bullets.push(
       new MovableElement(
         xPos,
@@ -17,6 +17,19 @@ export class CellGun {
         CellGun.BULLET_RADIUS,
         1,
         CellGun.BULLET_VELOCITY
+      )
+    );
+  }
+
+  shootLeft(xPos, yPos) {
+    this._bullets.push(
+      new MovableElement(
+        xPos,
+        yPos,
+        randomColor(),
+        CellGun.BULLET_RADIUS,
+        1,
+        -CellGun.BULLET_VELOCITY
       )
     );
   }

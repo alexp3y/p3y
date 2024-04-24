@@ -30,7 +30,7 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
       this.endCilia.push(new EndWallCilium(y, this._dimensions));
     }
     let z = 0;
-    while (z < 200) {
+    while (z < 100) {
       z++;
       this._viruses.push(new Virus(this._dimensions));
     }
@@ -51,10 +51,11 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
   }
 
   update(clock: number) {
-    if (clock % 50 === 0 && this._cell.progress < 150) {
-      this._viruses.push(new Virus(this._dimensions, 0));
-    }
-    this._cell.update(this._dimensions);
+    // if (clock % 50 === 0 && this._cell.progress < 150) {
+    //   this._viruses.push(new Virus(this._dimensions, 0));
+    // }
+    this._cell.update(clock, this._dimensions);
+    this._viruses = this._viruses.filter((v) => !v.isDestroyed());
     this._viruses
       .filter((v) => !v.infected)
       .forEach((v) => {
