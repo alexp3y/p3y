@@ -32,7 +32,7 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
     }, 100);
   }, [engine]);
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col p-4 items-end">
       <div className="flex items-center justify-between w-[280px]">
         <span className="text-2xl text-p3y-red">Clock: {counter}</span>
         <button

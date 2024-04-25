@@ -80,7 +80,7 @@ export class ColorfluEngine {
         } else {
           this._splashScreen.update(this._clock);
         }
-      }, 19);
+      }, 17);
     }
   };
 

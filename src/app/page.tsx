@@ -26,10 +26,9 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full text-4xl anta text-p3y-red flex flex-col pt-8 gap-y-2">
-            <span>{"Hi, I'm Alex Perry."}</span>
+            {/* <span>{"Hi, I'm Alex Perry."}</span> */}
             {/* <span>A Software Engineer</span>
             <span>based in Amsterdam.</span> */}
-            <span>This is my website.</span>
           </div>
         </div>
         <div className="flex flex-col w-full lato">

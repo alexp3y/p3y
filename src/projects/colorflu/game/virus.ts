@@ -24,7 +24,8 @@ export class Virus
   public static PLASMID_RADIUS = 2.5;
   private static DOCKING_SPEED = 0.1;
   private static ALPHA = 0.1;
-  private static INJECTION_OFFSET = WhiteBloodCell.RADIUS;
+  private static INJECTION_OFFSET =
+    WhiteBloodCell.RADIUS - Virus.PLASMID_RADIUS;
   private static MAX_VELOCITY = 2;
   private static SEEK_ACCELERATION = 0.04;
 
@@ -262,7 +263,7 @@ export class Virus
     this._yPos += this._yVelocity + host.yVelocity;
     if (
       radialDistance(host, this) >=
-      host.radius - 1.5 * Virus.PLASMID_RADIUS
+      host.radius / 1.5 - 1.5 * Virus.PLASMID_RADIUS
     ) {
       // reverse to just cell movement and change velocity
       this._xPos = prevX + host.xVelocity - this.xScrollVelocity;

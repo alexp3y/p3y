@@ -4,7 +4,7 @@ import { CellWallType, Cilium } from './cilium';
 
 export class StartWallCilium extends Cilium {
   constructor(yPos) {
-    super(yPos, palette.pink, 60, CellWallType.START, 100);
+    super(yPos, randomColor(), 60, CellWallType.START, 100);
     this._xPos = 0;
   }
 

@@ -1,13 +1,12 @@
 'use client';
 
 import { ColorfluEngine } from '@/projects/colorflu/engine';
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
-import NavBar from './NavBar';
 import { getWindowDimensions } from '@/projects/colorflu/shared/window-dimensions';
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import ColorfluHUD from './Colorflu/ColorfluHUD';
 import ColorfluPauseMenu from './Colorflu/ColorfluPauseMenu';
-import { ColorfluSavedGame } from '@/projects/colorflu/saved-game';
 import ColorfluStartMenu from './Colorflu/ColorfluStartMenu';
+import NavBar from './NavBar';
 
 const ColorFlu: React.FC = () => {
   const canvasRef = useRef(null);
@@ -64,7 +63,7 @@ const ColorFlu: React.FC = () => {
   return (
     <main>
       <NavBar />
-      <div className="absolute right-0 w-screen h-fit">
+      <div className="absolute w-screen h-fit">
         {engine && !started && (
           <ColorfluStartMenu
             engine={engine}
