@@ -1,6 +1,6 @@
 import { CFColor, colorBlack, palette } from '../shared/palette';
 import { randomBetween, randomColor, randomVelocity } from '../shared/random';
-import { Explodable } from './explodable.interface';
+import { Explodable } from './interface/explodable.interface';
 import { MovableElement } from './movable-element';
 
 export class ExplodableElement extends MovableElement implements Explodable {

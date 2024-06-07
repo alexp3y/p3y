@@ -9,7 +9,7 @@ interface Props {
 
 const ColorfluHUD: React.FC<Props> = ({ engine }) => {
   const [counter, setCounter] = useState(0);
-  const [showHUD, setShowHUD] = useState(true);
+  const [showHUD, setShowHUD] = useState(false);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [width, setWidth] = useState(0);

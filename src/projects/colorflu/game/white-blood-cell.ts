@@ -11,7 +11,7 @@ import { ControllableElement } from './controllable-element';
 import { Virus } from './virus';
 
 export class WhiteBloodCell extends ControllableElement {
-  public static RADIUS = 25;
+  public static RADIUS = 40;
   private static MAX_VELOCITY = 3;
   private static COLOR = palette.pink;
   private static ALPHA = 1;
@@ -71,6 +71,7 @@ export class WhiteBloodCell extends ControllableElement {
       }
     });
     this._shield.update(clock, this);
+    this._gun.update();
     this._gun.bullets
       .filter((b) => !b.isDestroyed())
       .forEach((b) => {

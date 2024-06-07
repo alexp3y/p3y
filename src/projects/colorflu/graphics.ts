@@ -1,5 +1,6 @@
+import { M_PLUS_1 } from 'next/font/google';
 import { ColorfluGame } from './game';
-import { SHIELD_COLORS } from './game/cell-shield';
+import { CellShield, SHIELD_COLORS } from './game/cell-shield';
 import { Cilium } from './game/cilium';
 import { ExplodableElement } from './game/explodable-element';
 import { PositionableElement } from './game/positionable-element';
@@ -8,6 +9,12 @@ import { WhiteBloodCell } from './game/white-blood-cell';
 import { CFColor, colorBlack, colorWhite, palette } from './shared/palette';
 import { NAVBAR_HEIGHT, WindowDimensions } from './shared/window-dimensions';
 import { ColorfluSplashScreen } from './splash-screen';
+import {
+  BottomCilium,
+  CiliumLocation,
+  CiliumSize,
+} from './game/bottom-cillium';
+import { MonsterCell } from './game/monster-cell';
 
 export class ColorfluGraphics {
   private static BG_GRADIENT_OFFSET = 0;
@@ -63,6 +70,12 @@ export class ColorfluGraphics {
     this._clearScreen();
     this._drawBg(game.cell.progress, game.cell.xScrollVelocity);
     game.redBloodCells.forEach((v, i) => this._renderRedBloodCell(v));
+    this._drawCircle(
+      game.monsterCell.xPos,
+      game.monsterCell.yPos,
+      game.monsterCell.radius,
+      colorWhite.hex
+    );
     this._renderCellShield(game.cell);
     game.viruses
       .filter((v) => v.isExploded)
@@ -70,42 +83,156 @@ export class ColorfluGraphics {
     game.viruses
       .filter((v) => !v.isExploded() && !v.infected)
       .forEach((v, i) => this._renderVirus(v));
-    game.startCilia.forEach((c, i) => {
-      if (!(i % 2)) this._drawStartCilium(c);
+    game.bottomCilia.forEach((c, i) => {
+      if (!(i % 2)) this._drawCilium(c);
     });
-    game.endCilia.forEach((c, i) => {
-      if (!(i % 2)) this._drawEndCilium(c);
+    game.topCilia.forEach((c, i) => {
+      if (!(i % 2)) this._drawCilium(c);
     });
     // white blood cell
     this._renderWhiteBloodCell(game.cell);
-    game.startCilia.forEach((c, i) => {
-      if (i % 2) this._drawStartCilium(c);
+    this._renderSpikes(game.monsterCell, 10, colorBlack, 10);
+    this._drawRing(
+      game.monsterCell.xPos,
+      game.monsterCell.yPos,
+      game.monsterCell.radius,
+      colorBlack.hex
+    );
+    this._drawCircle(
+      game.monsterCell.xPos,
+      game.monsterCell.yPos,
+      game.monsterCell.radius,
+      this._hex2rgba(colorWhite.hex, 0.3)
+    );
+    game.bottomCilia.forEach((c, i) => {
+      if (i % 2) this._drawCilium(c);
     });
-    game.endCilia.forEach((c, i) => {
-      if (i % 2) this._drawEndCilium(c);
+    game.topCilia.forEach((c, i) => {
+      if (i % 2) this._drawCilium(c);
     });
-    if (game.cell.shield.power > 0) {
+    this._renderHealthMeter(60, game.cell.shield);
+    this._renderShieldMeter(120, game.cell.shield);
+    this._renderAmmoMeter(180, game.cell.shield);
+  }
+
+  private _renderShieldMeter(xPos: number, shield: CellShield) {
+    this._roundedRect(
+      xPos,
+      25,
+      35,
+      100,
+      4 * Math.PI,
+      4 * Math.PI,
+      colorWhite,
+      1,
+      true
+    );
+    if (shield.power >= 4) {
       this._roundedRect(
-        85,
-        25 + 100 - game.cell.shield.power,
+        xPos,
+        25 + 100 - shield.power,
         35,
-        game.cell.shield.power,
-        game.cell.shield.power < 95
-          ? game.cell.shield.power < 10
+        shield.power,
+        shield.power < 95
+          ? shield.power < 90
             ? Math.PI
             : 1.5 * Math.PI
-          : 3 * Math.PI,
-        palette.pink,
+          : 4 * Math.PI,
+        4 * Math.PI,
+        palette.blue,
+        0.7,
         true
       );
-      this._roundedRect(85, 25, 35, 100, 3 * Math.PI, colorBlack);
+      this._roundedRect(
+        xPos,
+        25,
+        35,
+        100,
+        5 * Math.PI,
+        5 * Math.PI,
+        colorBlack,
+        1
+      );
     } else {
-      this._roundedRect(85, 25, 35, 100, 3 * Math.PI, palette.red, true);
-      this._roundedRect(85, 25, 35, 100, 3 * Math.PI, palette.red);
+      this._roundedRect(
+        xPos,
+        25,
+        35,
+        100,
+        4 * Math.PI,
+        4 * Math.PI,
+        palette.red,
+        Math.abs(shield.power / 100) + 0.2,
+        true
+      );
+      this._roundedRect(
+        xPos,
+        25,
+        35,
+        100,
+        5 * Math.PI,
+        5 * Math.PI,
+        colorBlack,
+        1
+      );
     }
     this._ctx.fillStyle = colorBlack.hex;
-    this._ctx.font = '15px anta';
-    this._ctx.fillText('SHIELD', 77, 145);
+    this._ctx.font = '12px anta';
+    this._ctx.fillText('SHIELD', xPos - 2, 142);
+  }
+
+  private _renderAmmoMeter(xPos: number, shield: CellShield) {
+    this._roundedRect(
+      xPos,
+      25,
+      35,
+      100,
+      4 * Math.PI,
+      4 * Math.PI,
+      palette.green,
+      1,
+      true
+    );
+    this._roundedRect(
+      xPos,
+      25,
+      35,
+      100,
+      5 * Math.PI,
+      5 * Math.PI,
+      colorBlack,
+      1
+    );
+    this._ctx.fillStyle = colorBlack.hex;
+    this._ctx.font = '12px anta';
+    this._ctx.fillText('AMMO', xPos, 142);
+  }
+
+  private _renderHealthMeter(xPos: number, shield: CellShield) {
+    this._roundedRect(
+      xPos,
+      25,
+      35,
+      100,
+      4 * Math.PI,
+      4 * Math.PI,
+      palette.maroon,
+      1,
+      true
+    );
+    this._roundedRect(
+      xPos,
+      25,
+      35,
+      100,
+      5 * Math.PI,
+      5 * Math.PI,
+      colorBlack,
+      1
+    );
+    this._ctx.fillStyle = colorBlack.hex;
+    this._ctx.font = '12px anta';
+    this._ctx.fillText('HEALTH', xPos - 4, 142);
   }
 
   private _roundedRect(
@@ -113,28 +240,30 @@ export class ColorfluGraphics {
     y: number,
     width: number,
     height: number,
-    radius: number,
+    radiusTop: number,
+    radiusBottom: number,
     color: CFColor,
-    fill?
+    alpha: number,
+    fill?: boolean
   ) {
     this._ctx.beginPath();
-    this._ctx.moveTo(x, y + radius);
-    this._ctx.arcTo(x, y + height, x + radius, y + height, radius);
+    this._ctx.moveTo(x, y + radiusTop);
+    this._ctx.arcTo(x, y + height, x + radiusBottom, y + height, radiusBottom);
     this._ctx.arcTo(
       x + width,
       y + height,
       x + width,
-      y + height - radius,
-      radius
+      y + height - radiusBottom,
+      radiusBottom
     );
-    this._ctx.arcTo(x + width, y, x + width - radius, y, radius);
-    this._ctx.arcTo(x, y, x, y + radius, radius);
-    this._ctx.lineWidth = 2;
+    this._ctx.arcTo(x + width, y, x + width - radiusTop, y, radiusTop);
+    this._ctx.arcTo(x, y, x, y + radiusTop, radiusTop);
+    this._ctx.lineWidth = 1.5;
     if (fill) {
-      this._ctx.fillStyle = this._hex2rgba(color.hex, 0.35);
+      this._ctx.fillStyle = this._hex2rgba(color.hex, alpha);
       this._ctx.fill();
     } else {
-      this._ctx.strokeStyle = color.hex;
+      this._ctx.strokeStyle = this._hex2rgba(color.hex, alpha);
       this._ctx.stroke();
     }
   }
@@ -148,8 +277,8 @@ export class ColorfluGraphics {
         f.xPos,
         f.yPos,
         f.radius,
-        f.color.hex,
-        1,
+        this._hex2rgba(f.color.hex, 0.8),
+        1.5,
         fragmentEndRad,
         fragmentStartRad
       );
@@ -237,25 +366,107 @@ export class ColorfluGraphics {
           this._hex2rgba(colorBlack.hex, 0.8),
           1
         );
+        this._renderPlasmidSpikes(v, 1, colorBlack, 50);
       });
     cell.gun.bullets
       .filter((b) => !b.isDestroyed())
       .forEach((b) => {
+        // this._ctx.fillStyle = this._hex2rgba(b.color.hex, 1);
+        // this._ctx.fillRect(b.xPos - b.radius, b.yPos - 4, 6, 2);
+        // this._ctx.strokeStyle = this._hex2rgba(b.color.hex, 1);
+        // this._ctx.lineWidth = 1;
+        // this._ctx.beginPath();
+        // this._ctx.moveTo(b.xPos - b.radius + 8, b.yPos - 2);
+        // this._ctx.lineTo(b.xPos - b.radius + 17, b.yPos - 10);
+        // this._ctx.moveTo(b.xPos - b.radius + 8, b.yPos - 2);
+        // this._ctx.lineTo(b.xPos - b.radius + 17, b.yPos + 6);
+        // this._ctx.stroke();
         this._drawCircle(
           b.xPos,
           b.yPos,
           b.radius,
-          this._hex2rgba(b.color.hex, 1.0),
+          this._hex2rgba(b.color.hex, 0.5),
           1
         );
+        // this._ctx.fillStyle = this._hex2rgba(colorBlack.hex, 1);
+        // this._ctx.strokeStyle = this._hex2rgba(colorBlack.hex, 1);
         this._drawRing(
           b.xPos,
           b.yPos,
           b.radius,
-          this._hex2rgba('#000000', 0.5),
+          this._hex2rgba('#000000', 1),
           1
         );
       });
+    //alex
+    this._ctx.lineWidth = 1.5;
+    this._ctx.strokeStyle = this._hex2rgba('#c46c92', 1);
+    // this._ctx.fillStyle = this._hex2rgba(palette.green.hex, 0.1);
+    this._ctx.fillStyle = cell.gun.recoilLeft
+      ? this._hex2rgba(palette.pink.hex, cell.gun.recoilLeft / 8 + 0.1)
+      : this._hex2rgba(palette.pink.hex, 0.4);
+    this._ctx.strokeRect(
+      cell.xPos - cell.radius - 2 - cell.gun.recoilLeft,
+      cell.yPos - 4,
+      2 + cell.gun.recoilLeft,
+      9
+    );
+    this._ctx.fillRect(
+      cell.xPos - cell.radius - 2 - cell.gun.recoilLeft,
+      cell.yPos - 4,
+      2 + cell.gun.recoilLeft,
+      9
+    );
+    this._ctx.fillStyle = cell.gun.recoilRight
+      ? this._hex2rgba(palette.pink.hex, cell.gun.recoilRight / 8 + 0.1)
+      : this._hex2rgba(palette.pink.hex, 0.4);
+    this._ctx.strokeRect(
+      cell.xPos + cell.radius,
+      cell.yPos - 4,
+      2 + cell.gun.recoilRight,
+      9
+    );
+    this._ctx.fillRect(
+      cell.xPos + cell.radius,
+      cell.yPos - 4,
+      2 + cell.gun.recoilRight,
+      9
+    );
+
+    if (cell.gun.recoilRight) {
+      this._drawPartialCircle(
+        cell.xPos + cell.radius + 25,
+        cell.yPos - 10,
+        15,
+        this._hex2rgba(palette.red.hex, cell.gun.recoilRight / 8 - 0.3),
+        Math.PI / 5,
+        (4 * Math.PI) / 5
+      );
+      this._drawPartialCircle(
+        cell.xPos + cell.radius + 25,
+        cell.yPos + 10,
+        15,
+        this._hex2rgba(palette.red.hex, cell.gun.recoilRight / 10 - 0.3),
+        -(4 * Math.PI) / 5,
+        -Math.PI / 5
+      );
+      this._drawPartialCircle(
+        cell.xPos + cell.radius + 25,
+        cell.yPos - 10,
+        14,
+        this._hex2rgba(palette.yellow.hex, cell.gun.recoilRight / 10 - 0.4),
+        Math.PI / 5,
+        (4 * Math.PI) / 5
+      );
+      this._drawPartialCircle(
+        cell.xPos + cell.radius + 25,
+        cell.yPos + 10,
+        14,
+        this._hex2rgba(palette.yellow.hex, cell.gun.recoilRight / 10 - 0.4),
+        -(4 * Math.PI) / 5,
+        -Math.PI / 5
+      );
+    }
   }
 
   private _renderCellShield(cell: WhiteBloodCell) {
@@ -284,30 +495,30 @@ export class ColorfluGraphics {
       cell.shield.radius,
       this._hex2rgba(
         cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
-        0.4
+        0.6
       ),
       1
     );
-    this._drawRing(
-      cell.shield.xPos,
-      cell.shield.yPos,
-      radTwoThirds,
-      this._hex2rgba(
-        cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
-        0.4
-      ),
-      1
-    );
-    this._drawRing(
-      cell.shield.xPos,
-      cell.shield.yPos,
-      radThird,
-      this._hex2rgba(
-        cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
-        0.4
-      ),
-      1
-    );
+    // this._drawRing(
+    //   cell.shield.xPos,
+    //   cell.shield.yPos,
+    //   radTwoThirds,
+    //   this._hex2rgba(
+    //     cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
+    //     0.6
+    //   ),
+    //   1
+    // );
+    // this._drawRing(
+    //   cell.shield.xPos,
+    //   cell.shield.yPos,
+    //   radThird,
+    //   this._hex2rgba(
+    //     cell.shield.power < 0 ? palette.red.hex : palette.pink.hex,
+    //     0.6
+    //   ),
+    //   1
+    // );
     if (cell.shield.engaged) {
       this._drawRing(
         cell.shield.xPos,
@@ -320,7 +531,7 @@ export class ColorfluGraphics {
   }
 
   private _drawStartCilium(cilium: Cilium): void {
-    let ctrlPointLength = Math.floor(cilium.radius / 3);
+    let ctrlPointLength = Math.floor(cilium.radius / 2);
     this._ctx.beginPath();
     this._ctx.moveTo(Math.floor(cilium.xPos), Math.floor(cilium.yPos));
     this._ctx.bezierCurveTo(
@@ -331,8 +542,71 @@ export class ColorfluGraphics {
       cilium.xPos + cilium.radius, //endx
       cilium.yPos + cilium.drift //endy
     );
-    this._ctx.lineWidth = 1.5;
-    this._ctx.strokeStyle = cilium.color.hex;
+    this._ctx.lineWidth = 1;
+    this._ctx.strokeStyle = this._hex2rgba(cilium.color.hex, 0.7);
+    this._ctx.stroke();
+  }
+
+  private _drawCilium(cilium: BottomCilium): void {
+    let ctrlPointLength = Math.floor(cilium.radius / 2);
+    this._ctx.beginPath();
+    this._ctx.moveTo(Math.floor(cilium.xPos), Math.floor(cilium.yPos));
+    this._ctx.bezierCurveTo(
+      cilium.xPos - cilium.amplitude, //cp1x
+      cilium.yPos +
+        (cilium.location === CiliumLocation.TOP
+          ? ctrlPointLength
+          : -ctrlPointLength), //cp1y
+      cilium.xPos + cilium.amplitude, //cp2x
+      cilium.yPos +
+        (cilium.location === CiliumLocation.TOP
+          ? 2 * ctrlPointLength
+          : -2 * ctrlPointLength), //cp2y
+      cilium.xPos + cilium.drift, //endx
+      cilium.yPos +
+        (cilium.location === CiliumLocation.TOP
+          ? cilium.radius
+          : -cilium.radius) //endy
+    );
+    this._ctx.lineWidth = cilium.size === CiliumSize.BIG ? 3 : 2;
+    this._ctx.strokeStyle = this._hex2rgba(
+      cilium.color.hex,
+      cilium.size === CiliumSize.BIG ? 0.7 : 0.9
+    );
+    this._ctx.stroke();
+  }
+
+  private _drawTopCilium(cilium: BottomCilium): void {
+    let ctrlPointLength = Math.floor(cilium.radius / 2);
+    this._ctx.beginPath();
+    this._ctx.moveTo(Math.floor(cilium.xPos), Math.floor(cilium.yPos));
+    this._ctx.bezierCurveTo(
+      cilium.xPos - cilium.amplitude, //cpx
+      cilium.yPos + ctrlPointLength, //cp1x
+      cilium.xPos + cilium.amplitude, //cp2y
+      cilium.yPos + 2 * ctrlPointLength, //cp2
+      cilium.xPos + cilium.drift, //endy
+      cilium.yPos + cilium.radius //endx
+    );
+    this._ctx.lineWidth = cilium.color.hex === palette.orange.hex ? 2 : 3;
+    this._ctx.strokeStyle = this._hex2rgba(cilium.color.hex, 0.7);
+    this._ctx.stroke();
+  }
+
+  private _drawBottomCilium(cilium: BottomCilium): void {
+    let ctrlPointLength = Math.floor(cilium.radius / 2);
+    this._ctx.beginPath();
+    this._ctx.moveTo(Math.floor(cilium.xPos), Math.floor(cilium.yPos));
+    this._ctx.bezierCurveTo(
+      cilium.xPos - cilium.amplitude, //cpx
+      cilium.yPos - ctrlPointLength, //cp1x
+      cilium.xPos + cilium.amplitude, //cp2y
+      cilium.yPos - 2 * ctrlPointLength, //cp2
+      cilium.xPos + cilium.drift, //endy
+      cilium.yPos - cilium.radius //endx
+    );
+    this._ctx.lineWidth = cilium.color.hex === palette.orange.hex ? 2 : 3;
+    this._ctx.strokeStyle = this._hex2rgba(cilium.color.hex, 0.7);
     this._ctx.stroke();
   }
 
@@ -349,7 +623,7 @@ export class ColorfluGraphics {
       cilium.yPos + cilium.drift //endy
     );
     this._ctx.lineWidth = 1.5;
-    this._ctx.strokeStyle = cilium.color.hex;
+    this._ctx.strokeStyle = this._hex2rgba(cilium.color.hex, 0.7);
     this._ctx.stroke();
   }
 
@@ -358,21 +632,12 @@ export class ColorfluGraphics {
   }
 
   private _renderRedBloodCell(el: PositionableElement) {
-    if (el.radius < 300) {
-      this._drawCircle(
-        el.xPos,
-        el.yPos,
-        el.radius,
-        this._hex2rgba(el.color.hex, el.alpha)
-      );
-    } else {
-      this._drawRing(
-        el.xPos,
-        el.yPos,
-        el.radius,
-        this._hex2rgba(el.color.hex, 1)
-      );
-    }
+    this._drawCircle(
+      el.xPos,
+      el.yPos,
+      el.radius,
+      this._hex2rgba(palette.blue.hex, el.alpha)
+    );
   }
 
   private _renderDockingVirusInjection(virus: Virus) {
@@ -391,27 +656,86 @@ export class ColorfluGraphics {
       virus.radius,
       this._hex2rgba(virus.color.hex, virus.isSeeking() ? 0.75 : virus.alpha)
     );
+    this._renderSpikes(virus, virus.docking ? 4 : 4, colorBlack);
+    this._drawRing(virus.xPos, virus.yPos, virus.radius, colorBlack.hex, 1);
+  }
+
+  private _renderPlasmidSpikes(
+    el: PositionableElement,
+    spikeLength: number,
+    color: CFColor,
+    degreeGap = 30
+  ) {
     let degree = 0;
+    let radius = Virus.PLASMID_RADIUS;
     while (degree < 360) {
       let rad = degree * (Math.PI / 180);
-      let spikeXFrom = virus.xPos + Math.cos(rad) * virus.radius;
-      let spikeYFrom = virus.yPos + Math.sin(rad) * virus.radius;
-      let spikeXTo = virus.xPos + Math.cos(rad) * (virus.radius + 4);
-      let spikeYTo = virus.yPos + Math.sin(rad) * (virus.radius + 4);
+      let spikeXFrom = el.xPos + Math.cos(rad) * radius;
+      let spikeYFrom = el.yPos + Math.sin(rad) * radius;
+      let spikeXTo = el.xPos + Math.cos(rad) * (radius + spikeLength);
+      let spikeYTo = el.yPos + Math.sin(rad) * (radius + spikeLength);
       this._ctx.beginPath();
       this._ctx.moveTo(spikeXFrom, spikeYFrom);
       this._ctx.lineTo(spikeXTo, spikeYTo);
-      this._ctx.strokeStyle = virus.color.hex;
+      this._ctx.strokeStyle = color.hex;
+      this._ctx.lineWidth = 1;
       this._ctx.stroke();
-      degree += 30;
+      degree += degreeGap;
     }
-    this._drawRing(virus.xPos, virus.yPos, virus.radius, '#000000', 1);
+  }
+
+  private _renderSpikes(
+    el: PositionableElement,
+    spikeLength: number,
+    color: CFColor,
+    degreeGap = 30
+  ) {
+    let degree = 0;
+    let radius = el.radius;
+    while (degree < 360) {
+      let rad = degree * (Math.PI / 180);
+      let spikeXFrom = el.xPos + Math.cos(rad) * radius;
+      let spikeYFrom = el.yPos + Math.sin(rad) * radius;
+      let spikeXTo = el.xPos + Math.cos(rad) * (radius + spikeLength);
+      let spikeYTo = el.yPos + Math.sin(rad) * (radius + spikeLength);
+      this._ctx.beginPath();
+      this._ctx.moveTo(spikeXFrom, spikeYFrom);
+      this._ctx.lineTo(spikeXTo, spikeYTo);
+      this._ctx.strokeStyle = color.hex;
+      this._ctx.lineWidth = 1;
+      this._ctx.stroke();
+      degree += degreeGap;
+    }
+  }
+
+  private _renderWavySpikes(
+    el: MonsterCell,
+    spikeLength: number,
+    color: CFColor,
+    degreeGap = 30
+  ) {
+    let degree = 0;
+    let radius = el.radius;
+    while (degree < 360) {
+      let rad = degree * (Math.PI / 180);
+      let spikeXFrom = el.xPos + Math.cos(rad) * radius;
+      let spikeYFrom = el.yPos + Math.sin(rad) * radius;
+      let spikeXTo = el.xPos + Math.cos(rad) * (radius + spikeLength);
+      let spikeYTo = el.yPos + Math.sin(rad) * (radius + spikeLength);
+      this._ctx.beginPath();
+      this._ctx.moveTo(spikeXFrom, spikeYFrom);
+      this._ctx.lineTo(spikeXTo, spikeYTo);
+      this._ctx.strokeStyle = color.hex;
+      this._ctx.lineWidth = 1;
+      this._ctx.stroke();
+      degree += degreeGap;
+    }
   }
 
   private _drawBg(levelProgress: number, scrollVelocity: number) {
-    this._ctx.fillStyle = this._hex2rgba(palette.red.hex, 1);
+    this._ctx.fillStyle = this._hex2rgba(colorWhite.hex, 0.75);
     this._ctx.fillRect(0, 0, this._dims.width, this._dims.height);
-    this._ctx.fillStyle = this._hex2rgba(colorWhite.hex, 0.95);
+    // this._ctx.fillStyle = this._hex2rgba(palette.black.hex, 0);
     this._ctx.fillRect(0, 0, this._dims.width, this._dims.height);
   }
 
@@ -420,6 +744,13 @@ export class ColorfluGraphics {
     this._ctx.fillStyle = color;
     this._ctx.beginPath();
     this._ctx.arc(x, y, r, 0, 2 * Math.PI, anti);
+    this._ctx.fill();
+  }
+
+  private _drawPartialCircle(x, y, r, color, startAngle, endAngle) {
+    this._ctx.fillStyle = color;
+    this._ctx.beginPath();
+    this._ctx.arc(x, y, r, startAngle, endAngle, false);
     this._ctx.fill();
   }
 

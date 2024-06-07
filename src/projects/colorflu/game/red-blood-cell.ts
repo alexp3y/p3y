@@ -10,9 +10,9 @@ import { WindowDimensions } from '../shared/window-dimensions';
 import { MovableElement } from './movable-element';
 
 export class RedBloodCell extends MovableElement {
-  private static RADIUS_MIN = 4;
-  private static RADIUS_MAX = 150;
-  private static ALPHA = 0.05;
+  private static RADIUS_MIN = 20;
+  private static RADIUS_MAX = 120;
+  private static ALPHA = 0.04;
   private _maxWidth: number;
 
   constructor(dimensions: WindowDimensions, spawnWidth: number = LEVEL_LENGTH) {

@@ -1,4 +1,4 @@
-import { PositionableElement } from './positionable-element';
+import { PositionableElement } from '../positionable-element';
 
 export interface Seekable {
   isInRange(target: PositionableElement): boolean;

@@ -1,0 +1,3 @@
+interface Updatabale {
+  update();
+}

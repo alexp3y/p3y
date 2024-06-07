@@ -28,8 +28,7 @@ const ColorfluStartMenu: React.FC<Props> = ({ engine, start }) => {
         <ColorfluTitleBar />
       </div>
       <div className="flex anta flex-col text-[24px]">
-        <span className="text-[#f28cb8]">▶</span>
-        <button onClick={() => start()}>NEW GAME ◀</button>
+        <button onClick={() => start()}>▶ NEW GAME ◀</button>
         <button onClick={() => start()}>OPTIONS</button>
         <button onClick={() => start()}>CONTROLS</button>
       </div>

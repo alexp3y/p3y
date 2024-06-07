@@ -1,8 +1,12 @@
 import { CFColor } from '../shared/palette';
 import { radialDistance } from '../shared/radial-distance';
-import { Restorable } from './restorable.interface';
+import { GameElement } from './game-element';
+import { Restorable } from './interface/restorable.interface';
 
-export class PositionableElement implements Restorable<PositionableElement> {
+export class PositionableElement
+  extends GameElement
+  implements Restorable<PositionableElement>
+{
   protected _xScrollVelocity: number = 0;
 
   constructor(
@@ -11,10 +15,11 @@ export class PositionableElement implements Restorable<PositionableElement> {
     protected _color: CFColor,
     protected _radius: number,
     protected _alpha = 1
-  ) {}
+  ) {
+    super();
+  }
 
   restore(data: PositionableElement) {
-    console.log('postion restored');
     this._xPos = data._xPos;
     this._yPos = data._yPos;
     this._color = data._color;

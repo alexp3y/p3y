@@ -8,10 +8,10 @@ import {
 } from '../shared/random';
 import { WindowDimensions } from '../shared/window-dimensions';
 import { ExplodableElement } from './explodable-element';
+import { Restorable } from './interface/restorable.interface';
+import { Seekable } from './interface/seekable.interface';
 import { MovableElement } from './movable-element';
 import { PositionableElement } from './positionable-element';
-import { Restorable } from './restorable.interface';
-import { Seekable } from './seekable.interface';
 import { WhiteBloodCell } from './white-blood-cell';
 
 type DockQuadrant = 'Q1' | 'Q2' | 'Q3' | 'Q4';
@@ -21,11 +21,11 @@ export class Virus
   implements Seekable, Restorable<Virus>
 {
   public static RADIUS = 8;
-  public static PLASMID_RADIUS = 2.5;
+  public static PLASMID_RADIUS = 3;
   private static DOCKING_SPEED = 0.1;
   private static ALPHA = 0.1;
   private static INJECTION_OFFSET =
-    WhiteBloodCell.RADIUS - Virus.PLASMID_RADIUS;
+    WhiteBloodCell.RADIUS - Virus.PLASMID_RADIUS * 3;
   private static MAX_VELOCITY = 2;
   private static SEEK_ACCELERATION = 0.04;
 
@@ -237,7 +237,7 @@ export class Virus
   private _determineDockingAngle(host: WhiteBloodCell): number {
     let xDelta = Math.abs(host.xPos - this._xPos);
     let yDelta = Math.abs(host.yPos - this._yPos);
-    return Math.atan(yDelta / xDelta);
+    return Math.atan2(yDelta, xDelta);
   }
 
   private _determineDockQuadrant(host: WhiteBloodCell) {

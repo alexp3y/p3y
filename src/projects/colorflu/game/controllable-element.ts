@@ -1,10 +1,10 @@
 import { LEVEL_LENGTH } from '../shared/level';
 import { NAVBAR_HEIGHT, WindowDimensions } from '../shared/window-dimensions';
 import { ControlType } from './control-type.enum';
-import { Controllable } from './controllable.interface';
+import { Controllable } from './interface/controllable.interface';
 import { ExplodableElement } from './explodable-element';
 import { MovableElement } from './movable-element';
-import { Restorable } from './restorable.interface';
+import { Restorable } from './interface/restorable.interface';
 
 export class ControllableElement
   extends ExplodableElement
@@ -27,7 +27,7 @@ export class ControllableElement
   }
 
   override update(clock: number, dims: WindowDimensions) {
-    this._updateVelocity();
+    this._updateVelocity(clock);
     this._enforceScreenLimit(dims);
     this._moveOrScroll(dims);
     this._updateProgress(dims);
@@ -106,29 +106,37 @@ export class ControllableElement
     }
   }
 
-  private _updateVelocity() {
+  private _updateVelocity(clock: number) {
     if (!this._goRight && !this._goLeft) {
       // auto-decelerate X
-      if (this._xVelocity > 0) this._xVelocity--;
-      if (this._xVelocity < 0) this._xVelocity++;
-    } else {
-      if (this._goRight && this._xVelocity < this._maxVel) {
-        this._xVelocity++;
+      if (clock % 5 == 0) {
+        if (this._xVelocity > 0) this._xVelocity--;
+        if (this._xVelocity < 0) this._xVelocity++;
       }
-      if (this._goLeft && this._xVelocity > this._minVel) {
-        this._xVelocity--;
+    } else {
+      if (clock % 3 == 0) {
+        if (this._goRight && this._xVelocity < this._maxVel) {
+          this._xVelocity++;
+        }
+        if (this._goLeft && this._xVelocity > this._minVel) {
+          this._xVelocity--;
+        }
       }
     }
     if (!this._goUp && !this._goDown) {
       // auto-decelerate Y
-      if (this._yVelocity > 0) this._yVelocity--;
-      if (this._yVelocity < 0) this._yVelocity++;
-    } else {
-      if (this._goDown && this._yVelocity < this._maxVel) {
-        this._yVelocity++;
+      if (clock % 5 == 0) {
+        if (this._yVelocity > 0) this._yVelocity--;
+        if (this._yVelocity < 0) this._yVelocity++;
       }
-      if (this._goUp && this._yVelocity > this._minVel) {
-        this._yVelocity--;
+    } else {
+      if (clock % 3 == 0) {
+        if (this._goDown && this._yVelocity < this._maxVel) {
+          this._yVelocity++;
+        }
+        if (this._goUp && this._yVelocity > this._minVel) {
+          this._yVelocity--;
+        }
       }
     }
   }

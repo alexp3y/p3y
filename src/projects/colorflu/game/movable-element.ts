@@ -1,4 +1,4 @@
-import { Destroyable } from './destroyable.interface';
+import { Destroyable } from './interface/destroyable.interface';
 import { PositionableElement } from './positionable-element';
 
 export class MovableElement extends PositionableElement implements Destroyable {

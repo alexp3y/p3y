@@ -21,7 +21,13 @@ const ColorfluPauseMenu: React.FC<Props> = ({ engine, resume }) => {
     };
   }, []);
 
-  return <div className="bg-p3y-blue w-60 h-60 left-0">MENU</div>;
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="bg-p3y-blue w-60 h-60 left-0 flex justify-center items-center">
+        PAUSED
+      </div>
+    </div>
+  );
 };
 
 export default ColorfluPauseMenu;

@@ -1,4 +1,4 @@
-import { ControlType } from './control-type.enum';
+import { ControlType } from '../control-type.enum';
 
 export interface Controllable {
   applyControl(control: ControlType);

@@ -1,7 +1,6 @@
 import { degreeToRad } from '../shared/degree-to-rad';
 import { LEVEL_LENGTH } from '../shared/level';
 import { CFColor } from '../shared/palette';
-import { randomColor } from '../shared/random';
 import { PositionableElement } from './positionable-element';
 
 export enum CellWallType {

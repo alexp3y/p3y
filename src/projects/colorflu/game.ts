@@ -1,11 +1,12 @@
+import { BottomCilium } from './game/bottom-cillium';
 import { Cilium } from './game/cilium';
 import { ControlType } from './game/control-type.enum';
-import { EndWallCilium } from './game/end-wall-cilium';
+import { Restorable } from './game/interface/restorable.interface';
 import { RedBloodCell } from './game/red-blood-cell';
-import { Restorable } from './game/restorable.interface';
-import { StartWallCilium } from './game/start-wall-cilium';
 import { Virus } from './game/virus';
 import { WhiteBloodCell } from './game/white-blood-cell';
+import { LEVEL_LENGTH } from './shared/level';
+import { palette } from './shared/palette';
 import { WindowDimensions } from './shared/window-dimensions';
 
 export class ColorfluGame implements Restorable<ColorfluGame> {
@@ -15,25 +16,32 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
   private _startCilia: Cilium[] = [];
   private _endCilia: Cilium[] = [];
   private _rendered: boolean = false;
+  private _bottomCilia: BottomCilium[] = [];
+  private _topCilia: BottomCilium[] = [];
+  // private _monsterCell: MonsterCell;
 
   constructor(private _dimensions: WindowDimensions, savedGameData?: string) {
     this._cell = new WhiteBloodCell(this._dimensions);
     let x = 0;
-    while (x < 100) {
-      x++;
-      this._redBloodCells.push(new RedBloodCell(this._dimensions));
-    }
-    let y = 0;
-    while (y < this._dimensions.height) {
-      y += 3;
-      this._startCilia.push(new StartWallCilium(y));
-      this.endCilia.push(new EndWallCilium(y, this._dimensions));
+    while (x < LEVEL_LENGTH + this._dimensions.width) {
+      x += 5;
+      // this._startCilia.push(new StartWallCilium(y));
+      // this._endCilia.push(new EndWallCilium(y, this._dimensions));
+      this._topCilia.push(new BottomCilium(x, 0, palette.green, 130));
+      this._bottomCilia.push(
+        new BottomCilium(x, this._dimensions.height, palette.green, 130)
+      );
     }
     let z = 0;
-    while (z < 100) {
+    while (z < 80) {
       z++;
       this._viruses.push(new Virus(this._dimensions));
+      this._redBloodCells.push(new RedBloodCell(this._dimensions));
     }
+    // this._monsterCell = new MonsterCell(
+    //   (2 * this._dimensions.width) / 3,
+    //   this._dimensions.height / 2
+    // );
   }
 
   public restore(data: ColorfluGame) {
@@ -86,6 +94,16 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
       c.xScrollVelocity = this._cell.xScrollVelocity;
       c.update(this._dimensions);
     });
+    this._bottomCilia.forEach((c) => {
+      c.xScrollVelocity = this._cell.xScrollVelocity;
+      c.update(this._cell);
+    });
+    this._topCilia.forEach((c) => {
+      c.xScrollVelocity = this._cell.xScrollVelocity;
+      c.update(this._cell);
+    });
+    // this._monsterCell.xScrollVelocity = this._cell.xScrollVelocity;
+    // this._monsterCell.update();
   }
 
   resizeWindow(dim: WindowDimensions) {
@@ -112,6 +130,14 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
     return this._endCilia;
   }
 
+  public get bottomCilia(): BottomCilium[] {
+    return this._bottomCilia;
+  }
+
+  public get topCilia(): BottomCilium[] {
+    return this._topCilia;
+  }
+
   public applyControl(control: ControlType) {
     if (control !== ControlType.PAUSE) {
       console.log(ControlType[control]);
@@ -134,4 +160,8 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
   public set rendered(v: boolean) {
     this._rendered = v;
   }
+
+  // public get monsterCell(): MonsterCell {
+  //   return this._monsterCell;
+  // }
 }

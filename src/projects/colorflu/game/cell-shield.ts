@@ -2,10 +2,10 @@ import { degreeToRad } from '../shared/degree-to-rad';
 import { CFColor, palette } from '../shared/palette';
 import { radialDistance } from '../shared/radial-distance';
 import { ControlType } from './control-type.enum';
-import { Controllable } from './controllable.interface';
+import { Controllable } from './interface/controllable.interface';
 import { MovableElement } from './movable-element';
 import { PositionableElement } from './positionable-element';
-import { Restorable } from './restorable.interface';
+import { Restorable } from './interface/restorable.interface';
 import { WhiteBloodCell } from './white-blood-cell';
 
 export const SHIELD_COLORS: CFColor[] = [
@@ -33,7 +33,7 @@ export class CellShield
   private _hitFlashTime = 0;
 
   constructor(cell: WhiteBloodCell) {
-    let radius = WhiteBloodCell.RADIUS * 2.5;
+    let radius = Math.floor(WhiteBloodCell.RADIUS * 1.5);
     super(cell.xPos, cell.yPos, palette.orange, radius);
   }
 
@@ -57,7 +57,7 @@ export class CellShield
           this._updateColors();
         }
         this._shieldPower--;
-      } else if (this._shieldPower == 0) {
+      } else if (this._shieldPower <= 0) {
         this._shieldEngaged = false;
         this._shieldPower = -50;
       }
