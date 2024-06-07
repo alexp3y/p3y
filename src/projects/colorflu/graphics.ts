@@ -70,12 +70,12 @@ export class ColorfluGraphics {
     this._clearScreen();
     this._drawBg(game.cell.progress, game.cell.xScrollVelocity);
     game.redBloodCells.forEach((v, i) => this._renderRedBloodCell(v));
-    this._drawCircle(
-      game.monsterCell.xPos,
-      game.monsterCell.yPos,
-      game.monsterCell.radius,
-      colorWhite.hex
-    );
+    // this._drawCircle(
+    //   game.monsterCell.xPos,
+    //   game.monsterCell.yPos,
+    //   game.monsterCell.radius,
+    //   colorWhite.hex
+    // );
     this._renderCellShield(game.cell);
     game.viruses
       .filter((v) => v.isExploded)
@@ -91,19 +91,19 @@ export class ColorfluGraphics {
     });
     // white blood cell
     this._renderWhiteBloodCell(game.cell);
-    this._renderSpikes(game.monsterCell, 10, colorBlack, 10);
-    this._drawRing(
-      game.monsterCell.xPos,
-      game.monsterCell.yPos,
-      game.monsterCell.radius,
-      colorBlack.hex
-    );
-    this._drawCircle(
-      game.monsterCell.xPos,
-      game.monsterCell.yPos,
-      game.monsterCell.radius,
-      this._hex2rgba(colorWhite.hex, 0.3)
-    );
+    // this._renderSpikes(game.monsterCell, 10, colorBlack, 10);
+    // this._drawRing(
+    //   game.monsterCell.xPos,
+    //   game.monsterCell.yPos,
+    //   game.monsterCell.radius,
+    //   colorBlack.hex
+    // );
+    // this._drawCircle(
+    //   game.monsterCell.xPos,
+    //   game.monsterCell.yPos,
+    //   game.monsterCell.radius,
+    //   this._hex2rgba(colorWhite.hex, 0.3)
+    // );
     game.bottomCilia.forEach((c, i) => {
       if (i % 2) this._drawCilium(c);
     });

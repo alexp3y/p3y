@@ -27,8 +27,8 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
       setProgress(engine.game!.cell.progress);
       setStartShade(engine.graphics!.bgStartShade);
       setEndShade(engine.graphics!.bgEndShade);
-      setVirusCount(engine.game?.viruses.length);
-      setShield(engine.game?.cell.shield.power);
+      setVirusCount(engine.game?.viruses.length!);
+      setShield(engine.game?.cell.shield.power!);
     }, 100);
   }, [engine]);
   return (
