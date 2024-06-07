@@ -62,7 +62,6 @@ const ColorFlu: React.FC = () => {
 
   return (
     <main>
-      <NavBar />
       <div className="absolute w-screen h-fit">
         {engine && !started && (
           <ColorfluStartMenu

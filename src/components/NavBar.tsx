@@ -4,6 +4,8 @@ import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import ColorfluTitleBar from './Colorflu/ColorfluTitleBar';
+import Link from 'next/link';
+import Logo from './NavBar/Logo';
 
 interface Props {}
 
@@ -27,15 +29,29 @@ const NavBar: React.FC<Props> = () => {
   }, []);
 
   return (
-    <div className="w-full md:px-6 px-4 py-2 border-b border-p3y-red flex justify-between bg-p3y-ivory dark:bg-p3y-gunmetal items-center text-p3y-red lato h-[60px]">
-      <span className="text-3xl tracking-tighter text-p3y-red border-2 border-p3y-red rounded-[4px] px-[8px] pt-0 pb-[4px] dark:bg-p3y-gunmetal bg-p3y-ivory anta cursor-pointer active:border-p3y-maize active:text-p3y-maize active:bg-p3y-blue">
-        p3y
-      </span>
+    <div className="w-full md:px-6 px-4 pt-2 pb-3 border-b border-p3y-red flex justify-between bg-p3y-ivory dark:bg-p3y-gunmetal items-center text-p3y-red lato h-[60px]">
+      <Logo />
       <div className="hidden md:flex h-full items-center text-[16px] gap-x-8 mr-12">
         <>
-          <span>About</span>
-          <span>Projects</span>
-          <span>Contact</span>
+          <Link href="/about">
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize">
+              About
+            </span>
+          </Link>
+          <Link href="/colorflu">
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize">
+              Projects
+            </span>
+          </Link>
+          <Link
+            href="mailto:alexp3y@gmail.com?subject=Hello"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize">
+              Contact
+            </span>
+          </Link>
         </>
       </div>
       <div className="flex flex-col items-center justify-center gap-y-2 relative h-[25px] w-[44px]">
