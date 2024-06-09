@@ -1,5 +1,7 @@
+'use client';
+
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const HomepageHello: React.FC = () => {
   return (

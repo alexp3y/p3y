@@ -88,7 +88,7 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
   };
 
   return (
-    <div className="flex lg:hidden h-full justify-between flex-col">
+    <div className="flex lg:hidden h-full max-h-screen overflow-y-none justify-between flex-col">
       <div className="flex width-full justify-end p-8" id="top-controls">
         <button
           className="rounded-xl border-p3y-gunmetal border-2 p-3 bg-p3y-grey text-p3y-gunmetal anta bg-opacity-35"
@@ -107,16 +107,14 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
           onTouchCancel={handleTouchCancel}
           onClick={getPos}
         />
-        <div className="flex gap-x-2 items-end mb-2">
+        <div className="flex gap-x-3 items-end pb-2">
           <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
             onTouchStart={() => engine.applyKey('a')}
           />
           <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
-            // onMouseDown={() => engine.applyKey('s')}
             onTouchStart={() => engine.applyKey('s')}
-            // onMouseUp={() => engine.releaseKey('s')}
             onTouchEnd={() => engine.releaseKey('s')}
           />
           <div

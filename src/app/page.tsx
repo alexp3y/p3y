@@ -1,7 +1,7 @@
 import HomepageHello from '@/components/HomepageHello';
 import NavBar from '@/components/NavBar';
 import Head from 'next/head';
-// border-[#ffed66]
+
 export default function Home() {
   return (
     <>
@@ -9,7 +9,7 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center bg-p3y-ivory dark:bg-p3y-gunmetal text-p3y-olive justify-between lato">
+      <main className="flex h-screen max-h-screen flex-col items-center bg-p3y-ivory dark:bg-p3y-gunmetal text-p3y-olive justify-between lato overflow-y-hidden">
         <NavBar />
         <div className="p-24 z-10 max-w-5xl w-full items-center text-sm flex  flex-col justify-between leading-6 flex-grow">
           <div className="flex flex-col items-center gap-y-4">
