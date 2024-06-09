@@ -1,6 +1,6 @@
 'use client';
 
-export const NAVBAR_HEIGHT = 60;
+export const NAVBAR_HEIGHT = 0;
 
 export type WindowDimensions = {
   width: number;

@@ -33,7 +33,7 @@ export class BottomCilium extends PositionableElement {
   constructor(xPos: number, yPos: number, color: CFColor, length: number) {
     super(
       xPos,
-      yPos > 0 ? yPos - length / 2 : 0,
+      yPos > 0 ? yPos : 0,
       colorBlack,
       BottomCilium._randomLength(length)
     );

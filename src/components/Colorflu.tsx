@@ -4,9 +4,9 @@ import { ColorfluEngine } from '@/projects/colorflu/engine';
 import { getWindowDimensions } from '@/projects/colorflu/shared/window-dimensions';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import ColorfluHUD from './Colorflu/ColorfluHUD';
+import ColorfluOnscreenControls from './Colorflu/ColorfluOnscreenControls';
 import ColorfluPauseMenu from './Colorflu/ColorfluPauseMenu';
 import ColorfluStartMenu from './Colorflu/ColorfluStartMenu';
-import NavBar from './NavBar';
 
 const ColorFlu: React.FC = () => {
   const canvasRef = useRef(null);
@@ -14,6 +14,11 @@ const ColorFlu: React.FC = () => {
   const [engine, setEngine] = useState<ColorfluEngine | null>(null);
   const [started, setStarted] = useState(false);
   const [paused, setPaused] = useState(false);
+
+  const pauseGame = () => {
+    setPaused(true);
+    engine!.pause();
+  };
 
   const resumeGame = () => {
     setPaused(false);
@@ -33,11 +38,11 @@ const ColorFlu: React.FC = () => {
       if (e.key.toLowerCase() === 'enter' || e.key.toLowerCase() === 'escape') {
         setPaused(!paused);
       }
-      enj.handleKeydown(e.key);
+      enj.applyKey(e.key);
     }
     function handleKeyup(e: KeyboardEvent) {
       e.preventDefault();
-      enj.handleKeyup(e.key);
+      enj.releaseKey(e.key);
     }
     function animate() {
       enj!.render();
@@ -62,7 +67,7 @@ const ColorFlu: React.FC = () => {
 
   return (
     <main>
-      <div className="absolute w-screen h-fit">
+      <div className="absolute w-screen h-screen overflow-y-clip">
         {engine && !started && (
           <ColorfluStartMenu
             engine={engine}
@@ -72,8 +77,15 @@ const ColorFlu: React.FC = () => {
             }}
           />
         )}
-        {engine && engine.game && <ColorfluHUD engine={engine} />}
-        {paused && <ColorfluPauseMenu engine={engine!} resume={resumeGame} />}
+        {/* {engine && engine.game && process.env.NODE_ENV === 'development' && (
+          <ColorfluHUD engine={engine} />
+        )} */}
+        {engine?.paused && (
+          <ColorfluPauseMenu engine={engine!} resume={resumeGame} />
+        )}
+        {engine?.game && !engine?.paused && (
+          <ColorfluOnscreenControls engine={engine!} pause={pauseGame} />
+        )}
       </div>
       <canvas ref={canvasRef} />
     </main>

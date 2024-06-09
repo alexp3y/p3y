@@ -3,7 +3,7 @@ import React from 'react';
 
 const HomepageHello: React.FC = () => {
   return (
-    <div className="w-full text-4xl anta text-p3y-red flex flex-col pt-8 gap-y-2">
+    <div className="w-full md:text-4xl anta text-p3y-red flex flex-col gap-y-8 md:gap-y-8 text-2xl text-center mb-36">
       <span>
         {"Hi, I'm"}{' '}
         <Link
@@ -17,7 +17,7 @@ const HomepageHello: React.FC = () => {
         </Link>
       </span>
       <span>
-        A developer based in{' '}
+        A software developer based in{' '}
         <Link
           href="https://www.youtube.com/watch?v=3lqNDCaDWgM"
           target="_blank"
@@ -41,14 +41,14 @@ const HomepageHello: React.FC = () => {
         </Link>
       </span>
       <span>
-        Reach out to me{' '}
+        Say hello via{' '}
         <Link
           href="mailto:alexp3y@gmail.com?subject=Hello"
           target="_blank"
           rel="noreferrer"
         >
           <span className="active:text-p3y-blue dark:active:text-p3y-maize ">
-            <span className="underline underline-offset-4">here</span> ✉️
+            <span className="underline underline-offset-4">email</span> ✉️
           </span>
         </Link>
       </span>
@@ -56,7 +56,7 @@ const HomepageHello: React.FC = () => {
         Or kill some time with a{' '}
         <Link href="/colorflu">
           <span className="active:text-p3y-blue dark:active:text-p3y-maize ">
-            <span className="underline underline-offset-4">small game</span> 👾
+            <span className="underline underline-offset-4">game</span> 👾
           </span>
         </Link>
       </span>

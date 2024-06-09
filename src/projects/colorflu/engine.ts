@@ -91,7 +91,7 @@ export class ColorfluEngine {
     }
   };
 
-  public handleKeydown(key: string) {
+  public applyKey(key: string) {
     if (this._paused) return;
     switch (key.toLowerCase()) {
       case 'enter':
@@ -123,7 +123,14 @@ export class ColorfluEngine {
     }
   }
 
-  public handleKeyup(key: string) {
+  public stopCellMotion() {
+    this._game!.releaseControl(ControlType.GO_UP);
+    this._game!.releaseControl(ControlType.GO_LEFT);
+    this._game!.releaseControl(ControlType.GO_RIGHT);
+    this._game!.releaseControl(ControlType.GO_DOWN);
+  }
+
+  public releaseKey(key: string) {
     if (this._paused) return;
     switch (key.toLowerCase()) {
       case 'arrowup':
