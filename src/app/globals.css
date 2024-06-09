@@ -35,10 +35,6 @@
   }
 }
 
-html {
-  overscroll-behavior: contain;
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -48,7 +44,6 @@ body {
     )
     rgb(var(--background-start-rgb));
   height: 100%;
-  overscroll-behavior: contain;
 }
 
 @layer utilities {

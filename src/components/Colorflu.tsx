@@ -25,13 +25,13 @@ const ColorFlu: React.FC = () => {
   };
 
   useEffect(() => {
-    document.body.style.overscrollBehavior = 'contain';
-    document.body.style.overflowY = 'clip';
-    document.body.style.touchAction = 'manipulation';
     if (engine) {
       console.log('yes engine');
     } else {
       console.log('no enigne');
+    }
+    function preventDefault(e) {
+      e.preventDefault();
     }
     function handleResize(e: Event) {
       enj.handleResize(getWindowDimensions());
@@ -52,17 +52,17 @@ const ColorFlu: React.FC = () => {
     }
     // Start game engine
     const enj = new ColorfluEngine(canvasRef.current!, getWindowDimensions());
-    let savedGame = localStorage.getItem('COLORFLU_DATA');
-    // enj.start(savedGame ? JSON.parse(savedGame) : null);
     setEngine(enj);
     window.addEventListener('resize', handleResize);
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
+    document.addEventListener('touchmove', preventDefault, { passive: false });
     animationRequestId.current = requestAnimationFrame(animate);
     return () => {
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('keydown', handleKeydown);
       document.removeEventListener('keyup', handleKeyup);
+      document.removeEventListener('touchmove', preventDefault);
       cancelAnimationFrame(animationRequestId.current);
     };
   }, []);
@@ -75,6 +75,7 @@ const ColorFlu: React.FC = () => {
             engine={engine}
             start={() => {
               engine.start();
+              engine.resume();
               setStarted(true);
             }}
           />

@@ -140,7 +140,6 @@ export class ColorfluGame implements Restorable<ColorfluGame> {
 
   public applyControl(control: ControlType) {
     if (control !== ControlType.PAUSE) {
-      console.log(ControlType[control]);
       this._cell.applyControl(control);
       this._cell.shield.applyControl(control);
     }

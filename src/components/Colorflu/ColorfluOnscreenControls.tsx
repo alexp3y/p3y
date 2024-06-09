@@ -13,70 +13,30 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
   const [moveControllerY, setMoveControlY] = useState(0);
 
   useEffect(() => {
-    // document.addEventListener('gesturestart', function (e) {
-    //   e.stopPropagation();
-    //   e.preventDefault();
-    //   document.body.style.zoom = 0.99;
-    // });
-
-    // document.addEventListener('gesturechange', function (e) {
-    //   e.stopPropagation();
-    //   e.preventDefault();
-
-    //   document.body.style.zoom = 0.99;
-    // });
-    // document.addEventListener('gestureend', function (e) {
-    //   e.preventDefault();
-    //   e.stopPropagation();
-
-    //   document.body.style.zoom = 1;
-    // });
-    document.addEventListener(
-      'touchstart',
-      function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('stopping');
-      },
-      { passive: false }
-    );
-    document.addEventListener(
-      'touchmove',
-      function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('stopping');
-      },
-      { passive: false }
-    );
     const rect = document
       .getElementById('move-controls')
       ?.getBoundingClientRect();
-    setMoveControlX(rect!.x + 32);
-    setMoveControlY(rect!.y + 32);
+    setMoveControlX(rect!.x + 48);
+    setMoveControlY(rect!.y + 48);
   }, []);
 
   const handleTouchStart = (e: TouchEvent) => {
-    // e.preventDefault();
     e.stopPropagation();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
   const handleTouchMove = (e: TouchEvent) => {
-    // e.preventDefault();
     e.stopPropagation();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
   const handleTouchEnd = (e) => {
-    // e.preventDefault();
     e.stopPropagation();
     engine.stopCellMotion();
   };
   const handleTouchCancel = (e) => {
-    // e.preventDefault();
     e.stopPropagation();
     engine.stopCellMotion();
   };
@@ -125,17 +85,17 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
   return (
     <div className="flex lg:hidden h-full max-h-screen overflow-y-none justify-between flex-col">
       <div className="flex width-full justify-end p-8" id="top-controls">
-        <button
+        <div
           className="rounded-xl border-p3y-gunmetal border-2 p-3 bg-p3y-grey text-p3y-gunmetal anta bg-opacity-35"
           onClick={() => pause()}
         >
           PAUSE
-        </button>
+        </div>
       </div>
       <div id="bottom-controls" className="flex width-full justify-between p-6">
         <div
           id="move-controls"
-          className="rounded-full bg-p3y-gunmetal h-16 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-4"
+          className="rounded-full bg-p3y-gunmetal h-24 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-4"
           onTouchStart={handleTouchStart as any}
           onTouchMove={handleTouchMove as any}
           onTouchEnd={handleTouchEnd}
@@ -143,31 +103,23 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
         />
         <div className="flex gap-x-3 items-end pb-2">
           <div
-            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
+            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45"
             onTouchStart={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
               engine.applyKey('a');
             }}
           />
           <div
-            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
+            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45"
             onTouchStart={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
               engine.applyKey('s');
             }}
             onTouchEnd={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
               engine.releaseKey('s');
             }}
           />
           <div
-            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
+            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45"
             onTouchStart={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
               engine.applyKey('d');
             }}
           />
