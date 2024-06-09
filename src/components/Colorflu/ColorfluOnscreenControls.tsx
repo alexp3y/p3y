@@ -13,12 +13,11 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
   const [moveControllerY, setMoveControlY] = useState(0);
 
   useEffect(() => {
-    document.body.style.overscrollBehavior = 'none';
     const rect = document
       .getElementById('move-controls')
       ?.getBoundingClientRect();
-    setMoveControlX(rect!.x + 40);
-    setMoveControlY(rect!.y + 40);
+    setMoveControlX(rect!.x + 32);
+    setMoveControlY(rect!.y + 32);
   }, []);
 
   const getPos = () => {
@@ -98,10 +97,10 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
           PAUSE
         </button>
       </div>
-      <div id="bottom-controls" className="flex width-full justify-between p-4">
+      <div id="bottom-controls" className="flex width-full justify-between p-6">
         <div
           id="move-controls"
-          className="rounded-full bg-p3y-gunmetal h-20 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-4"
+          className="rounded-full bg-p3y-gunmetal h-16 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-4"
           onTouchStart={handleTouchStart as any}
           onTouchMove={handleTouchMove as any}
           onTouchEnd={handleTouchEnd}
@@ -109,20 +108,20 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
           onClick={getPos}
         />
         <div className="flex gap-x-2 items-end mb-2">
-          <button
+          <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
-            onClick={() => engine.applyKey('a')}
+            onTouchStart={() => engine.applyKey('a')}
           />
-          <button
+          <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
-            onMouseDown={() => engine.applyKey('s')}
+            // onMouseDown={() => engine.applyKey('s')}
             onTouchStart={() => engine.applyKey('s')}
-            onMouseUp={() => engine.releaseKey('s')}
+            // onMouseUp={() => engine.releaseKey('s')}
             onTouchEnd={() => engine.releaseKey('s')}
           />
-          <button
+          <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
-            onClick={() => engine.applyKey('d')}
+            onTouchStart={() => engine.applyKey('d')}
           />
         </div>
       </div>

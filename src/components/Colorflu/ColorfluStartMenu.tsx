@@ -24,7 +24,7 @@ const ColorfluStartMenu: React.FC<Props> = ({ engine, start }) => {
 
   return (
     <div className="w-full h-full left-0 flex justify-center items-center flex-col text-p3y-gunmetal">
-      <div className="text-[80px] my-12">
+      <div className="text-[60px] md:text-[80px] my-12">
         <ColorfluTitleBar />
       </div>
       <div className="flex anta flex-col text-[24px]">

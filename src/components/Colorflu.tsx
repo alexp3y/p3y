@@ -3,7 +3,6 @@
 import { ColorfluEngine } from '@/projects/colorflu/engine';
 import { getWindowDimensions } from '@/projects/colorflu/shared/window-dimensions';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
-import ColorfluHUD from './Colorflu/ColorfluHUD';
 import ColorfluOnscreenControls from './Colorflu/ColorfluOnscreenControls';
 import ColorfluPauseMenu from './Colorflu/ColorfluPauseMenu';
 import ColorfluStartMenu from './Colorflu/ColorfluStartMenu';
@@ -26,6 +25,9 @@ const ColorFlu: React.FC = () => {
   };
 
   useEffect(() => {
+    document.body.style.overscrollBehavior = 'none';
+    document.body.style.overflowY = 'none';
+    document.body.style.touchAction = 'manipulation';
     if (engine) {
       console.log('yes engine');
     } else {
@@ -67,7 +69,7 @@ const ColorFlu: React.FC = () => {
 
   return (
     <main>
-      <div className="absolute w-screen h-screen overflow-y-clip">
+      <div className="absolute w-screen h-screen overflow-y-clip touch-manipulation">
         {engine && !started && (
           <ColorfluStartMenu
             engine={engine}
