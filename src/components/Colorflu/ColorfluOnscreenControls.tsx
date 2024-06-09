@@ -22,22 +22,26 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
 
   const handleTouchStart = (e: TouchEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
   const handleTouchMove = (e: TouchEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
   const handleTouchEnd = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     engine.stopCellMotion();
   };
   const handleTouchCancel = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     engine.stopCellMotion();
   };
 
@@ -106,6 +110,7 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
             onTouchStart={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               engine.applyKey('a');
             }}
           />
@@ -113,10 +118,12 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
             onTouchStart={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               engine.applyKey('s');
             }}
             onTouchEnd={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               engine.releaseKey('s');
             }}
           />
@@ -124,6 +131,7 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
             onTouchStart={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               engine.applyKey('d');
             }}
           />
