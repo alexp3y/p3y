@@ -13,6 +13,42 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
   const [moveControllerY, setMoveControlY] = useState(0);
 
   useEffect(() => {
+    // document.addEventListener('gesturestart', function (e) {
+    //   e.stopPropagation();
+    //   e.preventDefault();
+    //   document.body.style.zoom = 0.99;
+    // });
+
+    // document.addEventListener('gesturechange', function (e) {
+    //   e.stopPropagation();
+    //   e.preventDefault();
+
+    //   document.body.style.zoom = 0.99;
+    // });
+    // document.addEventListener('gestureend', function (e) {
+    //   e.preventDefault();
+    //   e.stopPropagation();
+
+    //   document.body.style.zoom = 1;
+    // });
+    document.addEventListener(
+      'touchstart',
+      function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('stopping');
+      },
+      { passive: false }
+    );
+    document.addEventListener(
+      'touchmove',
+      function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('stopping');
+      },
+      { passive: false }
+    );
     const rect = document
       .getElementById('move-controls')
       ?.getBoundingClientRect();
@@ -21,26 +57,26 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
   }, []);
 
   const handleTouchStart = (e: TouchEvent) => {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
   const handleTouchMove = (e: TouchEvent) => {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
   const handleTouchEnd = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
     engine.stopCellMotion();
   };
   const handleTouchCancel = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
     engine.stopCellMotion();
   };
