@@ -20,33 +20,28 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
     setMoveControlY(rect!.y + 32);
   }, []);
 
-  const getPos = () => {
-    const rect = document
-      .getElementById('move-controls')
-      ?.getBoundingClientRect();
-    console.log(moveControllerX + ' : ' + moveControllerY);
-  };
-
   const handleTouchStart = (e: TouchEvent) => {
+    e.preventDefault();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
   const handleTouchMove = (e: TouchEvent) => {
+    e.preventDefault();
     if (e.touches) {
       handleTouch(e.touches[0]);
     }
   };
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e) => {
+    e.preventDefault();
     engine.stopCellMotion();
   };
-  const handleTouchCancel = () => {
+  const handleTouchCancel = (e) => {
+    e.preventDefault();
     engine.stopCellMotion();
   };
 
   const handleTouch = (touch: Touch) => {
-    // console.log(`(${touch.pageX}, ${touch.pageY})`);
-    // getPos();
     engine.stopCellMotion();
     if (touch.pageX < moveControllerX) {
       if (touch.pageY < moveControllerY) {
@@ -105,21 +100,32 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
           onTouchMove={handleTouchMove as any}
           onTouchEnd={handleTouchEnd}
           onTouchCancel={handleTouchCancel}
-          onClick={getPos}
         />
         <div className="flex gap-x-3 items-end pb-2">
           <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
-            onTouchStart={() => engine.applyKey('a')}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              engine.applyKey('a');
+            }}
           />
           <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
-            onTouchStart={() => engine.applyKey('s')}
-            onTouchEnd={() => engine.releaseKey('s')}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              engine.applyKey('s');
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              engine.releaseKey('s');
+            }}
           />
           <div
             className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-red bg-opacity-70"
-            onTouchStart={() => engine.applyKey('d')}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              engine.applyKey('d');
+            }}
           />
         </div>
       </div>

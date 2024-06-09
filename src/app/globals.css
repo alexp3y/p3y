@@ -35,10 +35,6 @@
   }
 }
 
-.overscroll-none {
-  overscroll-behavior: none;
-}
-
 html {
   overscroll-behavior: none;
 }
@@ -52,6 +48,7 @@ body {
     )
     rgb(var(--background-start-rgb));
   height: 100%;
+  overscroll-behavior: none;
 }
 
 @layer utilities {
