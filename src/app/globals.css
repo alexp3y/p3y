@@ -40,7 +40,7 @@
 }
 
 html {
-  /* overscroll-behavior: none; */
+  overscroll-behavior: none;
 }
 
 body {
@@ -51,7 +51,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-  /* overscroll-behavior: none; */
+  height: 100%;
 }
 
 @layer utilities {
