@@ -36,7 +36,7 @@
 }
 
 html {
-  overscroll-behavior: none;
+  overscroll-behavior: contain;
 }
 
 body {
@@ -48,7 +48,7 @@ body {
     )
     rgb(var(--background-start-rgb));
   height: 100%;
-  overscroll-behavior: none;
+  overscroll-behavior: contain;
 }
 
 @layer utilities {

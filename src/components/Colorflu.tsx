@@ -25,8 +25,8 @@ const ColorFlu: React.FC = () => {
   };
 
   useEffect(() => {
-    document.body.style.overscrollBehavior = 'none';
-    document.body.style.overflowY = 'none';
+    document.body.style.overscrollBehavior = 'contain';
+    document.body.style.overflowY = 'clip';
     document.body.style.touchAction = 'manipulation';
     if (engine) {
       console.log('yes engine');
