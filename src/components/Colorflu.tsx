@@ -39,9 +39,6 @@ const ColorFlu: React.FC = () => {
     function preventDefault(e) {
       e.preventDefault();
     }
-    function handleResize(e: Event) {
-      enj.handleResize(getWindowDimensions());
-    }
     function handleKeydown(e: KeyboardEvent) {
       if (e.key.toLowerCase() === 'enter' || e.key.toLowerCase() === 'escape') {
         enj.pause();
@@ -62,7 +59,6 @@ const ColorFlu: React.FC = () => {
     setEngine(enj);
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
-    screen.orientation.addEventListener('change', handleResize);
     document.addEventListener('touchmove', preventDefault, { passive: false });
     animationRequestId.current = requestAnimationFrame(animate);
     setInterval(() => {
@@ -72,7 +68,6 @@ const ColorFlu: React.FC = () => {
       }
     }, 500);
     return () => {
-      screen.orientation.removeEventListener('change', handleResize);
       document.removeEventListener('keydown', handleKeydown);
       document.removeEventListener('keyup', handleKeyup);
       document.removeEventListener('touchmove', preventDefault);
