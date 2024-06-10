@@ -97,7 +97,9 @@ export class ColorfluEngine {
   };
 
   public applyKey(key: string) {
-    if (this._paused || this._game?.gameOver) return;
+    if (this._paused || this._game?.gameOver || this._game?.cell.isExploded()) {
+      return;
+    }
     switch (key.toLowerCase()) {
       case 'enter':
         // this.pause();

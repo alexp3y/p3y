@@ -73,7 +73,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           <Link href={'/about'}>
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta'
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition-none duration-500 md:pl-0 md:transition-all anta'
               )}
               onClick={handleLinkClick}
             >
@@ -85,7 +85,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           <Link href={'/projects'}>
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta'
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition-none duration-500 md:pl-0 md:transition-all anta'
               )}
               onClick={handleLinkClick}
             >
@@ -101,7 +101,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           >
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta'
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition-none duration-500 md:pl-0 md:transition-all anta'
               )}
               onClick={handleLinkClick}
             >
@@ -110,7 +110,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
               </span>
             </div>
           </Link>
-          <div className="p-7 pt-16">
+          <div className="pl-10 pt-16">
             <ThemeSwitch />
           </div>
         </div>

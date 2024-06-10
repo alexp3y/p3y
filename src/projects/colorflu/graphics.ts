@@ -69,12 +69,6 @@ export class ColorfluGraphics {
     this._clearScreen();
     this._drawBg(game.cell.progress, game.cell.xScrollVelocity);
     game.redBloodCells.forEach((v, i) => this._renderRedBloodCell(v));
-    // this._drawCircle(
-    //   game.monsterCell.xPos,
-    //   game.monsterCell.yPos,
-    //   game.monsterCell.radius,
-    //   colorWhite.hex
-    // );
     if (!game.cell.isExploded()) {
       this._renderCellShield(game.cell);
     }
@@ -98,9 +92,10 @@ export class ColorfluGraphics {
     game.topCilia.forEach((c, i) => {
       if (i % 2) this._drawCilium(c);
     });
-    this._renderHealthMeter(60, game.cell);
-    this._renderShieldMeter(120, game.cell.shield);
-    // this._renderAmmoMeter(180, game.cell.shield);
+    if (!game.cell.isExploded()) {
+      this._renderHealthMeter(60, game.cell);
+      this._renderShieldMeter(120, game.cell.shield);
+    }
   }
 
   private _renderShieldMeter(xPos: number, shield: CellShield) {

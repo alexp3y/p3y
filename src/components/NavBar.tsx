@@ -3,15 +3,14 @@
 import Link from 'next/link';
 import React from 'react';
 import Logo from './NavBar/Logo';
-import ThemeSwitch from './NavBar/ThemeSwitch';
-import MobileMenu from './NavBar/MobileMenu';
 import MobileMenuButton from './NavBar/MobileMenuButton';
+import ThemeSwitch from './NavBar/ThemeSwitch';
 
 interface Props {}
 
 const NavBar: React.FC<Props> = () => {
   return (
-    <div className="w-full md:px-6 px-4 pt-2 pb-3 border-b border-p3y-red flex justify-between bg-p3y-ivory dark:bg-p3y-gunmetal items-center text-p3y-red lato h-[60px]">
+    <div className="w-full md:px-6 px-4 pt-3 pb-2 border-b border-p3y-red flex justify-between bg-p3y-ivory dark:bg-p3y-gunmetal items-center text-p3y-red lato h-[60px]">
       <Logo />
       <div className="hidden md:flex h-full items-center text-[16px] gap-x-8 mr-12">
         <>
