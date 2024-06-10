@@ -62,7 +62,9 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
       >
         <div className="flex w-full flex-col">
           <div className="flex w-full items-center justify-between pt-10 pb-[100px] px-7">
-            <Logo />
+            <div onClick={close}>
+              <Logo />
+            </div>
             <button className={cn('')} onClick={close}>
               <div className="w-7 -translate-x-[0px] rotate-45 border-b-2"></div>
               <div className="w-7 translate-x-[0px] -translate-y-[2px] -rotate-45 border-b-2" />
