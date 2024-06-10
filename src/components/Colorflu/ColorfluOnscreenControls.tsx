@@ -95,11 +95,11 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
       </div>
       <div
         id="bottom-controls"
-        className="flex width-full justify-between p-6 lg:hidden"
+        className="flex width-full justify-between px-6 lg:hidden pb-10"
       >
         <div
           id="move-controls"
-          className="rounded-full bg-p3y-gunmetal h-24 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-4"
+          className="rounded-full bg-p3y-gunmetal h-24 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-3"
           onTouchStart={handleTouchStart as any}
           onTouchMove={handleTouchMove as any}
           onTouchEnd={handleTouchEnd}
