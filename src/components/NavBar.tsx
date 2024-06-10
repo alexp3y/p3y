@@ -38,7 +38,7 @@ const NavBar: React.FC<Props> = () => {
               About
             </span>
           </Link>
-          <Link href="/colorflu">
+          <Link href="/projects">
             <span className="active:text-p3y-blue dark:active:text-p3y-maize">
               Projects
             </span>
