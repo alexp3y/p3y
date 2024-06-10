@@ -27,7 +27,14 @@ export class ControllableElement
   }
 
   override update(clock: number, dims: WindowDimensions) {
-    this._updateVelocity(clock);
+    if (!this.isExploded()) {
+      this._updateVelocity(clock);
+    } else {
+      this.xVelocity = 0;
+      this.yVelocity = 0;
+      this.xScrollVelocity = 0;
+      super.update();
+    }
     this._enforceScreenLimit(dims);
     this._moveOrScroll(dims);
     this._updateProgress(dims);
@@ -78,10 +85,10 @@ export class ControllableElement
   private _enforceScreenLimit(dims: WindowDimensions) {
     // reposition if off-screen
     if (this._xPos > dims.width) {
-      this._xPos = dims.width - this._radius;
+      // this._xPos = dims.width - this._radius;
     }
     if (this._yPos > dims.height) {
-      this._yPos = dims.height - this._radius;
+      // this._yPos = dims.height - this._radius;
     }
     // screen boundary
     if (this._xPos <= 0 && this._goLeft) {

@@ -20,12 +20,11 @@ export class Virus
   extends ExplodableElement
   implements Seekable, Restorable<Virus>
 {
-  public static RADIUS = 8;
+  public static RADIUS = 6;
   public static PLASMID_RADIUS = 3;
   private static DOCKING_SPEED = 0.1;
   private static ALPHA = 0.1;
-  private static INJECTION_OFFSET =
-    WhiteBloodCell.RADIUS - Virus.PLASMID_RADIUS * 3;
+  private static INJECTION_OFFSET = Virus.PLASMID_RADIUS * 3;
   private static MAX_VELOCITY = 2;
   private static SEEK_ACCELERATION = 0.04;
 
@@ -47,6 +46,9 @@ export class Virus
   private _seekingCooldown = false;
 
   constructor(dimensions: WindowDimensions, xPos?: number, yPos?: number) {
+    if (dimensions.width < 900) {
+      Virus.RADIUS = 4;
+    }
     super(
       xPos != undefined
         ? xPos
@@ -263,7 +265,8 @@ export class Virus
     this._yPos += this._yVelocity + host.yVelocity;
     if (
       radialDistance(host, this) >=
-      host.radius / 1.5 - 1.5 * Virus.PLASMID_RADIUS
+        host.radius / 1.5 - 1.5 * Virus.PLASMID_RADIUS &&
+      !host.isExploded()
     ) {
       // reverse to just cell movement and change velocity
       this._xPos = prevX + host.xVelocity - this.xScrollVelocity;

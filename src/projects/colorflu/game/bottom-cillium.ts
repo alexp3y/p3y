@@ -12,7 +12,7 @@ export enum CiliumSize {
 
 export enum CiliumLocation {
   TOP,
-  BOTOTM,
+  BOTTOM,
 }
 
 export class BottomCilium extends PositionableElement {
@@ -37,7 +37,7 @@ export class BottomCilium extends PositionableElement {
       colorBlack,
       BottomCilium._randomLength(length)
     );
-    this._location = yPos > 0 ? CiliumLocation.BOTOTM : CiliumLocation.TOP;
+    this._location = yPos > 0 ? CiliumLocation.BOTTOM : CiliumLocation.TOP;
     this._size = CiliumSize.SMALL;
     this._color = randomBetween(0, 4) > 3 ? palette.green : palette.orange;
     if (this._radius > (2 * length) / 5) {

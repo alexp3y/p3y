@@ -1,16 +1,14 @@
-import { CFColor, colorBlack, palette } from '../shared/palette';
-import { randomBetween, randomColor, randomVelocity } from '../shared/random';
+import { CFColor, palette } from '../shared/palette';
+import { randomBetween, randomColor } from '../shared/random';
 import { Explodable } from './interface/explodable.interface';
 import { MovableElement } from './movable-element';
 
 export class ExplodableElement extends MovableElement implements Explodable {
-  public static INVERSE_FRAGMENT_SIZE = 8;
-  public static FRAGMENT_COUNT = 15;
-  public static EXPLOSION_DURATION = 150;
   private _exploded = false;
   private _explodedFragments: MovableElement[] = [];
-  private _timeRemaining = ExplodableElement.EXPLOSION_DURATION;
-  private _explosionColor: CFColor = palette.pink;
+  private _timeRemaining = 150;
+  private _cellExplosion = false;
+  private _fragmentCount = 12;
 
   override update(p1?: any, p2?: any): void {
     if (this._exploded) {
@@ -31,23 +29,31 @@ export class ExplodableElement extends MovableElement implements Explodable {
     }
   }
 
-  explode(): void {
+  explode(cellExplosion?: boolean): void {
     this._exploded = true;
-    for (let i = 0; i < ExplodableElement.FRAGMENT_COUNT; i++) {
+    this._cellExplosion = !!cellExplosion;
+    this._timeRemaining = this._timeRemaining + (cellExplosion ? 50 : 0);
+    for (let i = 0; i < this._fragmentCount + (cellExplosion ? 12 : 0); i++) {
       this._explodedFragments.push(
         new MovableElement(
           this._xPos,
           this.yPos,
-          randomColor(),
+          cellExplosion ? palette.pink : randomColor(),
           this.radius,
           0.9,
-          randomBetween(-0.35, 0.35) + this._xVelocity * 0.45,
-          randomBetween(-0.35, 0.35) + this._yVelocity * 0.45
+          randomBetween(-0.35, 0.35) +
+            this._xVelocity * (cellExplosion ? 0.01 : 0.45),
+          randomBetween(-0.35, 0.35) +
+            this._yVelocity * (cellExplosion ? 0.01 : 0.45)
         )
       );
     }
-    this._xVelocity = randomBetween(-0.35, 0.35) + this._xVelocity * 0.45;
-    this._yVelocity = randomBetween(-0.35, 0.35) + this._yVelocity * 0.45;
+    this._xVelocity =
+      randomBetween(-0.35, 0.35) +
+      this._xVelocity * (cellExplosion ? 0.01 : 0.45);
+    this._yVelocity =
+      randomBetween(-0.35, 0.35) +
+      this._yVelocity * (cellExplosion ? 0.01 : 0.45);
   }
 
   isExploded(): boolean {
@@ -58,15 +64,15 @@ export class ExplodableElement extends MovableElement implements Explodable {
     return this._explodedFragments;
   }
 
-  public get explosionColor(): CFColor {
-    return this._explosionColor;
-  }
-
-  public set explosionColor(v: CFColor) {
-    this._explosionColor = v;
-  }
-
   public get timeRemaining(): number {
     return this._timeRemaining;
+  }
+
+  public get fragmentCount(): number {
+    return this._fragmentCount;
+  }
+
+  public get isCellExplosion(): boolean {
+    return this._cellExplosion;
   }
 }

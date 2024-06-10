@@ -1,20 +1,19 @@
-import { M_PLUS_1 } from 'next/font/google';
 import { ColorfluGame } from './game';
+import {
+  BottomCilium,
+  CiliumLocation,
+  CiliumSize,
+} from './game/bottom-cillium';
 import { CellShield, SHIELD_COLORS } from './game/cell-shield';
 import { Cilium } from './game/cilium';
 import { ExplodableElement } from './game/explodable-element';
+import { MonsterCell } from './game/monster-cell';
 import { PositionableElement } from './game/positionable-element';
 import { Virus } from './game/virus';
 import { WhiteBloodCell } from './game/white-blood-cell';
 import { CFColor, colorBlack, colorWhite, palette } from './shared/palette';
 import { NAVBAR_HEIGHT, WindowDimensions } from './shared/window-dimensions';
 import { ColorfluSplashScreen } from './splash-screen';
-import {
-  BottomCilium,
-  CiliumLocation,
-  CiliumSize,
-} from './game/bottom-cillium';
-import { MonsterCell } from './game/monster-cell';
 
 export class ColorfluGraphics {
   private static BG_GRADIENT_OFFSET = 0;
@@ -76,7 +75,9 @@ export class ColorfluGraphics {
     //   game.monsterCell.radius,
     //   colorWhite.hex
     // );
-    this._renderCellShield(game.cell);
+    if (!game.cell.isExploded()) {
+      this._renderCellShield(game.cell);
+    }
     game.viruses
       .filter((v) => v.isExploded)
       .forEach((v) => this._renderExplodedElement(v));
@@ -91,28 +92,15 @@ export class ColorfluGraphics {
     });
     // white blood cell
     this._renderWhiteBloodCell(game.cell);
-    // this._renderSpikes(game.monsterCell, 10, colorBlack, 10);
-    // this._drawRing(
-    //   game.monsterCell.xPos,
-    //   game.monsterCell.yPos,
-    //   game.monsterCell.radius,
-    //   colorBlack.hex
-    // );
-    // this._drawCircle(
-    //   game.monsterCell.xPos,
-    //   game.monsterCell.yPos,
-    //   game.monsterCell.radius,
-    //   this._hex2rgba(colorWhite.hex, 0.3)
-    // );
     game.bottomCilia.forEach((c, i) => {
       if (i % 2) this._drawCilium(c);
     });
     game.topCilia.forEach((c, i) => {
       if (i % 2) this._drawCilium(c);
     });
-    this._renderHealthMeter(60, game.cell.shield);
+    this._renderHealthMeter(60, game.cell);
     this._renderShieldMeter(120, game.cell.shield);
-    this._renderAmmoMeter(180, game.cell.shield);
+    // this._renderAmmoMeter(180, game.cell.shield);
   }
 
   private _renderShieldMeter(xPos: number, shield: CellShield) {
@@ -124,7 +112,7 @@ export class ColorfluGraphics {
       4 * Math.PI,
       4 * Math.PI,
       colorWhite,
-      1,
+      0.5,
       true
     );
     if (shield.power >= 4) {
@@ -140,7 +128,7 @@ export class ColorfluGraphics {
           : 4 * Math.PI,
         4 * Math.PI,
         palette.blue,
-        0.7,
+        0.5,
         true
       );
       this._roundedRect(
@@ -151,7 +139,7 @@ export class ColorfluGraphics {
         5 * Math.PI,
         5 * Math.PI,
         colorBlack,
-        1
+        0.8
       );
     } else {
       this._roundedRect(
@@ -173,7 +161,7 @@ export class ColorfluGraphics {
         5 * Math.PI,
         5 * Math.PI,
         colorBlack,
-        1
+        0.8
       );
     }
     this._ctx.fillStyle = colorBlack.hex;
@@ -190,7 +178,7 @@ export class ColorfluGraphics {
       4 * Math.PI,
       4 * Math.PI,
       palette.green,
-      1,
+      0.5,
       true
     );
     this._roundedRect(
@@ -201,14 +189,14 @@ export class ColorfluGraphics {
       5 * Math.PI,
       5 * Math.PI,
       colorBlack,
-      1
+      0.8
     );
     this._ctx.fillStyle = colorBlack.hex;
     this._ctx.font = '12px anta';
     this._ctx.fillText('AMMO', xPos, 142);
   }
 
-  private _renderHealthMeter(xPos: number, shield: CellShield) {
+  private _renderHealthMeter(xPos: number, cell: WhiteBloodCell) {
     this._roundedRect(
       xPos,
       25,
@@ -216,10 +204,44 @@ export class ColorfluGraphics {
       100,
       4 * Math.PI,
       4 * Math.PI,
-      palette.maroon,
-      1,
+      colorWhite,
+      0.5,
       true
     );
+    if (cell.health > 0) {
+      this._roundedRect(
+        xPos,
+        25 + 100 - cell.health,
+        35,
+        cell.health,
+        cell.health < 95
+          ? cell.health < 90
+            ? Math.PI
+            : 1.5 * Math.PI
+          : 4 * Math.PI,
+        4 * Math.PI,
+        palette.maroon,
+        0.5,
+        true
+      );
+      if (cell.pain > 0) {
+        this._roundedRect(
+          xPos,
+          25 + 100 - cell.health,
+          35,
+          cell.health,
+          cell.health < 95
+            ? cell.health < 90
+              ? Math.PI
+              : 1.5 * Math.PI
+            : 4 * Math.PI,
+          4 * Math.PI,
+          palette.red,
+          1 - (1 - cell.pain / 10),
+          true
+        );
+      }
+    }
     this._roundedRect(
       xPos,
       25,
@@ -228,7 +250,7 @@ export class ColorfluGraphics {
       5 * Math.PI,
       5 * Math.PI,
       colorBlack,
-      1
+      0.8
     );
     this._ctx.fillStyle = colorBlack.hex;
     this._ctx.font = '12px anta';
@@ -269,7 +291,7 @@ export class ColorfluGraphics {
   }
 
   private _renderExplodedElement(el: ExplodableElement) {
-    let radIncrement = (2 * Math.PI) / ExplodableElement.INVERSE_FRAGMENT_SIZE;
+    let radIncrement = (2 * Math.PI) / el.fragmentCount;
     let fragmentStartRad = 0;
     let fragmentEndRad = radIncrement;
     el.explodedFragments.forEach((f) => {
@@ -278,7 +300,7 @@ export class ColorfluGraphics {
         f.yPos,
         f.radius,
         this._hex2rgba(f.color.hex, 0.8),
-        1.5,
+        el.isCellExplosion ? 3 : 1.5,
         fragmentEndRad,
         fragmentStartRad
       );
@@ -288,30 +310,41 @@ export class ColorfluGraphics {
   }
 
   private _renderWhiteBloodCell(cell: WhiteBloodCell) {
-    cell.infectedViruses
-      .filter((v) => v.docking)
-      .forEach((v) => this._renderVirus(v));
-    this._drawCircle(
-      cell.xPos,
-      cell.yPos,
-      cell.radius,
-      this._hex2rgba(cell.color.hex, cell.alpha)
-    );
-    this._drawCircle(
-      cell.xPos,
-      cell.yPos,
-      Math.floor(cell.radius / 1.5),
-      this._hex2rgba(colorWhite.hex, 0.3)
-    );
-    if (cell.pain > 0) {
+    if (cell.isExploded()) {
+      this._renderExplodedElement(cell);
+    } else {
+      cell.infectedViruses
+        .filter((v) => v.docking)
+        .forEach((v) => this._renderVirus(v));
       this._drawCircle(
         cell.xPos,
         cell.yPos,
         cell.radius,
-        this._hex2rgba(palette.red.hex, 1 - (1 - cell.pain / 10))
+        this._hex2rgba(cell.color.hex, cell.alpha)
       );
+      this._drawCircle(
+        cell.xPos,
+        cell.yPos,
+        Math.floor(cell.radius / 1.5),
+        this._hex2rgba(colorWhite.hex, 0.3)
+      );
+      if (cell.pain > 0) {
+        this._drawCircle(
+          cell.xPos,
+          cell.yPos,
+          cell.radius,
+          this._hex2rgba(palette.red.hex, 1 - (1 - cell.pain / 10))
+        );
+      }
+      this._drawRing(
+        cell.xPos,
+        cell.yPos,
+        WhiteBloodCell.RADIUS,
+        '#c46c92',
+        1.5
+      );
+      this._renderCellGuns(cell);
     }
-    this._drawRing(cell.xPos, cell.yPos, WhiteBloodCell.RADIUS, '#c46c92', 1.5);
     cell.infectedViruses
       .filter((v) => v.docking)
       .forEach((v) => {
@@ -371,16 +404,6 @@ export class ColorfluGraphics {
     cell.gun.bullets
       .filter((b) => !b.isDestroyed())
       .forEach((b) => {
-        // this._ctx.fillStyle = this._hex2rgba(b.color.hex, 1);
-        // this._ctx.fillRect(b.xPos - b.radius, b.yPos - 4, 6, 2);
-        // this._ctx.strokeStyle = this._hex2rgba(b.color.hex, 1);
-        // this._ctx.lineWidth = 1;
-        // this._ctx.beginPath();
-        // this._ctx.moveTo(b.xPos - b.radius + 8, b.yPos - 2);
-        // this._ctx.lineTo(b.xPos - b.radius + 17, b.yPos - 10);
-        // this._ctx.moveTo(b.xPos - b.radius + 8, b.yPos - 2);
-        // this._ctx.lineTo(b.xPos - b.radius + 17, b.yPos + 6);
-        // this._ctx.stroke();
         this._drawCircle(
           b.xPos,
           b.yPos,
@@ -388,8 +411,6 @@ export class ColorfluGraphics {
           this._hex2rgba(b.color.hex, 0.5),
           1
         );
-        // this._ctx.fillStyle = this._hex2rgba(colorBlack.hex, 1);
-        // this._ctx.strokeStyle = this._hex2rgba(colorBlack.hex, 1);
         this._drawRing(
           b.xPos,
           b.yPos,
@@ -398,10 +419,11 @@ export class ColorfluGraphics {
           1
         );
       });
-    //alex
+  }
+
+  private _renderCellGuns(cell: WhiteBloodCell) {
     this._ctx.lineWidth = 1.5;
     this._ctx.strokeStyle = this._hex2rgba('#c46c92', 1);
-    // this._ctx.fillStyle = this._hex2rgba(palette.green.hex, 0.1);
     this._ctx.fillStyle = cell.gun.recoilLeft
       ? this._hex2rgba(palette.pink.hex, cell.gun.recoilLeft / 8 + 0.1)
       : this._hex2rgba(palette.pink.hex, 0.4);

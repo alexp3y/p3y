@@ -26,14 +26,18 @@ export class ColorfluEngine {
   }
 
   start(savedGame?: ColorfluGame) {
-    if (!this._running) {
-      console.log('starting game');
-      this._game = new ColorfluGame(this._dimensions);
-      if (savedGame) {
-        this._game.restore(savedGame);
-      }
-      this._running = true;
+    console.log('starting game');
+    this._game = new ColorfluGame(this._dimensions);
+    if (savedGame) {
+      this._game.restore(savedGame);
     }
+    this._paused = false;
+    this._running = true;
+  }
+
+  endGame() {
+    this.game?.endGame();
+    this._paused = false;
   }
 
   eject(): string {
@@ -63,6 +67,7 @@ export class ColorfluEngine {
   public handleResize(dim: WindowDimensions) {
     this._dimensions = dim;
     if (this._game) {
+      console.log('resizing window');
       this._game.resizeWindow(this._dimensions);
       this._graphics.resizeWindow(this._dimensions);
     }
@@ -92,10 +97,10 @@ export class ColorfluEngine {
   };
 
   public applyKey(key: string) {
-    if (this._paused) return;
+    if (this._paused || this._game?.gameOver) return;
     switch (key.toLowerCase()) {
       case 'enter':
-        this.pause();
+        // this.pause();
         break;
       case 'arrowup':
         this._game!.applyControl(ControlType.GO_UP);

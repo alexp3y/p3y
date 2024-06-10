@@ -16,6 +16,7 @@ export class WhiteBloodCell extends ControllableElement {
   private static COLOR = palette.pink;
   private static ALPHA = 1;
 
+  private _health = 100;
   private _infectedViruses: Virus[] = [];
   private _shield: CellShield;
   private _gun: CellGun;
@@ -23,6 +24,9 @@ export class WhiteBloodCell extends ControllableElement {
   private _pain = 0;
 
   constructor(dimensions: WindowDimensions) {
+    if (dimensions.width < 900) {
+      WhiteBloodCell.RADIUS = 25;
+    }
     super(
       dimensions.width / 3, // initial xPos
       dimensions.height / 2, // initial yPos
@@ -54,6 +58,9 @@ export class WhiteBloodCell extends ControllableElement {
     if (this._pain > 0) {
       this._pain--;
     }
+    if (this._health == 0 && !this.isExploded()) {
+      this.explode(true);
+    }
     super.update(clock, dims);
     this._infectedViruses.forEach((v, i) => {
       if (v.docking) {
@@ -70,8 +77,10 @@ export class WhiteBloodCell extends ControllableElement {
         v.update(dims, this);
       }
     });
-    this._shield.update(clock, this);
-    this._gun.update();
+    if (!this.isExploded()) {
+      this._shield.update(clock, this);
+      this._gun.update();
+    }
     this._gun.bullets
       .filter((b) => !b.isDestroyed())
       .forEach((b) => {
@@ -86,6 +95,7 @@ export class WhiteBloodCell extends ControllableElement {
     }
     virus.startInfection(this);
     this._infectedViruses.push(virus);
+    if (this._health > 0) this._health -= 10;
   }
 
   override applyControl(control: ControlType): void {
@@ -114,5 +124,9 @@ export class WhiteBloodCell extends ControllableElement {
 
   public get pain(): number {
     return this._pain;
+  }
+
+  public get health(): number {
+    return this._health;
   }
 }

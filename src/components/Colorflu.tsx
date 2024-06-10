@@ -3,6 +3,7 @@
 import { ColorfluEngine } from '@/projects/colorflu/engine';
 import { getWindowDimensions } from '@/projects/colorflu/shared/window-dimensions';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
+import ColorfluDevStats from './Colorflu/ColorfluDevStats';
 import ColorfluOnscreenControls from './Colorflu/ColorfluOnscreenControls';
 import ColorfluPauseMenu from './Colorflu/ColorfluPauseMenu';
 import ColorfluStartMenu from './Colorflu/ColorfluStartMenu';
@@ -24,6 +25,11 @@ const ColorFlu: React.FC = () => {
     engine!.resume();
   };
 
+  const endGame = () => {
+    engine!.endGame();
+    setPaused(false);
+  };
+
   useEffect(() => {
     if (engine) {
       console.log('yes engine');
@@ -38,6 +44,7 @@ const ColorFlu: React.FC = () => {
     }
     function handleKeydown(e: KeyboardEvent) {
       if (e.key.toLowerCase() === 'enter' || e.key.toLowerCase() === 'escape') {
+        enj.pause();
         setPaused(!paused);
       }
       enj.applyKey(e.key);
@@ -53,13 +60,19 @@ const ColorFlu: React.FC = () => {
     // Start game engine
     const enj = new ColorfluEngine(canvasRef.current!, getWindowDimensions());
     setEngine(enj);
-    window.addEventListener('resize', handleResize);
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
+    screen.orientation.addEventListener('change', handleResize);
     document.addEventListener('touchmove', preventDefault, { passive: false });
     animationRequestId.current = requestAnimationFrame(animate);
+    setInterval(() => {
+      if (enj?.game?.gameOver) {
+        console.log('Ending game');
+        setStarted(false);
+      }
+    }, 500);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      screen.orientation.removeEventListener('change', handleResize);
       document.removeEventListener('keydown', handleKeydown);
       document.removeEventListener('keyup', handleKeyup);
       document.removeEventListener('touchmove', preventDefault);
@@ -72,21 +85,25 @@ const ColorFlu: React.FC = () => {
       <div className="absolute w-screen h-screen overflow-y-clip touch-manipulation">
         {engine && !started && (
           <ColorfluStartMenu
-            engine={engine}
+            engine={engine!}
             start={() => {
-              engine.start();
-              engine.resume();
+              engine!.start();
+              engine!.resume();
               setStarted(true);
             }}
           />
         )}
-        {/* {engine && engine.game && process.env.NODE_ENV === 'development' && (
-          <ColorfluHUD engine={engine} />
-        )} */}
-        {engine?.paused && (
-          <ColorfluPauseMenu engine={engine!} resume={resumeGame} />
+        {engine && engine.game && process.env.NODE_ENV === 'development' && (
+          <ColorfluDevStats engine={engine} />
         )}
-        {engine?.game && !engine?.paused && (
+        {paused && (
+          <ColorfluPauseMenu
+            engine={engine!}
+            resume={resumeGame}
+            endGame={endGame}
+          />
+        )}
+        {engine?.game && !engine?.paused && started && (
           <ColorfluOnscreenControls engine={engine!} pause={pauseGame} />
         )}
       </div>

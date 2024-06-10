@@ -7,7 +7,7 @@ interface Props {
   engine: ColorfluEngine;
 }
 
-const ColorfluHUD: React.FC<Props> = ({ engine }) => {
+const ColorfluDevStats: React.FC<Props> = ({ engine }) => {
   const [counter, setCounter] = useState(0);
   const [showHUD, setShowHUD] = useState(false);
   const [x, setX] = useState(0);
@@ -32,7 +32,7 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
     }, 100);
   }, [engine]);
   return (
-    <div className="flex flex-col p-4 items-end">
+    <div className="absolute flex flex-col p-4 items-end">
       <div className="flex items-center justify-between w-[280px]">
         <span className="text-2xl text-p3y-red">Clock: {counter}</span>
         <button
@@ -67,4 +67,4 @@ const ColorfluHUD: React.FC<Props> = ({ engine }) => {
   );
 };
 
-export default ColorfluHUD;
+export default ColorfluDevStats;
