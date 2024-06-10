@@ -1,3 +1,4 @@
+'use client';
 import { ColorfluEngine } from '@/projects/colorflu/engine';
 import React, { useEffect, useState } from 'react';
 

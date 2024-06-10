@@ -1,17 +1,14 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import ColorfluTitleBar from './Colorflu/ColorfluTitleBar';
 import Link from 'next/link';
+import React, { useEffect } from 'react';
 import Logo from './NavBar/Logo';
 
 interface Props {}
 
 const NavBar: React.FC<Props> = () => {
   const { theme, setTheme } = useTheme();
-  const pathname = usePathname();
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
     console.log(theme);
@@ -55,25 +52,27 @@ const NavBar: React.FC<Props> = () => {
         </>
       </div>
       <div className="flex flex-col items-center justify-center gap-y-2 relative h-[25px] w-[44px]">
-        {typeof window !== 'undefined' && (
-          <label className="switch w-1/2">
-            <input
-              checked={
-                theme
+        {/* {typeof window !== 'undefined' && ( */}
+        <label className="switch w-1/2">
+          <input
+            checked={
+              typeof window !== 'undefined'
+                ? theme
                   ? theme === 'dark'
                   : window.matchMedia &&
                     window.matchMedia('(prefers-color-scheme: dark)').matches
-              }
-              type="checkbox"
-              onChange={toggleTheme}
-            />
-            <span
-              className={
-                'slider absolute cursor-pointer bg-p3y-red rounded-xl before:transition-transform before:duration-300 before:rounded-full before:bg-p3y-ivory'
-              }
-            ></span>
-          </label>
-        )}
+                : true
+            }
+            type="checkbox"
+            onChange={toggleTheme}
+          />
+          <span
+            className={
+              'slider absolute cursor-pointer bg-p3y-red rounded-xl before:transition-transform before:duration-300 before:rounded-full before:bg-p3y-ivory'
+            }
+          ></span>
+        </label>
+        {/* )} */}
       </div>
     </div>
   );
