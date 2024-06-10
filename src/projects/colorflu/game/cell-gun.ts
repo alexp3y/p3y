@@ -49,7 +49,6 @@ export class CellGun extends GameElement {
     for (let x = 0; x < this._bullets.length; x++) {
       let bullet = this._bullets[x];
       if (!bullet.isDestroyed() && bullet.isCollidedWith(el)) {
-        el.explosionColor = bullet.color;
         bullet.destroy();
         return true;
       }
