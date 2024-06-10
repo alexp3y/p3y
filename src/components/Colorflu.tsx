@@ -61,7 +61,7 @@ const ColorFlu: React.FC = () => {
     document.addEventListener('keyup', handleKeyup);
     document.addEventListener('touchmove', preventDefault, { passive: false });
     animationRequestId.current = requestAnimationFrame(animate);
-    setInterval(() => {
+    const interval = setInterval(() => {
       if (enj?.game?.gameOver) {
         console.log('Ending game');
         setStarted(false);
@@ -72,6 +72,7 @@ const ColorFlu: React.FC = () => {
       document.removeEventListener('keyup', handleKeyup);
       document.removeEventListener('touchmove', preventDefault);
       cancelAnimationFrame(animationRequestId.current);
+      clearInterval(interval);
     };
   }, []);
 

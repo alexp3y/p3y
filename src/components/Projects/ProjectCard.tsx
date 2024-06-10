@@ -6,11 +6,16 @@ interface Props {
   link: string;
   image: string;
   title: string;
+  external?: boolean;
 }
 
-const ProjectCard: React.FC<Props> = ({ link, image, title }) => {
+const ProjectCard: React.FC<Props> = ({ link, image, title, external }) => {
   return (
-    <Link href={link} target="_blank" rel="noreferrer">
+    <Link
+      href={link}
+      target={external ? '_blank' : ''}
+      rel={external ? '_blank' : ''}
+    >
       <div className="flex flex-col border border-p3y-red rounded-2xl cursor-pointer h-[240px]">
         <Image
           priority

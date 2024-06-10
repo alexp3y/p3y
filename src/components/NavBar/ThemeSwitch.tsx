@@ -20,7 +20,7 @@ const ThemeSwitch: React.FC = () => {
   }, []);
   return (
     <div className="flex flex-col items-center justify-center gap-y-2 relative h-[25px] w-[44px]">
-      <label className="switch w-1/2 border-p3y-olive dark:border-p3y-ivory border-[1px] rounded-full">
+      <label className="switch w-1/2 border-p3y-olive dark:border-p3y-blue border-[1px] rounded-full">
         <input
           checked={
             typeof window !== 'undefined'

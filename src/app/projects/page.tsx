@@ -21,6 +21,7 @@ export default function AboutPage() {
             link="https://givemechoice.com"
             image="/images/gmc-screenshot.png"
             title="Give Me Choice"
+            external
           />
         </div>
       </div>
