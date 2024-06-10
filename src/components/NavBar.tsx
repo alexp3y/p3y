@@ -1,30 +1,15 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Logo from './NavBar/Logo';
+import ThemeSwitch from './NavBar/ThemeSwitch';
+import MobileMenu from './NavBar/MobileMenu';
+import MobileMenuButton from './NavBar/MobileMenuButton';
 
 interface Props {}
 
 const NavBar: React.FC<Props> = () => {
-  const { theme, setTheme } = useTheme();
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-    console.log(theme);
-  };
-
-  useEffect(() => {
-    setTheme(
-      theme && theme !== 'system'
-        ? theme
-        : window.matchMedia &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
-    );
-  }, []);
-
   return (
     <div className="w-full md:px-6 px-4 pt-2 pb-3 border-b border-p3y-red flex justify-between bg-p3y-ivory dark:bg-p3y-gunmetal items-center text-p3y-red lato h-[60px]">
       <Logo />
@@ -51,28 +36,11 @@ const NavBar: React.FC<Props> = () => {
           </Link>
         </>
       </div>
-      <div className="flex flex-col items-center justify-center gap-y-2 relative h-[25px] w-[44px]">
-        {/* {typeof window !== 'undefined' && ( */}
-        <label className="switch w-1/2">
-          <input
-            checked={
-              typeof window !== 'undefined'
-                ? theme
-                  ? theme === 'dark'
-                  : window.matchMedia &&
-                    window.matchMedia('(prefers-color-scheme: dark)').matches
-                : true
-            }
-            type="checkbox"
-            onChange={toggleTheme}
-          />
-          <span
-            className={
-              'slider absolute cursor-pointer bg-p3y-red rounded-xl before:transition-transform before:duration-300 before:rounded-full before:bg-p3y-ivory'
-            }
-          ></span>
-        </label>
-        {/* )} */}
+      <div className="hidden md:block">
+        <ThemeSwitch />
+      </div>
+      <div className="md:hidden">
+        <MobileMenuButton />
       </div>
     </div>
   );

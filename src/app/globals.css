@@ -36,13 +36,6 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
   height: 100%;
 }
 
@@ -100,8 +93,8 @@ body {
   content: '';
   height: 18px;
   width: 18px;
-  left: 3px;
-  bottom: 3px;
+  left: 1px;
+  bottom: 1px;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   @apply bg-p3y-red;

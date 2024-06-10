@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
+import { ThemeProvider } from 'next-themes';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { ThemeProvider } from 'next-themes';
-import NavBar from '@/components/NavBar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body
+        className={'bg-p3y-ivory dark:bg-p3y-gunmetal anta ' + inter.className}
+      >
         <ThemeProvider attribute="class" enableSystem={true}>
           {children}
         </ThemeProvider>
