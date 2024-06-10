@@ -71,10 +71,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           <Link href={'/about'}>
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta',
-                {
-                  '-translate-x-36': !open,
-                }
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta'
               )}
               onClick={handleLinkClick}
             >
@@ -86,10 +83,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           <Link href={'/projects'}>
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta',
-                {
-                  '-translate-x-36': !open,
-                }
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta'
               )}
               onClick={handleLinkClick}
             >
@@ -105,10 +99,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           >
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta',
-                {
-                  '-translate-x-36': !open,
-                }
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-7 transition-none duration-500 md:pl-0 md:transition-all anta'
               )}
               onClick={handleLinkClick}
             >
