@@ -24,21 +24,21 @@ export default function AboutPage() {
               p3y
             </span>{' '}
             is to showcase some of my current and future development projects.
-            Check back in from time to time as I continue to build out and add
-            more side-projects to the{' '}
+            Check back in from time to time as I continue to build and add more
+            side-projects to the{' '}
             <a className="underline underline-offset-2" href="/projects">
               projects page
             </a>
-            . Heck, at some point I might even start that blog I've always
+            . Heck, at some point I might even start that blog I&apos;ve always
             talked about.
           </p>
           <p>
             I started developing professionally almost 12 years ago and cut my
-            teeth coding SAP business apps in the ABAP language. After working
-            for some of the largest manufacturing companies in the US, I moved
-            on to Java and cloud-based Shipping & Logistics software. I worked
-            as a core member of a team that built, launched, and scaled the
-            highly-successful shipping platform{' '}
+            teeth coding SAP business applications in the ABAP language. After
+            working for some of the largest manufacturing companies in the US, I
+            moved on to Java and cloud-based Shipping & Logistics software. I
+            worked as a core member of the team that built, launched, and scaled
+            the highly-successful shipping platform{' '}
             <a
               className="underline underline-offset-2"
               href="https://www.youtube.com/watch?v=Z1ipZmUjYvs"
@@ -50,22 +50,22 @@ export default function AboutPage() {
             .
           </p>
           <p>
-            In the last few years I've become much more interested in the Web,
-            blockchain technology, and building user apps. Typescript has been a
-            revelation. I love trying my hand at new things, which is why in my
-            projects you can find games, susatainable ecommerce apps, and
+            In the last few years I&apos;ve become much more interested in the
+            Web, blockchain technology, and building user apps. Typescript has
+            been a revelation. I love trying my hand at new things, which is why
+            in my projects you can find games, susatainable ecommerce apps, and
             various other tools that I find fun or useful.
           </p>
           <p>
             Personally, I grew up in Michigan, USA but have been living in
             Amsterdam since 2017. I love to travel and in 2021 spent almost 2
-            years moving around the globe working remotely. Now I'm back in
+            years moving around the globe working remotely. Now I&apos;m back in
             Holland, cycling through the canals and enjoying exceptional quality
             dairy products.
           </p>
           <p>
-            If you're interested in a collaboration or want more information
-            about any of my projects, please reach out{' '}
+            If you&apos;re interested in a collaboration or want more
+            information about any of my projects, please reach out{' '}
             <a
               className="underline underline-offset-2"
               href="mailto:alexp3y@gmail.com?subject=Hello"
@@ -73,7 +73,7 @@ export default function AboutPage() {
               rel="noreferrer"
             >
               via email
-            </a>{' '}
+            </a>
             .
           </p>
           <p>Peace ✌️</p>
