@@ -87,7 +87,7 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
     <div className="flex  h-full max-h-screen overflow-y-none justify-between flex-col">
       <div className="flex width-full justify-end p-8" id="top-controls">
         <div
-          className="rounded-xl border-p3y-gunmetal border-2 py-1 px-2 bg-[#f28cb8] bg-opacity-10 text-p3y-gunmetal anta cursor-pointer text-[18px]"
+          className="rounded-xl border-p3y-gunmetal border-2 py-1 px-2 bg-[#f28cb8] bg-opacity-20 text-p3y-gunmetal anta cursor-pointer text-[18px]"
           onClick={() => pause()}
         >
           PAUSE
@@ -99,34 +99,56 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
       >
         <div
           id="move-controls"
-          className="rounded-full bg-p3y-gunmetal h-24 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-3"
+          className="rounded-full bg-p3y-gunmetal h-24 aspect-square bg-opacity-45  border-p3y-gunmetal border-2 m-2 ml-3 flex flex-col"
           onTouchStart={handleTouchStart as any}
           onTouchMove={handleTouchMove as any}
           onTouchEnd={handleTouchEnd}
           onTouchCancel={handleTouchCancel}
-        />
+        >
+          <div className="h-1/3 flex">
+            <div className="w-1/3" />
+            <div className="w-1/3 rounded-t-full bg-p3y-gunmetal bg-opacity-60" />
+            <div className="w-1/3" />
+          </div>
+          <div className="h-1/3 flex">
+            <div className="w-1/3 rounded-l-full bg-p3y-gunmetal bg-opacity-60" />
+            <div className="w-1/3 rounded-full bg-p3y-gunmetal bg-opacity-30" />
+            <div className="w-1/3 rounded-r-full bg-p3y-gunmetal bg-opacity-60" />
+          </div>
+          <div className="h-1/3 flex">
+            <div className="w-1/3" />
+            <div className="w-1/3 rounded-b-full bg-p3y-gunmetal bg-opacity-60" />
+            <div className="w-1/3" />
+          </div>
+        </div>
         <div className="flex gap-x-3 items-end pb-2">
           <div
-            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45"
+            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45 flex justify-center items-center"
             onTouchStart={(e) => {
               engine.applyKey('a');
             }}
-          />
+          >
+            <span className="text-2xl text-p3y-ivory">A</span>
+          </div>
           <div
-            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45"
+            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45 flex justify-center items-center"
             onTouchStart={(e) => {
               engine.applyKey('s');
             }}
             onTouchEnd={(e) => {
               engine.releaseKey('s');
             }}
-          />
+          >
+            <span className="text-2xl text-p3y-ivory">S</span>
+          </div>
           <div
-            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45"
+            className="rounded-full border-p3y-gunmetal border aspect-square h-14 bg-p3y-gunmetal bg-opacity-45 flex justify-center items-center"
             onTouchStart={(e) => {
               engine.applyKey('d');
             }}
-          />
+          >
+            <span className="text-2xl text-p3y-ivory">D</span>
+          </div>
         </div>
       </div>
     </div>

@@ -77,7 +77,7 @@ export class ColorfluEngine {
         this._clock++;
         if (this.game) {
           if (!this._game?.isScreenAttached) {
-            this._haltLoop();
+            // this._haltLoop();
           }
           this._game!.update(this._clock);
         } else {

@@ -59,7 +59,7 @@ const HomepageHello: React.FC = () => {
         </Link>
       </span>
       <span>
-        Or waste some time with a silly{' '}
+        Or waste some time with a{' '}
         <Link href="/colorflu">
           <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
             <span className="hover:underline underline-offset-4 decoration-2">
