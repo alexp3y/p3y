@@ -53,7 +53,7 @@ export default function AboutPage() {
             In the last few years I&apos;ve become much more interested in the
             Web, blockchain technology, and building user apps. Typescript has
             been a revelation. I love trying my hand at new things, which is why
-            in my projects you can find games, susatainable ecommerce apps, and
+            in my projects you can find games, sustainable ecommerce apps, and
             various other tools that I find fun or useful.
           </p>
           <p>

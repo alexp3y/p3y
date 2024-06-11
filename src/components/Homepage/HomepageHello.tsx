@@ -44,7 +44,7 @@ const HomepageHello: React.FC = () => {
         </Link>
       </span>
       <span>
-        Send me a hello via{' '}
+        You can send me a hello via{' '}
         <Link
           href="mailto:alexp3y@gmail.com?subject=Hello"
           target="_blank"

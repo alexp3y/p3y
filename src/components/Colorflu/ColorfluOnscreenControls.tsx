@@ -87,7 +87,7 @@ const ColorfluOnscreenControls: React.FC<Props> = ({ engine, pause }) => {
     <div className="flex  h-full max-h-screen overflow-y-none justify-between flex-col">
       <div className="flex width-full justify-end p-8" id="top-controls">
         <div
-          className="rounded-xl border-p3y-gunmetal border-2 p-3 bg-p3y-grey text-p3y-gunmetal anta bg-opacity-35 cursor-pointer"
+          className="rounded-xl border-p3y-gunmetal border-2 py-1 px-2 bg-[#f28cb8] bg-opacity-10 text-p3y-gunmetal anta cursor-pointer text-[18px]"
           onClick={() => pause()}
         >
           PAUSE

@@ -61,10 +61,15 @@ const ColorFlu: React.FC = () => {
     document.addEventListener('keyup', handleKeyup);
     document.addEventListener('touchmove', preventDefault, { passive: false });
     animationRequestId.current = requestAnimationFrame(animate);
+    // monitor ƒor game over status
     const interval = setInterval(() => {
       if (enj?.game?.gameOver) {
         console.log('Ending game');
         setStarted(false);
+      }
+      // ensure pause status is synced
+      if (enj.paused && !paused) {
+        setPaused(true);
       }
     }, 500);
     return () => {
@@ -89,9 +94,9 @@ const ColorFlu: React.FC = () => {
             }}
           />
         )}
-        {engine && engine.game && process.env.NODE_ENV === 'development' && (
+        {/* {engine && engine.game && process.env.NODE_ENV === 'development' && (
           <ColorfluDevStats engine={engine} />
-        )}
+        )} */}
         {paused && (
           <ColorfluPauseMenu
             engine={engine!}

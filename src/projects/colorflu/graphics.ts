@@ -92,7 +92,7 @@ export class ColorfluGraphics {
     game.topCilia.forEach((c, i) => {
       if (i % 2) this._drawCilium(c);
     });
-    if (!game.cell.isExploded()) {
+    if (!game.gameOver && !game.cell.isExploded()) {
       this._renderHealthMeter(60, game.cell);
       this._renderShieldMeter(120, game.cell.shield);
     }
@@ -339,45 +339,45 @@ export class ColorfluGraphics {
         1.5
       );
       this._renderCellGuns(cell);
+      cell.infectedViruses
+        .filter((v) => v.docking)
+        .forEach((v) => {
+          this._renderDockingVirusInjection(v);
+          let dockPoint = 0;
+          switch (v.dockingQuadrant) {
+            case 'Q1':
+              dockPoint = v.dockAngle + Math.PI;
+              break;
+            case 'Q2':
+              dockPoint = -v.dockAngle;
+              break;
+            case 'Q3':
+              dockPoint = v.dockAngle;
+              break;
+            case 'Q4':
+              dockPoint = -v.dockAngle + Math.PI;
+              break;
+            default:
+              break;
+          }
+          this._drawRing(
+            cell.xPos,
+            cell.yPos,
+            WhiteBloodCell.RADIUS,
+            this._hex2rgba(colorBlack.hex, 0.8),
+            1,
+            dockPoint + 0.3,
+            dockPoint - 0.3
+          );
+          this._drawRing(
+            v.plasmidXPos,
+            v.plasmidYPos,
+            Virus.PLASMID_RADIUS,
+            this._hex2rgba(colorBlack.hex, 0.8),
+            1
+          );
+        });
     }
-    cell.infectedViruses
-      .filter((v) => v.docking)
-      .forEach((v) => {
-        this._renderDockingVirusInjection(v);
-        let dockPoint = 0;
-        switch (v.dockingQuadrant) {
-          case 'Q1':
-            dockPoint = v.dockAngle + Math.PI;
-            break;
-          case 'Q2':
-            dockPoint = -v.dockAngle;
-            break;
-          case 'Q3':
-            dockPoint = v.dockAngle;
-            break;
-          case 'Q4':
-            dockPoint = -v.dockAngle + Math.PI;
-            break;
-          default:
-            break;
-        }
-        this._drawRing(
-          cell.xPos,
-          cell.yPos,
-          WhiteBloodCell.RADIUS,
-          this._hex2rgba(colorBlack.hex, 0.8),
-          1,
-          dockPoint + 0.3,
-          dockPoint - 0.3
-        );
-        this._drawRing(
-          v.plasmidXPos,
-          v.plasmidYPos,
-          Virus.PLASMID_RADIUS,
-          this._hex2rgba(colorBlack.hex, 0.8),
-          1
-        );
-      });
     cell.infectedViruses
       .filter((v) => !v.docking)
       .forEach((v) => {
@@ -450,40 +450,41 @@ export class ColorfluGraphics {
       9
     );
 
-    if (cell.gun.recoilRight) {
-      this._drawPartialCircle(
-        cell.xPos + cell.radius + 25,
-        cell.yPos - 10,
-        15,
-        this._hex2rgba(palette.red.hex, cell.gun.recoilRight / 8 - 0.3),
-        Math.PI / 5,
-        (4 * Math.PI) / 5
-      );
-      this._drawPartialCircle(
-        cell.xPos + cell.radius + 25,
-        cell.yPos + 10,
-        15,
-        this._hex2rgba(palette.red.hex, cell.gun.recoilRight / 10 - 0.3),
-        -(4 * Math.PI) / 5,
-        -Math.PI / 5
-      );
-      this._drawPartialCircle(
-        cell.xPos + cell.radius + 25,
-        cell.yPos - 10,
-        14,
-        this._hex2rgba(palette.yellow.hex, cell.gun.recoilRight / 10 - 0.4),
-        Math.PI / 5,
-        (4 * Math.PI) / 5
-      );
-      this._drawPartialCircle(
-        cell.xPos + cell.radius + 25,
-        cell.yPos + 10,
-        14,
-        this._hex2rgba(palette.yellow.hex, cell.gun.recoilRight / 10 - 0.4),
-        -(4 * Math.PI) / 5,
-        -Math.PI / 5
-      );
-    }
+    // Cell gun recoil animation
+    // if (cell.gun.recoilRight) {
+    //   this._drawPartialCircle(
+    //     cell.xPos + cell.radius + 25,
+    //     cell.yPos - 10,
+    //     15,
+    //     this._hex2rgba(palette.blue.hex, cell.gun.recoilRight / 8 - 0.3),
+    //     Math.PI / 5,
+    //     (4 * Math.PI) / 5
+    //   );
+    //   this._drawPartialCircle(
+    //     cell.xPos + cell.radius + 25,
+    //     cell.yPos + 10,
+    //     15,
+    //     this._hex2rgba(palette.pink.hex, cell.gun.recoilRight / 10 - 0.3),
+    //     -(4 * Math.PI) / 5,
+    //     -Math.PI / 5
+    //   );
+    //   this._drawPartialCircle(
+    //     cell.xPos + cell.radius + 25,
+    //     cell.yPos - 10,
+    //     14,
+    //     this._hex2rgba(palette.yellow.hex, cell.gun.recoilRight / 10 - 0.4),
+    //     Math.PI / 5,
+    //     (4 * Math.PI) / 5
+    //   );
+    //   this._drawPartialCircle(
+    //     cell.xPos + cell.radius + 25,
+    //     cell.yPos + 10,
+    //     14,
+    //     this._hex2rgba(palette.yellow.hex, cell.gun.recoilRight / 10 - 0.4),
+    //     -(4 * Math.PI) / 5,
+    //     -Math.PI / 5
+    //   );
+    // }
   }
 
   private _renderCellShield(cell: WhiteBloodCell) {

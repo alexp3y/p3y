@@ -28,10 +28,8 @@ export class ColorfluEngine {
   start(savedGame?: ColorfluGame) {
     console.log('starting game');
     this._game = new ColorfluGame(this._dimensions);
-    if (savedGame) {
-      this._game.restore(savedGame);
-    }
     this._paused = false;
+    this._startLoop();
     this._running = true;
   }
 
@@ -101,9 +99,6 @@ export class ColorfluEngine {
       return;
     }
     switch (key.toLowerCase()) {
-      case 'enter':
-        // this.pause();
-        break;
       case 'arrowup':
         this._game!.applyControl(ControlType.GO_UP);
         break;
