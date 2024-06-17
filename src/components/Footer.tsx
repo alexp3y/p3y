@@ -51,7 +51,10 @@ const Footer: React.FC = () => {
         </div>
         <div className="flex lato gap-x-1 items-center">
           <p>&copy;</p>
-          <span>2024</span>
+          <span>2024</span>{' '}
+          <span className="border border-p3y-red rounded-[2px] pt-[0px] pb-[1px] px-[4px] text-base anta ml-1 ">
+            p3y
+          </span>{' '}
         </div>
       </div>
     </div>
