@@ -1,43 +1,79 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import Image from 'next/image';
 
 interface Props {
-  link: string;
+  demoUrl?: string;
+  repoUrl?: string;
   image: string;
   title: string;
   description: string;
-  external?: boolean;
 }
 
 const ProjectCard: React.FC<Props> = ({
-  link,
+  demoUrl,
+  repoUrl,
   image,
   title,
-  external,
   description,
 }) => {
   return (
-    <Link
-      href={link}
-      target={external ? '_blank' : ''}
-      rel={external ? '_blank' : ''}
-    >
-      <div className="flex flex-col border border-p3y-red rounded-2xl cursor-pointer h-[260px]">
+    <div className="flex flex-col border-2 border-p3y-red rounded-xl h-fit">
+      <div className="h-[200px]">
         <Image
           priority
-          className="rounded-t-2xl shadow-md"
+          className="rounded-t-lg"
           src={image}
-          width={300}
+          width={325}
           height={200}
           alt={title}
         />
-        <div className="w-full text-center flex flex-col flex-grow items-center justify-between p-2">
-          <h3 className="text-2xl">{title}</h3>
-          <p className="text-sm">{description}</p>
-        </div>
       </div>
-    </Link>
+      <div className="w-full text-center flex flex-col flex-grow items-center justify-between p-3 dark:bg-p3y-gunmetal rounded-b-xl bg-p3y-ivory border-t border-p3y-red gap-3">
+        <h3 className="text-2xl uppercase">{title}</h3>
+        <div className="flex items-center justify-center w-full gap-x-8">
+          <Link
+            href={demoUrl ? demoUrl : '/'}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-disabled={!demoUrl}
+          >
+            <button
+              className="border rounded-md p-2 disabled:bg-p3y-grey disabled:border-p3y-grey bg-p3y-maize dark:bg-p3y-blue dark:disabled:bg-p3y-grey"
+              disabled={!demoUrl}
+            >
+              <Image
+                priority
+                src={'/images/link.svg'}
+                width={20}
+                height={20}
+                alt={title}
+              />
+            </button>
+          </Link>
+          <Link
+            href={repoUrl ? repoUrl : '/'}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-disabled={!repoUrl}
+          >
+            <button
+              className="border rounded-md p-2 disabled:bg-p3y-grey disabled:border-p3y-grey bg-p3y-maize dark:bg-p3y-blue dark:disabled:bg-p3y-grey"
+              disabled={!repoUrl}
+            >
+              <Image
+                priority
+                src={'/images/code.svg'}
+                width={20}
+                height={20}
+                alt={title}
+              />
+            </button>
+          </Link>
+        </div>
+        <p className="text-base">{description}</p>
+      </div>
+    </div>
   );
 };
 

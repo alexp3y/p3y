@@ -10,24 +10,25 @@ export default function AboutPage() {
         <h1 className="pb-10 text-3xl text-center">Projects</h1>
         <div className="flex w-full flex-wrap gap-10 justify-center pb-8">
           <ProjectCard
-            link="/colorflu"
+            demoUrl="/colorflu"
+            repoUrl="https://github.com/alexp3y/p3y/tree/main/src/projects/colorflu"
             image="/images/colorflu-splash.png"
             title="ColorFlu"
             description="Web Game using HTML Canvas"
           />
           <ProjectCard
-            link="https://givemechoice.com"
+            demoUrl="https://givemechoice.com"
+            repoUrl="https://github.com/GiveMeChoice/gmc-backend"
             image="/images/gmc-screenshot.png"
             title="Give Me Choice"
             description="Sustainable Ecommerce Platform"
-            external
           />
           <ProjectCard
-            link="https://github.com/alexp3y/decksy-frontend"
+            demoUrl="https://decksy.app"
+            repoUrl="https://github.com/alexp3y/decksy-frontend"
             image="/images/decksy.jpg"
             title="Decksy"
-            description="Flashcard & Education App"
-            external
+            description="Minimalist Flashcard App"
           />
         </div>
       </div>
