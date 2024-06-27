@@ -23,8 +23,8 @@ export default function AboutPage() {
             external
           />
           <ProjectCard
-            link="https://github.com/alexp3y/decks"
-            image="/images/decksy-screenshot.png"
+            link="https://github.com/alexp3y/decksy-frontend"
+            image="/images/decksy.jpg"
             title="Decksy"
             description="Flashcard & Education App"
             external
