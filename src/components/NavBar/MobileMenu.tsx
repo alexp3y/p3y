@@ -65,7 +65,10 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
             <div onClick={close}>
               <Logo />
             </div>
-            <button className={cn('')} onClick={close}>
+            <button
+              className={'w-fit aspect-square rounded-full'}
+              onClick={close}
+            >
               <div className="w-7 -translate-x-[0px] rotate-45 border-b-2"></div>
               <div className="w-7 translate-x-[0px] -translate-y-[2px] -rotate-45 border-b-2" />
             </button>

@@ -35,7 +35,7 @@ const ThemeSwitch: React.FC = () => {
         />
         <span
           className={
-            'slider absolute cursor-pointer bg-p3y-grey dark:bg-p3y-red  rounded-xl before:transition-transform before:duration-300 before:rounded-full before:bg-p3y-ivory'
+            'slider absolute cursor-pointer bg-p3y-grey dark:bg-p3y-red  rounded-xl before:transition-transform before:duration-300 before:rounded-full before:bg-p3y-gunmetal dark:before:bg-p3y-grey'
           }
         ></span>
       </label>
