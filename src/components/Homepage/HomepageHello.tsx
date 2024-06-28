@@ -4,8 +4,8 @@ import React from 'react';
 
 const HomepageHello: React.FC = () => {
   return (
-    <div className="bg-p3y- w-fit max-h-fit mb-[20vh] rounded-lg m-16 bg-p3y-red">
-      <div className="w-fit min-w-full rounded-lg md:text-2xl anta flex flex-col gap-y-6 text-xl dark:text-p3y-grey text-center justify-center border-[3px] border-p3y-red translate-x-[7px] bg-p3y-ivory dark:bg-p3y-gunmetal -translate-y-[7px]  px-16 py-14">
+    <div className="mb-[20vh] mt-8 rounded-lg bg-p3y-red max-w-xl mx-6">
+      <div className="w-fit min-w-full rounded-lg md:text-2xl anta flex flex-col gap-y-6 text-xl dark:text-p3y-grey text-center justify-center border-[3px] border-p3y-red translate-x-[7px] bg-p3y-ivory dark:bg-p3y-gunmetal -translate-y-[7px] p-8 sm:p-10 py-14">
         <span className="text-4xl md:text-5xl pb-6">
           {"Hi there, I'm"}{' '}
           <Link href="/about">

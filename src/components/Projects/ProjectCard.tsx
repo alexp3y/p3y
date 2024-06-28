@@ -19,8 +19,8 @@ const ProjectCard: React.FC<Props> = ({
 }) => {
   return (
     <div className="rounded-lg bg-p3y-red">
-      <div className="flex flex-col h-fit text-p3y-gunmetal dark:text-p3y-red rounded-[9px] border-2 border-p3y-red translate-x-[5px] -translate-y-[5px]">
-        <div className="h-[220px]">
+      <div className="flex flex-col h-fit text-p3y-gunmetal dark:text-p3y-red rounded-[9px] border-2 border-p3y-red translate-x-[5px] -translate-y-[5px] bg-p3y-ivory dark:bg-p3y-gunmetal">
+        <div className="max-h-fit">
           <Image
             priority
             className="rounded-t-lg"
