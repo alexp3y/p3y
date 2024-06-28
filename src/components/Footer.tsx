@@ -1,14 +1,9 @@
-'use client';
-
-import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import React from 'react';
 
 const Footer: React.FC = () => {
-  const theme = useTheme();
-
   return (
-    <div className="flex flex-col w-full lato border-t-p3y-red border-t text-p3y-red">
+    <div className="bg-p3y-ivory dark:bg-p3y-gunmetal flex flex-col w-full lato border-t-p3y-red border-t text-p3y-red">
       <div className="w-full p-4 flex text-[18px] h-[60px] justify-between items-center px-8">
         {/* social links container*/}
         <div className="flex items-center justify-between  md:items-center gap-4">
@@ -19,10 +14,18 @@ const Footer: React.FC = () => {
               rel="noreferrer noopener"
             >
               <Image
-                src="/images/linkedin.svg"
-                alt="LinkedIn"
-                height="36"
-                width="36"
+                className="dark:hidden block"
+                src={'/images/linkedin.svg'}
+                alt="GitHub"
+                height="34"
+                width="34"
+              />
+              <Image
+                className="dark:block hidden"
+                src={'/images/linkedin-light.svg'}
+                alt="GitHub"
+                height="34"
+                width="34"
               />
             </a>
           </div>
@@ -33,11 +36,15 @@ const Footer: React.FC = () => {
               rel="noreferrer noopener"
             >
               <Image
-                src={
-                  theme.theme === 'dark'
-                    ? '/images/github-light.svg'
-                    : '/images/github.svg'
-                }
+                className="dark:hidden block"
+                src={'/images/github.svg'}
+                alt="GitHub"
+                height="36"
+                width="36"
+              />
+              <Image
+                className="dark:block hidden"
+                src={'/images/github-light.svg'}
                 alt="GitHub"
                 height="36"
                 width="36"

@@ -8,15 +8,17 @@ export default function AboutPage() {
       <NavBar />
       <div className="flex flex-col text-black flex-grow justify-start text-p3y-gunmetal dark:text-p3y-grey p-10 items-center">
         <h1 className="pb-10 text-3xl text-center text-p3y-red">About</h1>
-        <Image
-          priority
-          className="rounded-2xl shadow-md"
-          src="/images/about.jpeg"
-          width={300}
-          height={400}
-          alt="about"
-        />
-        <div className="flex flex-col gap-y-6 py-10 text-[15px] max-w-[800px]">
+        <div className="border-2 rounded-[18px] border-p3y-red shadow-lg">
+          <Image
+            priority
+            className="rounded-2xl"
+            src="/images/about.jpeg"
+            width={300}
+            height={400}
+            alt="about"
+          />
+        </div>
+        <div className="flex flex-col gap-y-6 py-10 text-[16px] max-w-[800px]">
           <p>Welcome Traveler!</p>
           <p>
             The purpose of{' '}
@@ -24,8 +26,8 @@ export default function AboutPage() {
               p3y
             </span>{' '}
             is to showcase some of my current and future development projects.
-            Check back in from time to time as I continue to build and add more
-            side-projects to the{' '}
+            Check back in from time to time as I continue to build and update my
+            work on the{' '}
             <a className="underline underline-offset-2" href="/projects">
               projects page
             </a>
@@ -33,11 +35,11 @@ export default function AboutPage() {
             talked about.
           </p>
           <p>
-            I started developing professionally 12 years ago and cut my teeth
-            coding SAP business applications in the ABAP language. After working
-            for some of the largest manufacturing companies in the US, I moved
-            on to Java and cloud-based Shipping & Logistics software. I was a
-            core member of the team that built, launched, and scaled the
+            I started developing professionally in 2013 and cut my teeth coding
+            SAP business applications in the ABAP language. After working for
+            some of the largest manufacturing companies in the US, I moved on to
+            Java and cloud-based Shipping & Logistics software. I was a core
+            member of the team that built, launched, and scaled a
             highly-successful shipping platform{' '}
             <a
               className="underline underline-offset-2"
@@ -54,13 +56,12 @@ export default function AboutPage() {
             Web, blockchain technology, and building user apps. I love trying my
             hand at new things, which is why in my projects you can find games,
             sustainable ecommerce apps, and various other tools that I find fun
-            or useful.
+            or interesting.
           </p>
           <p>
-            I grew up in Michigan, USA but have been living in Amsterdam since
-            2017. I love to travel and in 2021 spent 2 years moving around the
-            globe working remotely. Now I&apos;m back in Holland, cycling
-            through the canals.
+            Although I started my career in Chicago, I have been happily based
+            in Amsterdam since 2017. I love to travel and in 2021 spent 2 years
+            wandering the globe working remotely.
           </p>
           <p>
             If you&apos;re interested in a collaboration or want more

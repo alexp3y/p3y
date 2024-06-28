@@ -4,70 +4,57 @@ import React from 'react';
 
 const HomepageHello: React.FC = () => {
   return (
-    <div className="w-full md:text-3xl anta flex flex-col gap-y-6 text-xl dark:text-p3y-grey text-center mb-[20vh] justify-center p-16">
-      <span className="text-4xl md:text-5xl pb-4">
-        {"Hi there, I'm"}{' '}
-        <Link href="/about">
-          <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-            <span className="hover:underline underline-offset-4 decoration-2">
-              Alex Perry
-            </span>{' '}
-            👋
-          </span>
-        </Link>
-      </span>
-      <span>
-        I build software from my home in{' '}
-        <Link
-          href="https://www.youtube.com/watch?v=3lqNDCaDWgM"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-            <span className="hover:underline underline-offset-4 decoration-2">
-              Amsterdam
-            </span>{' '}
-            🌷
-          </span>
-        </Link>
-      </span>
-      <span>
-        Checkout some of my{' '}
-        <Link href="/projects">
-          <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-            <span className="hover:underline underline-offset-4 decoration-2">
-              work
-            </span>{' '}
-            💻
-          </span>
-        </Link>
-      </span>
-      <span>
-        You can send me a hello via{' '}
-        <Link
-          href="mailto:alexp3y@gmail.com?subject=Hello"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-            <span className="hover:underline underline-offset-4 decoration-2">
-              email
-            </span>{' '}
-            ✉️
-          </span>
-        </Link>
-      </span>
-      <span>
-        Or waste some time with a{' '}
-        <Link href="/colorflu">
-          <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-            <span className="hover:underline underline-offset-4 decoration-2">
-              game
-            </span>{' '}
-            👾
-          </span>
-        </Link>
-      </span>
+    <div className="bg-p3y- w-fit max-h-fit mb-[20vh] rounded-lg m-16 bg-p3y-red">
+      <div className="w-fit min-w-full rounded-lg md:text-2xl anta flex flex-col gap-y-6 text-xl dark:text-p3y-grey text-center justify-center border-[3px] border-p3y-red translate-x-[7px] bg-p3y-ivory dark:bg-p3y-gunmetal -translate-y-[7px]  px-16 py-14">
+        <span className="text-4xl md:text-5xl pb-6">
+          {"Hi there, I'm"}{' '}
+          <Link href="/about">
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
+              <span className="">Alex Perry</span>
+            </span>
+          </Link>
+        </span>
+        <span>
+          I build software in{' '}
+          <Link
+            href="https://www.youtube.com/watch?v=3lqNDCaDWgM"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
+              <span className="">Amsterdam</span> 🌷
+            </span>
+          </Link>
+        </span>
+        <span>
+          Checkout some of my{' '}
+          <Link href="/projects">
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
+              <span className="">work</span> 💻
+            </span>
+          </Link>
+        </span>
+        <span>
+          Send me a hello via{' '}
+          <Link
+            href="mailto:alexp3y@gmail.com?subject=Hello"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
+              <span className="">email</span> 📫
+            </span>
+          </Link>
+        </span>
+        <span>
+          Or try your hand at a{' '}
+          <Link href="/colorflu">
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
+              <span className="">game</span> 🕹️
+            </span>
+          </Link>
+        </span>
+      </div>
     </div>
   );
 };
