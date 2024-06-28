@@ -18,7 +18,7 @@ const ProjectCard: React.FC<Props> = ({
   description,
 }) => {
   return (
-    <div className="flex flex-col border-2 border-p3y-red rounded-xl h-fit text-p3y-gunmetal dark:text-p3y-red">
+    <div className="flex flex-col border-2 border-p3y-red rounded-xl h-fit text-p3y-gunmetal dark:text-p3y-grey">
       <div className="h-[220px]">
         <Image
           priority

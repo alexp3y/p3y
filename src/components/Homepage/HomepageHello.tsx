@@ -1,11 +1,10 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const HomepageHello: React.FC = () => {
   return (
-    <div className="w-full md:text-3xl anta flex flex-col gap-y-6 text-xl dark:text-p3y-grey text-center mb-16 justify-center p-16">
+    <div className="w-full md:text-3xl anta flex flex-col gap-y-6 text-xl dark:text-p3y-grey text-center mb-[20vh] justify-center p-16">
       <span className="text-4xl md:text-5xl pb-4">
         {"Hi there, I'm"}{' '}
         <Link href="/about">

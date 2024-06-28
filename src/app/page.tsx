@@ -10,7 +10,7 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Head>
-      <main className="flex h-screen max-h-screen flex-col items-center text-p3y-olive justify-between lato">
+      <main className="flex h-screen max-h-screen flex-col items-center text-p3y-gunmetal justify-between lato">
         <NavBar />
         <HomepageHello />
         <Footer />

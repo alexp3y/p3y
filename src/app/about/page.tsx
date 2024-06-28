@@ -6,8 +6,8 @@ export default function AboutPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar />
-      <div className="flex flex-col text-black flex-grow justify-start text-p3y-red p-10 items-center">
-        <h1 className="pb-10 text-3xl text-center">About</h1>
+      <div className="flex flex-col text-black flex-grow justify-start text-p3y-gunmetal dark:text-p3y-grey p-10 items-center">
+        <h1 className="pb-10 text-3xl text-center text-p3y-red">About</h1>
         <Image
           priority
           className="rounded-2xl shadow-md"
@@ -16,11 +16,11 @@ export default function AboutPage() {
           height={400}
           alt="about"
         />
-        <div className="flex flex-col gap-y-6 py-10 text-[14px] max-w-[800px]">
+        <div className="flex flex-col gap-y-6 py-10 text-[15px] max-w-[800px]">
           <p>Welcome Traveler!</p>
           <p>
             The purpose of{' '}
-            <span className="border border-p3y-red rounded-[2px] py-[1px] pb-[2px] px-[3px]">
+            <span className="border-[2px] text-p3y-red rounded-[2px] py-[1px] pb-[2px] px-[3px]">
               p3y
             </span>{' '}
             is to showcase some of my current and future development projects.
