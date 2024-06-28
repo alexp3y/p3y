@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
 import { useTheme } from 'next-themes';
+import Image from 'next/image';
+import React from 'react';
 
 const Footer: React.FC = () => {
-  const { theme } = useTheme();
+  const theme = useTheme();
+
   return (
     <div className="flex flex-col w-full lato border-t-p3y-red border-t text-p3y-red">
       <div className="w-full p-4 flex text-[18px] h-[60px] justify-between items-center px-8">
@@ -31,21 +32,16 @@ const Footer: React.FC = () => {
               target="_blank"
               rel="noreferrer noopener"
             >
-              {theme === 'dark' ? (
-                <Image
-                  src="/images/github-light.svg"
-                  alt="GitHub"
-                  height="36"
-                  width="36"
-                />
-              ) : (
-                <Image
-                  src="/images/github.svg"
-                  alt="GitHub"
-                  height="36"
-                  width="36"
-                />
-              )}
+              <Image
+                src={
+                  theme.theme === 'dark'
+                    ? '/images/github-light.svg'
+                    : '/images/github.svg'
+                }
+                alt="GitHub"
+                height="36"
+                width="36"
+              />
             </a>
           </div>
         </div>

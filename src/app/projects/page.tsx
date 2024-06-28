@@ -25,7 +25,7 @@ export default function AboutPage() {
           />
           <ProjectCard
             demoUrl="https://decksy.app"
-            repoUrl="https://github.com/alexp3y/decksy-frontend"
+            repoUrl="https://github.com/alexp3y/decksy-backend"
             image="/images/decksy.jpg"
             title="Decksy"
             description="Minimalist Flashcard App"
