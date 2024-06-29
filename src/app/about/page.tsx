@@ -7,8 +7,13 @@ export default function AboutPage() {
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar />
       <div className="flex flex-col text-black flex-grow justify-start text-p3y-gunmetal dark:text-p3y-grey p-10 px-8 items-center">
-        <h1 className="pb-10 text-3xl text-center text-p3y-red">About</h1>
-        <div className="border-2 rounded-[18px] border-p3y-red shadow-lg">
+        <div className="relative pb-10 text-4xl text-center text-p3y-red">
+          <h1 className="absolute translate-x-[1px] -translate-y-[1px]">
+            About
+          </h1>
+          <h1 className="text-p3y-gunmetal dark:text-p3y-grey">About</h1>
+        </div>
+        <div className="border-2 rounded-[18px] border-p3y-red">
           <Image
             priority
             className="rounded-2xl"

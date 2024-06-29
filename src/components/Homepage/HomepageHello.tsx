@@ -5,32 +5,47 @@ import React from 'react';
 const HomepageHello: React.FC = () => {
   return (
     <div className="mb-[20vh] mt-8 rounded-lg bg-p3y-red max-w-xl mx-6">
-      <div className="w-fit min-w-full rounded-lg md:text-2xl anta flex flex-col gap-y-6 text-xl dark:text-p3y-grey text-center justify-center border-[3px] border-p3y-red translate-x-[7px] bg-p3y-ivory dark:bg-p3y-gunmetal -translate-y-[7px] p-8 sm:p-10 py-14">
-        <span className="text-4xl md:text-5xl pb-6">
+      <div className="cursor-default w-fit min-w-full rounded-lg md:text-2xl anta flex flex-col gap-y-6 text-2xl dark:text-p3y-grey text-center justify-center border-2 border-p3y-red translate-x-[5px] bg-p3y-ivory dark:bg-p3y-gunmetal -translate-y-[5px] p-8 sm:p-10 py-14">
+        <span className="text-4xl md:text-5xl pb-5">
           {"Hi there, I'm"}{' '}
           <Link href="/about">
-            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-              <span className="">Alex Perry</span>
+            <span className="relative active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap ">
+              <span className="absolute translate-x-[1px] -translate-y-[1px] hover:translate-x-[3px] hover:-translate-y-[2px] duration-150">
+                Alex Perry
+              </span>
+              <span className="text-p3y-gunmetal dark:text-p3y-grey">
+                Alex Perry
+              </span>
             </span>
           </Link>
         </span>
         <span>
           I build software in{' '}
           <Link
-            href="https://www.youtube.com/watch?v=3lqNDCaDWgM"
+            href="https://www.youtube.com/watch?v=sEON08d76oE"
             target="_blank"
             rel="noreferrer"
           >
-            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-              <span className="">Amsterdam</span> 🌷
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap">
+              <span className="absolute translate-x-[1px] -translate-y-[1px] hover:translate-x-[2px] hover:-translate-y-[2px] duration-150 ">
+                AMSTERDAM
+              </span>
+              <span className="text-p3y-gunmetal dark:text-p3y-grey">
+                AMSTERDAM
+              </span>
+              <span className="pl-3">🌷</span>
             </span>
           </Link>
         </span>
         <span>
           Checkout some of my{' '}
           <Link href="/projects">
-            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-              <span className="">work</span> 💻
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap ">
+              <span className="absolute translate-x-[1px] -translate-y-[1px] hover:translate-x-[2px] hover:-translate-y-[2px] duration-150 ">
+                WORK
+              </span>
+              <span className="text-p3y-gunmetal dark:text-p3y-grey">WORK</span>
+              <span className="pl-3">💻</span>
             </span>
           </Link>
         </span>
@@ -41,16 +56,26 @@ const HomepageHello: React.FC = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-              <span className="">email</span> 📫
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap ">
+              <span className="absolute translate-x-[1px] -translate-y-[1px] hover:translate-x-[2px] hover:-translate-y-[2px] duration-150 ">
+                EMAIL
+              </span>
+              <span className="text-p3y-gunmetal dark:text-p3y-grey">
+                EMAIL
+              </span>
+              <span className="pl-3">📫</span>
             </span>
           </Link>
         </span>
         <span>
           Or try your hand at a{' '}
           <Link href="/colorflu">
-            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap hover:text-p3y-blue dark:hover:text-p3y-maize">
-              <span className="">game</span> 🕹️
+            <span className="active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap ">
+              <span className="absolute translate-x-[1px] -translate-y-[1px] hover:translate-x-[2px] hover:-translate-y-[2px] duration-150 ">
+                GAME
+              </span>
+              <span className="text-p3y-gunmetal dark:text-p3y-grey">GAME</span>
+              <span className="pl-3">🕹️</span>
             </span>
           </Link>
         </span>
