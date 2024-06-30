@@ -9,11 +9,11 @@ const HomepageHello: React.FC = () => {
         <span className="text-4xl md:text-5xl pb-5">
           {"Hi there, I'm"}{' '}
           <Link href="/about">
-            <span className="relative active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap ">
-              <span className="absolute translate-x-[1px] -translate-y-[1px] hover:translate-x-[3px] hover:-translate-y-[2px] duration-150">
+            <span className="relative active:text-p3y-blue dark:active:text-p3y-maize text-p3y-red text-nowrap">
+              <span className="absolute translate-x-[1px] -translate-y-[1px] hover:translate-x-[3px] hover:-translate-y-[2px] duration-150 text-nowrap">
                 Alex Perry
               </span>
-              <span className="text-p3y-gunmetal dark:text-p3y-grey">
+              <span className="text-p3y-gunmetal dark:text-p3y-grey text-nowrap">
                 Alex Perry
               </span>
             </span>
