@@ -7,27 +7,29 @@ export default function AboutPage() {
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar />
       <div className="flex flex-col text-black flex-grow justify-start text-p3y-gunmetal dark:text-p3y-grey p-10 px-8 items-center">
-        <div className="relative pb-10 text-4xl text-center text-p3y-red">
+        <div className="relative pb-11 text-4xl text-center text-p3y-red">
           <h1 className="absolute translate-x-[1px] -translate-y-[1px]">
             About
           </h1>
-          <h1 className="text-p3y-gunmetal dark:text-p3y-grey">About</h1>
+          <h1 className="text-p3y-blue dark:text-p3y-blue">About</h1>
         </div>
-        <div className="border-2 rounded-[18px] border-p3y-red">
-          <Image
-            priority
-            className="rounded-2xl"
-            src="/images/about.jpeg"
-            width={320}
-            height={400}
-            alt="about"
-          />
+        <div className="bg-p3y-red relative">
+          <div className="h-full w-full absolute translate-x-4 -translate-y-4 bg-p3y-blue"></div>
+          <div className="translate-x-2 -translate-y-2 border-2 select-none">
+            <Image
+              priority
+              src="/images/about.jpeg"
+              width={260}
+              height={300}
+              alt="about"
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-y-6 py-10 text-[16px] max-w-[800px]">
           <p>Welcome Traveler!</p>
           <p>
             The purpose of{' '}
-            <span className="border-[2px] text-p3y-red rounded-[2px] py-[1px] pb-[2px] px-[3px]">
+            <span className="border-[1px] text-p3y- rounded-[1px] py-[1px] pb-[2px] px-[3px]">
               p3y
             </span>{' '}
             is to showcase some of my current and future development projects.

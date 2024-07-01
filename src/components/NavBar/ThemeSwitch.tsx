@@ -20,7 +20,7 @@ const ThemeSwitch: React.FC = () => {
   }, []);
   return (
     <div className="flex flex-col items-center justify-center gap-y-2 relative h-[25px] w-[44px]">
-      <label className="switch w-1/2 border-p3y-olive dark:border-p3y-red border-[2px] rounded-full">
+      <label className="switch w-1/2 border-p3y-olive dark:border-p3y-grey border-[2px] rounded-full">
         <input
           checked={
             typeof window !== 'undefined'
@@ -35,7 +35,7 @@ const ThemeSwitch: React.FC = () => {
         />
         <span
           className={
-            'slider absolute cursor-pointer rounded-xl before:transition-transform before:duration-300 before:rounded-full before:bg-p3y-gunmetal border border-p3y-red bg-p3y-red dark:bg-p3y-gunmetal dark:border-p3y-gunmetal dark:before:bg-p3y-grey'
+            'slider absolute cursor-pointer rounded-xl before:transition-transform before:duration-300 before:rounded-full before:bg-p3y-gunmetal border border-p3y-red bg-p3y-red dark:bg-p3y-gunmetal dark:border-p3y-gunmetal dark:before:bg-p3y-blue'
           }
         ></span>
       </label>

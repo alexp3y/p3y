@@ -44,16 +44,16 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
     <div
       id="side-menu"
       className={cn(
-        'fixed right-0 top-0 z-10 h-full bg-p3y-ivory dark:bg-p3y-gunmetal font-normal tracking-wide transition-all duration-500 text-p3y-red border-p3y-red',
+        'fixed right-0 top-0 z-10 h-full bg-p3y-grey dark:bg-p3y-gunmetal font-normal tracking-wide transition-all duration-500 text-p3y-gunmetal dark:text-p3y-red border-p3y-red',
         {
           'w-0': !isOpen,
-          'w-full sm:w-96 border-l': isOpen,
+          'w-full sm:w-96 border-l-2': isOpen,
         }
       )}
     >
       <div
         className={cn(
-          'float-right flex h-screen w-full flex-col justify-between overflow-hidden transition-all duration-500 md:transition-all',
+          'float-right flex h-screen w-full flex-col justify-between overflow-hidden transition-all  md:transition-all',
           {
             'w-0': !isOpen,
             'w-full sm:w-96': isOpen,
@@ -76,7 +76,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           <Link href={'/about'}>
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition-none duration-500 md:pl-0 transition-all anta'
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition-none  md:pl-0 transition-all anta'
               )}
               onClick={handleLinkClick}
             >
@@ -88,7 +88,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           <Link href={'/projects'}>
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition- duration-500 md:pl-0 transition-all anta'
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition-  md:pl-0 transition-all anta'
               )}
               onClick={handleLinkClick}
             >
@@ -104,7 +104,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
           >
             <div
               className={cn(
-                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition- duration-500 md:pl-0 transition-all anta'
+                'group flex w-full cursor-pointer items-center gap-x-[20px] pl-10 transition-  md:pl-0 transition-all anta'
               )}
               onClick={handleLinkClick}
             >

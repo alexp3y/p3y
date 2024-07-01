@@ -10,9 +10,11 @@ interface Props {}
 
 const NavBar: React.FC<Props> = () => {
   return (
-    <div className="w-full md:px-6 px-4 pt-3 pb-2 border-b border-p3y-red flex justify-between bg-p3y-ivory dark:bg-p3y-gunmetal items-center text-p3y-red lato h-[60px]">
-      <Logo />
-      <div className="hidden md:flex h-full items-center text-[16px] gap-x-11 lg:gap-x-16 mr-12 uppercase text-sm anta text-p3y-red">
+    <div className="w-full md:px-6 px-4 pt-3 pb-2 border-b flex justify-between bg-p3y-grey dark:bg-p3y-gunmetal items-center dark:text-p3y-red lato h-[62px]">
+      <div className="pt-[2px]">
+        <Logo />
+      </div>
+      <div className="hidden md:flex h-full items-center text-[16px] gap-x-11 lg:gap-x-16 mr-12 uppercase text-sm anta text-p3y-gunmetal dark:text-p3y-red">
         <>
           <Link href="/about">
             <span className="active:text-p3y-blue dark:active:text-p3y-maize">

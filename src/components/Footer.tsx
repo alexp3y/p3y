@@ -3,7 +3,7 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-p3y-ivory dark:bg-p3y-gunmetal flex flex-col w-full lato border-t-p3y-red border-t text-p3y-red">
+    <div className="bg-p3y-grey dark:bg-p3y-gunmetal flex flex-col w-full lato border-t dark:text-p3y-red">
       <div className="w-full p-4 flex text-[18px] h-[60px] justify-between items-center px-8">
         {/* social links container*/}
         <div className="flex items-center justify-between  md:items-center gap-4">
@@ -52,12 +52,12 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-        <div className="flex lato gap-x-1 items-center">
+        <div className="flex lato gap-x-1 items-center text-p3y-gunmetal dark:text-p3y-grey">
           <p>&copy;</p>
-          <span>2024</span>{' '}
-          <span className="border border-p3y-red rounded-[2px] pt-[0px] pb-[1px] px-[4px] text-base anta ml-1 ">
+          <span>2024</span>
+          <span className="border rounded-[2px] pt-[0px] pb-[1px] px-[4px] text-base anta ml-1 ">
             p3y
-          </span>{' '}
+          </span>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={'bg-p3y-ivory dark:bg-p3y-gunmetal anta ' + inter.className}
+        className={'bg-p3y-grey dark:bg-p3y-gunmetal anta ' + inter.className}
       >
         <ThemeProvider attribute="class" enableSystem={true}>
           {children}

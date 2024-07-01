@@ -10,10 +10,10 @@ export default function AboutPage() {
         <h1 className="absolute translate-x-[1px] -translate-y-[1px]">
           Projects
         </h1>
-        <h1 className="text-p3y-gunmetal dark:text-p3y-grey">Projects</h1>
+        <h1 className="text-p3y-blue">Projects</h1>
       </div>
-      <div className="flex flex-col text-black flex-grow justify-start text-p3y-red p-10 pt-2">
-        <div className="flex w-full flex-wrap gap-10 justify-center pb-8">
+      <div className="flex flex-col text-black flex-grow justify-start text-p3y-red md:p-10 pt-2 max-w-screen pb-12">
+        <div className="flex w-full flex-wrap gap-10 lg:gap-14 justify-center pb-8">
           <ProjectCard
             demoUrl="/colorflu"
             repoUrl="https://github.com/alexp3y/p3y/tree/main/src/projects/colorflu"
