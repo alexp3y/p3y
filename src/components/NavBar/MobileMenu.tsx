@@ -44,7 +44,7 @@ const MobileMenu: React.FC<Props> = ({ isOpen, close }) => {
     <div
       id="side-menu"
       className={cn(
-        'fixed right-0 top-0 z-10 h-full bg-p3y-grey dark:bg-p3y-gunmetal font-normal tracking-wide transition-all duration-500 text-p3y-gunmetal dark:text-p3y-red border-p3y-red',
+        'fixed right-0 top-0 z-10 h-full bg-p3y-grey dark:bg-p3y-gunmetal font-normal tracking-wide transition-all duration-500 text-p3y-gunmetal dark:text-p3y-grey dark:border-p3y-grey',
         {
           'w-0': !isOpen,
           'w-full sm:w-96 border-l-2': isOpen,

@@ -19,8 +19,8 @@ const ProjectCard: React.FC<Props> = ({
 }) => {
   return (
     <div className="relative bg-p3y-red w-[300px] md:w-[350px] aspect-square">
-      <div className="absolute bg-p3y-blue translate-x-2 -translate-y-2 w-[300px] md:w-[350px] aspect-square"></div>
-      <div className="w-[300px] md:w-[350px] aspect-square flex flex-col text-p3y-gunmetal dark:text-p3y-red border-2 border-p3y-gunmetal translate-x-1 -translate-y-1">
+      <div className="absolute bg-p3y-blue translate-x-4 -translate-y-3 w-[300px] md:w-[350px] aspect-square"></div>
+      <div className="w-[300px] md:w-[350px] aspect-square flex flex-col text-p3y-gunmetal dark:text-p3y-red border-2 border-p3y-gunmetal dark:border-p3y-grey translate-x-2 -translate-y-1">
         <div className="max-h-fit">
           <Image
             priority

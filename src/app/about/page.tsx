@@ -14,8 +14,8 @@ export default function AboutPage() {
           <h1 className="text-p3y-blue dark:text-p3y-blue">About</h1>
         </div>
         <div className="bg-p3y-red relative">
-          <div className="h-full w-full absolute translate-x-4 -translate-y-4 bg-p3y-blue"></div>
-          <div className="translate-x-2 -translate-y-2 border-2 select-none">
+          <div className="h-full w-full absolute translate-x-6 -translate-y-4 bg-p3y-blue"></div>
+          <div className="translate-x-3 -translate-y-2 border-2 select-none">
             <Image
               priority
               src="/images/about.jpeg"
